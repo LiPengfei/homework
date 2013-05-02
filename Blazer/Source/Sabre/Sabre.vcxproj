@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Public.h" />
+    <ClInclude Include="..\..\Include\Public\Global.h" />
+    <ClInclude Include="..\..\Include\Public\Macro.h" />
+    <ClInclude Include="..\..\Include\Public\Platform.h" />
+    <ClInclude Include="..\..\Include\Public\Type.h" />
+    <ClInclude Include="..\..\Include\Sabre.h" />
+    <ClInclude Include="..\..\Include\Sabre\Console\ConsolePublic.h" />
+    <ClInclude Include="..\..\Include\Sabre\Console\ConsoleSimulationWindow.h" />
+    <ClInclude Include="..\..\Include\Sabre\Database\DatabaseTable.h" />
+    <ClInclude Include="..\..\Include\Sabre\Database\MysqlManager.h" />
+    <ClInclude Include="..\..\Include\Sabre\DesignPattern\Singleton.h" />
+    <ClInclude Include="..\..\Include\Sabre\File\File.h" />
+    <ClInclude Include="..\..\Include\Sabre\File\IniFile.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogAuxiliary.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogFormater.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogHandler.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogManager.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogPublic.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogRecord.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogService.h" />
+    <ClInclude Include="..\..\Include\Sabre\Log\LogThread.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketAcceptor.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketAgency.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketConnector.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketEvent.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketStream.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamQueue.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketWrapper.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\NetStruct.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamBuffer.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\WinSockIocp.h" />
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\RefCounter.h" />
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\ScopedArrayPtr.h" />
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\ScopedPtr.h" />
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\SharedArrayPtr.h" />
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\SharedPtr.h" />
+    <ClInclude Include="..\..\Include\Sabre\Structure\Buffer.h" />
+    <ClInclude Include="..\..\Include\Sabre\Structure\SimpleString.h" />
+    <ClInclude Include="..\..\Include\Sabre\Structure\String.h" />
+    <ClInclude Include="..\..\Include\Sabre\Structure\UniversalManager.h" />
+    <ClInclude Include="..\..\Include\Sabre\Structure\UniversalQueue.h" />
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadMutex.h" />
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadSemaphore.h" />
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadSynchronize.h" />
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadWriteReadLocker.h" />
+    <ClInclude Include="..\..\Include\Sabre\Thread\Thread.h" />
+    <ClInclude Include="..\..\Include\Sabre\Tool\Application.h" />
+    <ClInclude Include="..\..\Include\Sabre\Tool\Frame.h" />
+    <ClInclude Include="..\..\Include\Sabre\Tool\Time.h" />
+    <ClInclude Include="..\..\Include\Sabre\Tool\Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Console\ConsolePublic.cpp" />
+    <ClCompile Include="Console\ConsoleSimulationWindow.cpp" />
+    <ClCompile Include="Database\DatabaseTable.cpp" />
+    <ClCompile Include="Database\MysqlManager.cpp" />
+    <ClCompile Include="File\File.cpp" />
+    <ClCompile Include="File\IniFile.cpp" />
+    <ClCompile Include="Log\LogFormater.cpp" />
+    <ClCompile Include="Log\LogHandler.cpp" />
+    <ClCompile Include="Log\LogManager.cpp" />
+    <ClCompile Include="Log\LogRecord.cpp" />
+    <ClCompile Include="Log\LogService.cpp" />
+    <ClCompile Include="Log\LogThread.cpp" />
+    <ClCompile Include="Net\NetStruct.cpp" />
+    <ClCompile Include="Net\SocketAcceptor.cpp" />
+    <ClCompile Include="Net\SocketAgency.cpp" />
+    <ClCompile Include="Net\SocketConnector.cpp" />
+    <ClCompile Include="Net\SocketStream.cpp" />
+    <ClCompile Include="Net\SocketStreamQueue.cpp" />
+    <ClCompile Include="Net\SocketWrapper.cpp" />
+    <ClCompile Include="Net\SocketStreamBuffer.cpp" />
+    <ClCompile Include="Structure\Buffer.cpp" />
+    <ClCompile Include="Structure\String.cpp" />
+    <ClCompile Include="Structure\SimpleString.cpp" />
+    <ClCompile Include="Synchronize\ThreadMutex.cpp" />
+    <ClCompile Include="Synchronize\ThreadSemaphore.cpp" />
+    <ClCompile Include="Synchronize\ThreadWriteReadLocker.cpp" />
+    <ClCompile Include="Thread\Thread.cpp" />
+    <ClCompile Include="Tool\Frame.cpp" />
+    <ClCompile Include="Tool\Time.cpp" />
+    <ClCompile Include="Tool\Timer.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B4E7FF4A-4530-40EE-B0B8-901F4077BA82}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Sabre</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Debug</OutDir>
+    <IntDir>Debug</IntDir>
+    <IncludePath>C:\Program Files\MySQL\MySQL Server 5.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\MySQL\MySQL Server 5.0\lib\opt;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Release</OutDir>
+    <IntDir>Release</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;BZ_USING_NAMESPACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../Include;../../Include/Sabre</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>md ..\..\Lib\Debug
+copy $(OutDir)$(TargetName)$(TargetExt) ..\..\Lib\Debug</Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../Include;../../Include/Sabre</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>md ..\..\Lib\Release
+copy $(OutDir)$(TargetName)$(TargetExt) ..\..\Lib\Release</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
