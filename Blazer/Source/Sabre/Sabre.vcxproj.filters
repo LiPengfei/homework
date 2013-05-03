@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\..\Include\Public\Global.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Public\Macro.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Public\Platform.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Public\Type.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre.h" />
+    <ClInclude Include="..\..\Include\Public.h" />
+    <ClInclude Include="..\..\Include\Sabre\Database\MysqlManager.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Database\DatabaseTable.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\File\File.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\File\IniFile.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadMutex.h">
+      <Filter>Synchronize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadSemaphore.h">
+      <Filter>Synchronize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadWriteReadLocker.h">
+      <Filter>Synchronize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\NetStruct.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamBuffer.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\WinSockIocp.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Thread\Thread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadSynchronize.h">
+      <Filter>Synchronize</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Structure\UniversalManager.h">
+      <Filter>Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Tool\Time.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Tool\Application.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogAuxiliary.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogFormater.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\DesignPattern\Singleton.h">
+      <Filter>DesignPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogPublic.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogThread.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogService.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Structure\String.h">
+      <Filter>Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketConnector.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketWrapper.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Console\ConsolePublic.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Console\ConsoleSimulationWindow.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogHandler.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogManager.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Log\LogRecord.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketAcceptor.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketAgency.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketEvent.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketStream.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamQueue.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\RefCounter.h">
+      <Filter>SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\ScopedArrayPtr.h">
+      <Filter>SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\ScopedPtr.h">
+      <Filter>SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\SharedArrayPtr.h">
+      <Filter>SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\SmartPointer\SharedPtr.h">
+      <Filter>SmartPointer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Structure\Buffer.h">
+      <Filter>Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Structure\SimpleString.h">
+      <Filter>Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Structure\UniversalQueue.h">
+      <Filter>Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Tool\Frame.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Tool\Timer.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="File">
+      <UniqueIdentifier>{42267af2-f7ee-4fcd-bc90-e7d59cebe67f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{9b55e26b-cfed-486a-be62-65408420356d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structure">
+      <UniqueIdentifier>{2b51951d-d29b-4361-8d8d-e7a7ac93d7e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{e9f3c9d2-6f79-4a98-a535-b4d9c8b27b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Synchronize">
+      <UniqueIdentifier>{3de6d205-3994-4421-b694-09c2e52a10f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{4fb39f95-b54b-43ba-b64e-101d23e22c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SmartPointer">
+      <UniqueIdentifier>{60b1017c-04b0-4877-be5d-6de5965f3695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{a25a45ce-32a4-49d6-af2b-6c25fdbdb6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{05d0e37f-a5d3-46e7-9e61-f1de2a422e74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DesignPattern">
+      <UniqueIdentifier>{c6a11c63-24f7-4b62-8ef2-0f3c1b64c6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{e251baab-0d60-4f4c-8480-bf4e1bc3c79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Console">
+      <UniqueIdentifier>{6000cd65-921b-4c0b-ad7b-e9a1634d315c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Structure\SimpleString.cpp">
+      <Filter>Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="File\File.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="File\IniFile.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="Synchronize\ThreadMutex.cpp">
+      <Filter>Synchronize</Filter>
+    </ClCompile>
+    <ClCompile Include="Synchronize\ThreadSemaphore.cpp">
+      <Filter>Synchronize</Filter>
+    </ClCompile>
+    <ClCompile Include="Synchronize\ThreadWriteReadLocker.cpp">
+      <Filter>Synchronize</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\MysqlManager.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketStreamBuffer.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure\Buffer.cpp">
+      <Filter>Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\Thread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Time.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\LogHandler.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\LogRecord.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\LogManager.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\LogThread.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\LogService.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Console\ConsolePublic.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Structure\String.cpp">
+      <Filter>Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketAgency.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketAcceptor.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketConnector.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketStream.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketStreamQueue.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SocketWrapper.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Console\ConsoleSimulationWindow.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\DatabaseTable.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Log\LogFormater.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Frame.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool\Timer.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\NetStruct.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -90,7 +90,7 @@ Exit0:
     char buf[512]        = "lipengfei";
     int nCurLen           = strlen(buf) + 1;
     BPackageHandler::InitialData(buf, nCurLen, 1024);
-    BPackageHead head(0, 1, 1, 0, 0, BZ_HashString2ID("infomation"), 0);
+    BPackageHead head(0, 1, 1, 0, 0, BZ_HashString2ID(BZ_FILE_LOG_KEY_WARN), 0);
 
     BPackageHandler::AddHead(buf, nCurLen, head, 1024);
     BLogRecord  *r  = new BLogRecord(buf, nCurLen);
