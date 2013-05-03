@@ -6,8 +6,8 @@
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-    // log if open type
-    CONST BYTE  K_LOG_IF_OPEN_TYPE_NET         = 0x01;
+// log if open type
+CONST BYTE  K_LOG_IF_OPEN_TYPE_NET         = 0x01;
 CONST BYTE  K_LOG_IF_OPEN_TYPE_FILE        = 0x02;
 CONST BYTE  K_LOG_IF_OPEN_TYPE_CONSOLE     = 0x03;
 
@@ -25,7 +25,13 @@ CONST DWORD K_LOG_RECORD_LEVEL_WARN        = 0x00000004;
 CONST DWORD K_LOG_RECORD_LEVEL_INFO        = 0x00000008;
 CONST DWORD K_LOG_RECORD_LEVEL_STATISTICS  = 0x00000010;
 
-// string id of log record queue
+// for file log add by liepngfei 13/05/03
+const char *const BZ_FILE_LOG_KEY_WARN          = "file_warning_key";
+const char *const BZ_FILE_LOG_KEY_INFO          = "file_infomation_key";
+const char *const BZ_FILE_LOG_KEY_ERROR         = "file_error_key";
+const char *const BZ_FILE_LOG_KEY_DEBUG         = "file_debug_key";
+
+// string id of log record queue // modified by lipengfei handler'id is the queue's id;
 const char *const K_QUEUE_KEY_LOG_RECORD_NET         = "KLOG_NET_LOG_RECORD_QUEUE";
 const char *const K_QUEUE_KEY_LOG_RECORD_FILE        = "KLOG_FILE_LOG_RECORD_QUEUE";
 const char *const K_QUEUE_KEY_LOG_RECORD_CONSOLE     = "KLOG_CONSOLE_LOG_RECORD_QUEUE";

@@ -67,43 +67,22 @@ typedef CONST BLogService * CONST CPCLogService;
 
 inline VOID BZ_OpenLog(CONST BYTE byLogType)
 {
-    PLogService pLogService = SINGLETON_GET_PTR(BLogService);
+    PLogService pLogService = BZ_SINGLETON_GET_PTR(BLogService);
     pLogService->OpenLog(byLogType);
 }
 
 inline VOID BZ_CloseLog(CONST BYTE byLogType)
 {
-    PLogService pLogService = SINGLETON_GET_PTR(BLogService);
+    PLogService pLogService = BZ_SINGLETON_GET_PTR(BLogService);
     pLogService->CloseLog(byLogType);
 }
 
 inline VOID BZ_WriteLog(IN CONST BSPLogRecord &spLogRecord)
 {
-    PLogService pLogService = SINGLETON_GET_PTR(BLogService);
+    PLogService pLogService = BZ_SINGLETON_GET_PTR(BLogService);
     pLogService->WriteLog(spLogRecord);
 }
 
-inline VOID BZ_WriteConsoleLog(
-    IN CONST CHAR * CONST cszWindowID                           ,
-    IN CONST CHAR * CONST cszText                               ,
-    IN CONST WORD         wColor = K_CONSOLE_COLOR_STYLE_DEFAULT,
-    IN CONST BOOL         bAddTimeStamp = FALSE                 )
-{
-    BZ_CHECK_C_STRING_RETURN_VOID(cszText);
-    BZ_CHECK_C_STRING_RETURN_VOID(cszWindowID);
-
-    BLogRecordDetail detail;
-    detail.m_byLogRecordType = K_LOG_RECORD_TYPE_CONSOLE;
-    detail.m_bIsAddTimestamp = bAddTimeStamp;
-    detail.m_auxiliary.m_consoleLogAuxiliary.m_dwSimulationWindowID = g_HashString2ID(cszWindowID);
-    detail.m_auxiliary.m_consoleLogAuxiliary.m_wConsoleLogColor     = wColor;
-
-/*    BSPLogRecord spLogRecord(::new BLogRecord());*/
-//     spLogRecord->SetLogRecordDetail(detail);
-//     spLogRecord->SetLogRecordContent(cszText);
-
-//    BZ_WriteLog(spLogRecord);
-}
 
 inline VOID BZ_WriteFileLogByFileID(
     IN CONST DWORD dwFileID             ,
@@ -122,18 +101,6 @@ inline VOID BZ_WriteFileLogByFileID(
 //     spLogRecord->SetLogRecordContent(cpcText);
 
 //    BZ_WriteLog(spLogRecord);
-}
-
-inline VOID BZ_WriteFileLogByFileID(
-    IN const char *const    cpcFileID            ,
-    IN const char *const    cpcText              ,
-    IN CONST BOOL bAddTimeStamp = FALSE)
-{
-    BZ_CHECK_C_STRING_RETURN_VOID(cpcText);
-    BZ_CHECK_C_STRING_RETURN_VOID(cpcFileID);
-
-    DWORD dwLogFileID = g_HashString2ID(cpcFileID);
-    BZ_WriteFileLogByFileID(dwLogFileID, cpcText, bAddTimeStamp);
 }
 
 inline VOID BZ_WriteFileLogByFileName(

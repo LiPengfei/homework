@@ -3,6 +3,7 @@
 #include "Structure/UniversalQueue.h"
 #include "DesignPattern/Singleton.h"
 #include "Structure/SimpleString.h"
+#include "Log/LogRecord.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
    
@@ -21,10 +22,7 @@ BConsoleLogThread::~BConsoleLogThread()
 
 BOOL BConsoleLogThread::Init()
 {
-    PLogFormater pLogFormater = ::new BConsoleLogFormater();
-    BZ_CHECK_RETURN_BOOL(NULL != pLogFormater);
-
-    m_spLogFormater = BSPLogFormater(pLogFormater);
+    // modified by lipengfei 13/05/03
     return TRUE;
 }
 
@@ -32,12 +30,13 @@ UINT BConsoleLogThread::Run()
 {
     BOOL bLoopFlag = TRUE;
 
-    PLogRecordQueueManagement pQueueManager = SINGLETON_GET_PTR(BLogRecordQueueManagement);
+    PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
     BZ_CHECK_RETURN_CODE(NULL != pQueueManager, 0);
 
-    DWORD dwQueueID = g_HashString2ID(K_QUEUE_KEY_LOG_RECORD_CONSOLE);
-    BSPLogRecordQueue spLogRecordQueue = pQueueManager->GetUniversalQueue(dwQueueID);
-    BZ_CHECK_RETURN_CODE(false == !spLogRecordQueue, 0);
+    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue;
+    BOOL  bRetCode   = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_CODE(bRetCode, 0);
 
     while(bLoopFlag)
     {
@@ -63,10 +62,11 @@ BFileLogThread::~BFileLogThread()
 
 BOOL BFileLogThread::Init()
 {
-    PLogFormater pLogFormater = ::new BFileLogFormater();
-    BZ_CHECK_RETURN_BOOL(NULL != pLogFormater);
+//  modified by lipengfei 13/05/02
+    m_fileManager = BSPFileManager(
+        BZ_SINGLETON_GET_PTR(BFileManager)
+        ); // add by lipengfei 13/05/02
 
-    m_spLogFormater = BSPLogFormater(pLogFormater);
     return TRUE;
 }
 
@@ -75,40 +75,28 @@ UINT BFileLogThread::Run()
     BOOL bLoopFlag = TRUE;
     BOOL bRetCode  = FALSE;
 
-    PLogRecordQueueManagement pQueueManager = SINGLETON_GET_PTR(BLogRecordQueueManagement);
+    PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
 
-    DWORD dwQueueID = g_HashString2ID(K_QUEUE_KEY_LOG_RECORD_FILE);
-    BSPLogRecordQueue spLogRecordQueue = pQueueManager->GetUniversalQueue(dwQueueID);
-    BZ_CHECK_RETURN_BOOL(false == !spLogRecordQueue);
+    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue;
+    bRetCode = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_BOOL(bRetCode);
 
     while(bLoopFlag)
     {
-        //need rewrite
-/*        KSPSmallFile spSmallFile;*/
+        // modified by lipengfei 13/05/03
         BSPLogRecord spLogRecord = spLogRecordQueue->PopNode();
+        BPackageHead head;
+        BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
+        
+        BSPFile      spFile;
+        BOOL         bRet   = m_fileManager->Get(head.m_nFileID, spFile);
 
-//         if (!spLogRecord && !(spLogRecord->GetLogRecordType() & K_LOG_RECORD_TYPE_FILE))
-//             continue;
-// 
-//         if(!m_spLogFormater->FormatRecord(spLogRecord))
-//             continue;
-// 
-//         BLogRecordDetail    detail    = spLogRecord->GetLogRecordDetail();
-//         BLogRecordAuxiliary &auxiliary = detail.m_auxiliary;
-// 
-//         CONST DWORD dwFileID     = auxiliary.m_fileLogAuxiliary.m_dwLogFileID;
-//         CONST STRING &strContent = spLogRecord->GetLogRecordContent();
-// 
-//         PSmallFileManager pSmallFileManager = SINGLETON_GET_PTR(KSmallFileManager);
-//         bRetCode = pSmallFileManager->Get(dwFileID, spSmallFile);
-// 
-//         if (!bRetCode || !spSmallFile)
-//             continue;
-// 
-//         spSmallFile->WriteLineImmediate(strContent.c_str(), strContent.size());
+        BSimpleString res   = BPackageHandler::GetData(spLogRecord->m_cpContent);
+        spFile->WriteTextLine(res.ToCstr(), res.GetLen() - 1);
+        assert(bRet);
     }
-
     return 0;
 }
 
@@ -124,12 +112,13 @@ UINT BNetLogThread::Run()
 {
     BOOL bLoopFlag = TRUE;
 
-    PLogRecordQueueManagement pQueueManager = SINGLETON_GET_PTR(BLogRecordQueueManagement);
+    PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
 
-    DWORD dwQueueID = g_HashString2ID(K_QUEUE_KEY_LOG_RECORD_NET);
-    BSPLogRecordQueue spLogRecordQueue = pQueueManager->GetUniversalQueue(dwQueueID);
-    BZ_CHECK_RETURN_BOOL(false == !spLogRecordQueue);
+    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue; 
+    BOOL  bRetcode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_BOOL(bRetcode);
 
     while(bLoopFlag)
     {

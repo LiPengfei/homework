@@ -1,9 +1,32 @@
 #include "File/IniFile.h"
+#include <string.h>
 #include <fstream>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 #define TEMP_BUFFER_LEN 1024
+
+typedef std::vector<std::string> VecString;
+
+VecString BZ_StringSplit(const char* cpStr, char cFence)
+{
+    VecString   retValue;
+    const char *cpTmp   = cpStr;
+    while ('\0' != *cpStr)
+    {
+        if (cFence == *cpStr)
+        {
+            retValue.push_back(std::string(cpTmp, cpStr));
+            cpTmp = cpStr;
+            ++cpTmp;
+        }
+        ++cpStr;
+    }
+
+    retValue.push_back(std::string(cpTmp, cpStr));
+
+    return retValue;
+}
 
 BOOL BIniFile::LoadFile(const char *const fileName)
 {
@@ -225,6 +248,17 @@ BOOL BIniFile::AddKey(const char *const cpcSegName,
     return TRUE;
 }
 
+BOOL BIniFile::GetSegment(const char *cpSegName, OUT BSegmentNode &segVal) const
+{
+    int nPos = FindSegment(cpSegName);
+    if (-1 == nPos)
+    {
+        return FALSE;
+    }
+    
+    segVal = m_segArray[nPos];
+}
+
 int  BIniFile::FindSegment(const char *const cpcSegName) const
 {
     BZ_CHECK_RETURN_BOOL(NULL != cpcSegName);
@@ -240,7 +274,7 @@ int  BIniFile::FindSegment(const char *const cpcSegName) const
     return -1;
 }
 
-BOOL BIniFile::FindKey(const char *const cpcSegName,
+int  BIniFile::FindKey(const char *const cpcSegName,
                        const char *const cpcKeyName) const
 {
     BZ_CHECK_RETURN_BOOL(NULL != cpcSegName);
@@ -256,10 +290,10 @@ BOOL BIniFile::FindKey(const char *const cpcSegName,
     {
         if (cpcKeyName == m_segArray[nIdx].m_keyArray[j].m_bssKey)
         {
-            return true;
+            return j;
         }
     }
-    return false;
+    return -1;
 }
 
 bool BIniFile::IsSegment(const char *const cpcLine)

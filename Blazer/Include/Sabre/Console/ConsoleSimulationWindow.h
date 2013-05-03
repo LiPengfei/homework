@@ -218,13 +218,13 @@ inline BOOL g_RegisterConsoleSimulationWindow(
     BZ_CHECK_C_STRING_RETURN_BOOL(cszWindowID);
     BZ_CHECK_RETURN_BOOL(spConsoleSimulationWindow);
 
-    DWORD dwWindowID = g_HashString2ID(cszWindowID);
+    DWORD dwWindowID = BZ_HashString2ID(cszWindowID);
     BOOL bRetCode = FALSE;
 
     bRetCode = spConsoleSimulationWindow->SetWindowID(dwWindowID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
-    BConsoleSimulationWindowManagement *pManagement = SINGLETON_GET_PTR(BConsoleSimulationWindowManagement);
+    BConsoleSimulationWindowManagement *pManagement = BZ_SINGLETON_GET_PTR(BConsoleSimulationWindowManagement);
     BZ_CHECK_RETURN_BOOL(pManagement);
 
     bRetCode = pManagement->AddConsoleSimulationWindow(dwWindowID, spConsoleSimulationWindow);
@@ -237,10 +237,10 @@ inline BOOL g_UnRegisterConsoleSimulationWindow(IN CONST CHAR * CONST cszWindowI
 {
     BZ_CHECK_C_STRING_RETURN_BOOL(cszWindowID);
 
-    DWORD dwWindowID = g_HashString2ID(cszWindowID);
+    DWORD dwWindowID = BZ_HashString2ID(cszWindowID);
     BOOL bRetCode = FALSE;
 
-    BConsoleSimulationWindowManagement *pManagement = SINGLETON_GET_PTR(BConsoleSimulationWindowManagement);
+    BConsoleSimulationWindowManagement *pManagement = BZ_SINGLETON_GET_PTR(BConsoleSimulationWindowManagement);
     BZ_CHECK_RETURN_BOOL(pManagement);
 
     bRetCode = pManagement->DelConsoleSimulationWindow(dwWindowID);
@@ -253,7 +253,7 @@ inline BSPConsoleSimulationWindow g_GetConsoleSimulationWindow(IN CONST DWORD dw
 {
     BSPConsoleSimulationWindow sp;
 
-    BConsoleSimulationWindowManagement *pManagement = SINGLETON_GET_PTR(BConsoleSimulationWindowManagement);
+    BConsoleSimulationWindowManagement *pManagement = BZ_SINGLETON_GET_PTR(BConsoleSimulationWindowManagement);
     BZ_CHECK_RETURN_CODE(pManagement, sp);
 
     sp = pManagement->GetConsoleSimulationWindow(dwWindowID);
@@ -265,7 +265,7 @@ inline BSPConsoleSimulationWindow g_GetConsoleSimulationWindow(IN CONST CHAR * C
     BSPConsoleSimulationWindow sp;
     BZ_CHECK_C_STRING_RETURN_CODE(cszWindowID, sp);
 
-    DWORD dwWindowID = g_HashString2ID(cszWindowID);
+    DWORD dwWindowID = BZ_HashString2ID(cszWindowID);
     sp = g_GetConsoleSimulationWindow(dwWindowID);
     return sp;
 }

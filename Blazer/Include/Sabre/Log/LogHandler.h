@@ -4,6 +4,8 @@
 #include "Public.h"
 #include "SmartPointer/SharedPtr.h"
 #include "Log/LogThread.h"
+#include "Structure/UniversalManager.h"
+#include "File/File.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
@@ -58,7 +60,7 @@ class BConsoleLogHandler : public BLogHandler
 {
 private:
     BConsoleLogThread m_workerThread;
-
+ 
 public:
     BConsoleLogHandler();
     virtual ~BConsoleLogHandler();
@@ -72,8 +74,11 @@ public:
 /*-------------------------------------------------------------------------------------------*/
 /* CLASS     : BFileLogHandler                                                               */
 /*-------------------------------------------------------------------------------------------*/
+
 class BFileLogHandler : public BLogHandler
 {
+public:
+
 private:
     BFileLogThread m_workerThread;
 

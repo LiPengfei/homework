@@ -53,6 +53,7 @@ public:
         return TRUE;
     }
 };
+
 BZ_DECLARE_NAMESPACE_END
 
 #endif

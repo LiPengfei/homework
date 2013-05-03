@@ -15,6 +15,7 @@ INT BSocketConnecor::Init()
 {
     m_sock = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     BZ_CHECK_SOCKET_RETURN_ERRCODE(m_sock);
+    return 0;
 }
 
 INT BSocketConnecor::Connect(const char *cpIP, unsigned short nPort)
@@ -27,6 +28,8 @@ INT BSocketConnecor::Connect(const char *cpIP, unsigned short nPort)
 
     int nRetCode = ::connect(m_sock, (sockaddr *)&saAddr, sizeof(sockaddr));
     BZ_CHECK_SOCKET_RETURN_ERRCODE(nRetCode);
+
+    return 0;
 }
 
 VOID BSocketConnecor::UnInit()

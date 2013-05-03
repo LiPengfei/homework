@@ -44,13 +44,14 @@ BOOL BConsoleLogHandler::UnInit()
 
 BOOL BConsoleLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
 {
-    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
+    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = BZ_SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
     BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
 
-    DWORD dwQueueID = g_HashString2ID(K_QUEUE_KEY_LOG_RECORD_CONSOLE);
-    BSPLogRecordQueue spLogRecordQueue = pQueueManager->GetUniversalQueue(dwQueueID);
-    BZ_CHECK_RETURN_BOOL(false == !spLogRecordQueue);
+    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue ;
+    BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_BOOL(bRetCode);
 
     BSPLogRecord spLogRecord = cpcLogManager->GetLogRecord();
     BPackageHead head;
@@ -87,7 +88,7 @@ BOOL BFileLogHandler::Init()
 
     bRetCode = m_workerThread.Start();
     BZ_CHECK_RETURN_BOOL(bRetCode);
-
+    
     return TRUE;
 }
 
@@ -98,19 +99,26 @@ BOOL BFileLogHandler::UnInit()
 
 BOOL BFileLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
 {
-    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
+    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = BZ_SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
     BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
 
-    DWORD dwQueueID = g_HashString2ID(K_QUEUE_KEY_LOG_RECORD_FILE);
-    BSPLogRecordQueue spLogRecordQueue = pQueueManager->GetUniversalQueue(dwQueueID);
-    BZ_CHECK_RETURN_BOOL(spLogRecordQueue);
+    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue;
+    BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_BOOL(bRetCode);
 
+    // modified by lipengfei 13/05/03
     BSPLogRecord spLogRecord = cpcLogManager->GetLogRecord();
-//     if (spLogRecord && (spLogRecord->GetLogRecordType() & K_LOG_RECORD_TYPE_FILE))
-//     {
-//         spLogRecordQueue->PushNode(spLogRecord);
-//     }
+     if (spLogRecord)
+     {
+         BPackageHead head;
+         BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
+         if (0 != head.m_cFileFlag)
+         {
+             spLogRecordQueue->PushNode(spLogRecord);
+         }
+     }
 
     return TRUE;
 }
@@ -138,13 +146,14 @@ BOOL BNetLogHandler::UnInit()
 
 BOOL BNetLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
 {
-    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
+    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = BZ_SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
     BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
 
-    DWORD dwQueueID = g_HashString2ID(K_QUEUE_KEY_LOG_RECORD_NET);
-    BSPLogRecordQueue spLogRecordQueue = pQueueManager->GetUniversalQueue(dwQueueID);
-    BZ_CHECK_RETURN_BOOL(spLogRecordQueue);
+    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue;
+    BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_BOOL(bRetCode);
 
     BSPLogRecord spLogRecord = cpcLogManager->GetLogRecord();
 //     if (spLogRecord && (spLogRecord->GetLogRecordType() & K_LOG_RECORD_TYPE_NET))

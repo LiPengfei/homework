@@ -1,15 +1,16 @@
-#ifndef _K_COMMON_INIFILE_H_
-#define _K_COMMON_INIFILE_H_
+#ifndef __BLASER_SABRE_INIFILE_H__
+#define __BLASER_SABRE_INIFILE_H__
 
-#include <assert.h>
-#include <string.h>
+#include <string>
 #include <vector>
 #include "Structure/SimpleString.h"
 #include "Public.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-class BKeyNode
+std::vector<std::string> BZ_StringSplit(const char* cpStr, char cFence);
+
+struct BKeyNode
 {
 public:
     BSimpleString m_bssKey;
@@ -22,9 +23,18 @@ public:
         : m_bssKey(cpcKey), m_bssValue(cpcValue)
     { }
 
+    BSimpleString GetKey()
+    {
+        return m_bssKey;
+    }
+
+    BSimpleString GetValue()
+    {
+        return m_bssValue;
+    }
 };
 
-class BSegmentNode
+struct BSegmentNode
 {
 private:
     typedef std::vector<BKeyNode> BKeyArray;
@@ -52,19 +62,25 @@ public:
         m_keyArray.pop_back();
     }
 
+    int  GetSize()
+    {
+        return m_keyArray.size();
+    }
+
     void Clear()
     {
         m_keyArray.clear();
+    }
+
+    BKeyNode operator[](size_t nIdx)
+    {
+        return m_keyArray[nIdx];
     }
 };
 
 class BIniFile : public BUnCopyable
 {
-#ifdef _DEBUG
 public:
-#else
-private:
-#endif
     typedef std::vector<BSegmentNode> BSegArray;
 
     enum 
@@ -72,11 +88,7 @@ private:
         LINE_BUFFER_SIZE = 1024
     };
 
-#ifdef _DEBUG
 public:
-#else
-private:
-#endif
     char      m_cComment;
     BSegArray m_segArray;
 
@@ -108,15 +120,17 @@ public:
     BOOL AddKey(const char *const cpcSegName,
         char *const cpcKeyName,
         const char *const cpcValue);
+    BOOL GetSegment(const char *cpSegName,
+        OUT BSegmentNode &segVal) const;
 
     void Clear()
     {
         m_segArray.clear();
     }
 
-protected:
-    int  FindSegment(const char *const cpcSegName) const;
-    BOOL FindKey(const char *const cpcSegName,
+public:
+    int FindSegment(const char *const cpcSegName) const;
+    int FindKey(const char *const cpcSegName,
         const char *const cpcKeyName) const;
 
 protected:

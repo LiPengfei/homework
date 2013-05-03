@@ -213,7 +213,7 @@ LONG BFile::WriteTextLine(const char *const cpcStr, LONG lWriteLen)
     BZ_CHECK_RETURN_CODE(-1 != nRetCode, -1);
 
     ::fputc('\n', m_hFile);
-    BZ_CHECK_RETURN_CODE(::ferror(m_hFile) != 0, -1);
+    BZ_CHECK_RETURN_CODE(::ferror(m_hFile) == 0, -1);
 
     return lWriteLen;
 }

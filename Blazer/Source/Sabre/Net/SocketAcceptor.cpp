@@ -314,6 +314,8 @@ Exit0:
         BZ_SafelyDeletePtr(pSockStream);
         return -1;
     }
+
+    return -1;
 }
 
 BOOL BSocketAcceptor::UnInit()

@@ -258,22 +258,6 @@ inline void BZ_EnableMemLeakCheck()
 // add end
 
 // add by lipengfei 2013/04/23
-#define INVALID_STRING_2_ID_VALUE static_cast<DWORD>(-1)
-inline DWORD g_HashString2ID(CONST CHAR *cszString)
-{
-    if (NULL != cszString)
-    {
-        DWORD dwID = 0;
-        for (INT i = 0; cszString[i] != '\0'; i++) {
-            dwID = (dwID + (i + 1) * cszString[i]) % 0x8000000B * 0xFFFFFFEF;
-        }
-
-        return (dwID ^ 0x12345678);
-    }
-
-    return static_cast<DWORD>(-1);
-}
-
 inline LONG g_AtomicIncrement(LONG &value)
 {
 #ifdef WIN32
@@ -311,5 +295,6 @@ inline VOID BZ_MilliSleep(DWORD dwMilliseconds)
 #endif
 }
 // add end
+
 #endif // __BLAZER_PUBLIC_GLOBAL_H__
 

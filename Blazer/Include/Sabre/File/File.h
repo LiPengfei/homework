@@ -20,38 +20,15 @@
 #define __BLAZER_SABRE_FILE_H__
 
 #include "Public.h"
+#include "SmartPointer/SharedPtr.h"
+#include "Structure/UniversalManager.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
-
-
-//class BIFile
-//{
-//public: 
-//    virtual ~BIFile() = 0;
-//
-//public:
-//    virtual BOOL Open(
-//        const char* const cpcFile,
-//        const char* const cpcMode// enum
-//    ) = 0;
-//
-//    virtual BOOL Close() = 0;
-//
-//    virtual LONG Size() const = 0;
-//
-//    virtual BOOL SeekBegin(LONG lOffset) = 0;
-//    virtual BOOL SeekEnd(LONG lOffset) = 0;
-//    virtual BOOL SeekCurrent(LONG lOffset) = 0;
-//
-//    virtual LONG Tell() const = 0;
-//
-//    virtual LONG Read(char* const cpBuffer, LONG lBufferSize) = 0;
-//};
 
 //FOPEN_MAX 
 
 // < 2G
-class BFile /* : public BIFile*/
+class BFile
 {
 public: // constructor and destructor
     BFile() : m_hFile(NULL), m_bBinaryFile(FALSE)
@@ -88,6 +65,10 @@ private: // member variables
     FILE *m_hFile;
     BOOL  m_bBinaryFile;
 };
+
+typedef BSharedPtr<BFile>                       BSPFile;
+typedef BSharedPtr<BUniversalManager<BSPFile> > BSPFileManager;
+typedef BUniversalManager<BSPFile>              BFileManager;
 
 // >= 4G
 class BLargeFile/* : public BIFile*/

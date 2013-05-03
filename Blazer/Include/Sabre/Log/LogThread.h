@@ -3,7 +3,7 @@
 
 #include "Public.h"
 #include "Thread/Thread.h"
-#include "Log/LogFormater.h"
+#include "File/File.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
@@ -13,8 +13,7 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 class BConsoleLogThread : public BThread
 {
 private:
-    BSPLogFormater m_spLogFormater;
-
+// modified by lipengfei 13/05/03
 public:
     BConsoleLogThread();
     virtual ~BConsoleLogThread();
@@ -32,7 +31,8 @@ private:
 class BFileLogThread : public BThread
 {
 private:
-    BSPLogFormater m_spLogFormater;
+    // modified by lipengfei 13/05/03
+    BSPFileManager m_fileManager;   // add by lipengfei 13/05/02
 
 public:
     BFileLogThread();

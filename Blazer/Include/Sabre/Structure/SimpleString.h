@@ -19,6 +19,11 @@ public:
 
     //you can pass a str with \0 at middle without lose data
     BSimpleString(const char *cpStr, size_t m_nLength);
+
+    size_t GetLen()
+    {
+        return m_nLength;
+    }
     virtual ~BSimpleString();
 
 public:
@@ -26,6 +31,11 @@ public:
     BSimpleString &operator=(const BSimpleString &rhs);
 
 public:
+    char * ToCstr() const
+    {
+        return m_cpStr;
+    }
+
     void Clean();
 public:
     friend bool operator==(const BSimpleString &lhs, const BSimpleString &rhs);

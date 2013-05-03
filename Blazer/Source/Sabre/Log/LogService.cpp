@@ -101,7 +101,7 @@ BOOL BLogService::OpenNetLog()
     BZ_CHECK_RETURN_BOOL(NULL != pLogHandler);
 
     BSPLogHandler spLogHandler(pLogHandler);
-    DWORD dwLogHandlerID = g_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
 
     BZ_CHECK_RETURN_BOOL(0 != dwLogHandlerID);
     spLogHandler->SetLogHandlerID(dwLogHandlerID);
@@ -127,7 +127,7 @@ BOOL BLogService::OpenFileLog()
     BZ_CHECK_RETURN_BOOL(NULL != pLogHandler);
 
     BSPLogHandler spLogHandler(pLogHandler);
-    DWORD dwLogHandlerID = g_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
 
     BZ_CHECK_RETURN_BOOL(0 != dwLogHandlerID);
     spLogHandler->SetLogHandlerID(dwLogHandlerID);
@@ -153,7 +153,7 @@ BOOL BLogService::OpenConsoleLog()
     BZ_CHECK_RETURN_BOOL(NULL != pLogHandler);
 
     BSPLogHandler spLogHandler(pLogHandler);
-    DWORD dwLogHandlerID = g_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
 
     BZ_CHECK_RETURN_BOOL(0 != dwLogHandlerID);
     spLogHandler->SetLogHandlerID(dwLogHandlerID);
@@ -204,7 +204,7 @@ BOOL BLogService::CloseNetLog()
     if (!GetNetLogOpenedFlag())
         return TRUE;
 
-    DWORD dwLogHandlerID = g_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
     bRetCode = m_logManager.DetachHandler(dwLogHandlerID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
     SetNetLogOpenedFlag(FALSE);
@@ -219,7 +219,7 @@ BOOL BLogService::CloseFileLog()
     if (!GetFileLogOpenedFlag())
         return TRUE;
 
-    DWORD dwLogHandlerID = g_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
     bRetCode = m_logManager.DetachHandler(dwLogHandlerID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
     SetFileLogOpenedFlag(FALSE);
@@ -234,7 +234,7 @@ BOOL BLogService::CloseConsoleLog()
     if (!GetConsoleLogOpenedFlag())
         return TRUE;
 
-    DWORD dwLogHandlerID = g_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
     bRetCode = m_logManager.DetachHandler(dwLogHandlerID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
     SetConsoleLogOpenedFlag(FALSE);

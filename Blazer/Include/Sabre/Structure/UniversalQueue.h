@@ -83,14 +83,13 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
         DECLARE_SINGLETON_PATTERN(BUniversalQueueManagement);
 
     private:
-        typedef BUniversalQueue<T>                 BUniversalQueue;
-        typedef BUniversalQueue *                  PUniversalQueue;
-        typedef BSharedPtr<BUniversalQueue>        BSPUniversalQueue;
-        typedef std::map<DWORD, BSPUniversalQueue> BUniversalQueueMap;
+        typedef BUniversalQueue<T>                     BUniversalTempQueue;
+        typedef BUniversalQueue<T> *                   PUniversalTempQueue;
+        typedef BSharedPtr<BUniversalTempQueue>        BSPUniversalTempQueue;
+        typedef std::map<DWORD, BSPUniversalTempQueue> BUniversalQueueMap;
 
     private:
         BUniversalQueueMap m_universalQueueMap;
-        BThreadMutex       m_mutex;
 
     public:
         BUniversalQueueManagement()
@@ -104,29 +103,39 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
         }
 
     public:
-        BSPUniversalQueue GetUniversalQueue(DWORD dwQueueID)
+        BOOL GetUniversalQueue(DWORD dwQueueID, BSPUniversalTempQueue &pQueue)
         {
-            BOOL bRetCode = FALSE;
-
-            BGuard<BThreadMutex> locker(m_mutex);
+            // modified by lipengfei 13/05/03
             BUniversalQueueMap::iterator iter = m_universalQueueMap.find(dwQueueID);
             if (m_universalQueueMap.end() != iter)
             {
-                return iter->second;
+                pQueue = iter->second;
+                return TRUE;
             }
+            assert(false);
 
-            BSPUniversalQueue spUniversalQueue(::new BUniversalQueue());
-            bRetCode = spUniversalQueue->SetQueueID(dwQueueID);
-            AddUniversalQueue(dwQueueID, spUniversalQueue);
-
-            return spUniversalQueue;
+            return FALSE;
         }
 
-        BOOL AddUniversalQueue(DWORD dwQueueID, BSPUniversalQueue spUniversalQueue)
+        BOOL AddUniversalQueue(DWORD dwQueueID, BSPUniversalTempQueue spUniversalQueue)
         {
             BZ_CHECK_RETURN_BOOL(spUniversalQueue);
             m_universalQueueMap[dwQueueID] = spUniversalQueue;
             return TRUE;
+        }
+
+        // add by lipengfei 13/05/03
+        BOOL DelUniVersalQueue(DWORD dwQueueID)
+        {
+            BUniversalQueueMap::iterator iter = m_universalQueueMap.find(dwQueueID);
+            if (m_universalQueueMap.end() != iter)
+            {
+                m_universalQueueMap.erase(iter);
+                return TRUE;
+            }
+
+            assert(false);
+            return FALSE;     
         }
     };
 

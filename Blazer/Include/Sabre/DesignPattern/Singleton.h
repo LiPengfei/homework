@@ -18,7 +18,7 @@ public:
 
 #define DECLARE_SINGLETON_PATTERN(T) friend class BZ_SABRE::BSingleton<T>
 #define SINGLETON_GET_REF(T)         (BZ_SABRE::BSingleton<T>::GetInstance())
-#define SINGLETON_GET_PTR(T)         (&BZ_SABRE::BSingleton<T>::GetInstance())
+#define BZ_SINGLETON_GET_PTR(T)         (&BZ_SABRE::BSingleton<T>::GetInstance())
 
 BZ_DECLARE_NAMESPACE_END
 

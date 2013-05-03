@@ -1,5 +1,5 @@
 #include "Log/LogManager.h"
-
+#include "Structure/UniversalQueue.h"
 #include <algorithm>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
@@ -31,6 +31,16 @@ BOOL BLogManager::AttachHandler(IN CONST BSPLogHandler &spLogHandler)
 {
     BZ_CHECK_RETURN_BOOL(spLogHandler);
     m_logHandlerVector.push_back(spLogHandler);
+
+    // TODO: prepare queue for added handler add by lipengfei 13/05/03
+    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = 
+        BZ_SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
+
+    BSharedPtr<BUniversalQueue<BSPLogRecord> > spRecordQueue(new BUniversalQueue<BSPLogRecord>);
+
+    spRecordQueue->SetQueueID(spLogHandler->GetLogHandlerID());
+    // queue'id is the same as handler
+    pQueueManager->AddUniversalQueue(spRecordQueue->GetQueueID(), spRecordQueue);
     return TRUE;
 }
 
@@ -51,7 +61,7 @@ BOOL BLogManager::DetachHandler(IN CONST BSPLogHandler &spLogHandler)
 BOOL BLogManager::AttachHandler(IN CPLogHandler cpLogHandler)
 {
     BZ_CHECK_RETURN_BOOL(cpLogHandler);
-    m_logHandlerVector.push_back(BSPLogHandler(cpLogHandler));
+    AttachHandler(BSPLogHandler(cpLogHandler));
     return TRUE;
 }
 
