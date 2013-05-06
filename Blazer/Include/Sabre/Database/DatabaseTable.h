@@ -23,7 +23,8 @@ enum BZ_DB_VALUE_TYPE
 class BDatabaseColumn
 {
     friend class BDatabaseTable;
-    friend class BMysqlManager;
+    friend class BMysql;
+	friend class BMysqlTable;
 
 private:
 
@@ -50,7 +51,8 @@ typedef BDatabaseColumn BDatabaseCell;
 class BDatabaseTuple
 {
     friend class BDatabaseTable;
-    friend class BMysqlManager;
+    friend class BMysql;
+	friend class BMysqlTable;
 
 private:
     size_t		   m_nTupleIndex;
@@ -71,7 +73,8 @@ public:
 
 class BDatabaseTable
 {
-    friend class BMysqlManager;
+    friend class BMysql;
+	friend class BMysqlTable;
 
 private:
     size_t           m_nColCount;

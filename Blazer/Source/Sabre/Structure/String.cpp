@@ -7,7 +7,7 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 typedef std::string STRING;
 
-VOID   BZ_ConvertToHexString(
+void   BZ_ConvertToHexString(
     IN    CONST CHAR * CONST cpSrc  ,
     IN    CONST size_t       nSrcLen,
     INOUT       CHAR *       pDst   ,
@@ -28,14 +28,14 @@ VOID   BZ_ConvertToHexString(
     pDst[nDstLen - 1] = '\0';
 }
 
-BOOL   g_IsBlankCharacter(IN CONST CHAR c)
+BOOL   BZ_IsBlankCharacter(IN CONST CHAR c)
 {
     if (c == ' ' || c == '\t')
         return TRUE;
     return FALSE;
 }
 
-STRING g_TrimString(INOUT CONST STRING &s, IN CONST CHAR c)
+STRING BZ_TrimString(INOUT CONST STRING &s, IN CONST CHAR c)
 {
     STRING temp = s;
     if (temp.empty())  return temp;
@@ -51,7 +51,7 @@ STRING g_TrimString(INOUT CONST STRING &s, IN CONST CHAR c)
     return temp;
 }
 
-VOID   g_TrimString(INOUT CONST PCHAR pString, IN CONST CHAR c)
+void   BZ_TrimString(INOUT CONST PCHAR pString, IN CONST CHAR c)
 {
     BZ_CHECK_C_STRING_RETURN_VOID(pString);
 
@@ -69,7 +69,7 @@ VOID   g_TrimString(INOUT CONST PCHAR pString, IN CONST CHAR c)
     BZ_SafelyDeletePtr(pTemp);
 }
 
-VOID   g_TrimStringBothEnds(INOUT CONST PCHAR pString, IN CONST CHAR c)
+void   BZ_TrimStringBothEnds(INOUT CONST PCHAR pString, IN CONST CHAR c)
 {
     BZ_CHECK_C_STRING_RETURN_VOID(pString);
 
@@ -94,7 +94,7 @@ VOID   g_TrimStringBothEnds(INOUT CONST PCHAR pString, IN CONST CHAR c)
     ::memmove(pString, pString + nHead, nTail - nHead + 1);
 }
 
-VOID   g_TrimStringBlankChar(INOUT CONST PCHAR pString)
+void   BZ_TrimStringBlankChar(INOUT CONST PCHAR pString)
 {
     BZ_CHECK_C_STRING_RETURN_VOID(pString);
 
@@ -104,7 +104,7 @@ VOID   g_TrimStringBlankChar(INOUT CONST PCHAR pString)
 
     for (INT i = 0; i < nStringLen; i++)
     {
-        if ( !g_IsBlankCharacter(pString[i]) )
+        if ( !BZ_IsBlankCharacter(pString[i]) )
             pTemp[i] = pString[i];
     }
 
@@ -112,7 +112,7 @@ VOID   g_TrimStringBlankChar(INOUT CONST PCHAR pString)
     BZ_SafelyDeletePtr(pTemp);
 }
 
-VOID   g_TrimStringBlankCharBothEnds(INOUT CONST PCHAR pString)
+void   BZ_TrimStringBlankCharBothEnds(INOUT CONST PCHAR pString)
 {
     BZ_CHECK_C_STRING_RETURN_VOID_QUIET(pString);
 
@@ -121,10 +121,10 @@ VOID   g_TrimStringBlankCharBothEnds(INOUT CONST PCHAR pString)
 
     for (INT i = 0; i < nStringLen; i++)
     {
-        if ( g_IsBlankCharacter(pString[nHead]) )
+        if ( BZ_IsBlankCharacter(pString[nHead]) )
             nHead++;
 
-        if ( g_IsBlankCharacter(pString[nTail]) )
+        if ( BZ_IsBlankCharacter(pString[nTail]) )
             nTail--;
 
         if (nHead > nTail)
@@ -139,7 +139,7 @@ VOID   g_TrimStringBlankCharBothEnds(INOUT CONST PCHAR pString)
     pString[nStringLen] = '\0';
 }
 
-VOID   g_PadWithBlanks(INOUT CONST PCHAR pBuffer, IN CONST size_t nBufferLen)
+void   BZ_PadWithBlanks(INOUT CONST PCHAR pBuffer, IN CONST size_t nBufferLen)
 {
     BZ_CHECK_RETURN_VOID(NULL != pBuffer && nBufferLen >= 0);
 

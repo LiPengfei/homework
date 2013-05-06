@@ -102,7 +102,7 @@ enum BNumberForm
 };
 
 template <class T>
-inline VOID BZ_PrintNumber(T &n, BNumberForm form)
+inline void BZ_PrintNumber(T &n, BNumberForm form)
 {
     switch(form)
     {
@@ -127,7 +127,7 @@ inline VOID BZ_PrintNumber(T &n, BNumberForm form)
 }
 
 template <class T>
-inline VOID BZ_PrintNumArrayInHex(T *pArray, size_t nArrayLen)
+inline void BZ_PrintNumArrayInHex(T *pArray, size_t nArrayLen)
 {
     assert(NULL != pArray && nArrayLen > 0);
     for (size_t i = 0; i < nArrayLen; i++)

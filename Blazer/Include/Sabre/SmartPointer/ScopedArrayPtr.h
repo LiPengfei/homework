@@ -27,7 +27,7 @@ public:
         return m_ptr;
     }
 
-    VOID ResetPtr(T *ptr = NULL)
+    void ResetPtr(T *ptr = NULL)
     {
         if (m_ptr != ptr)
             BScopedArrayPtr<T>(ptr).Swap(*this);
@@ -53,7 +53,7 @@ private:
     bool operator== (const BScopedArrayPtr &);
     bool operator!= (const BScopedArrayPtr &);
 
-    VOID Swap(BScopedArrayPtr &r)
+    void Swap(BScopedArrayPtr &r)
     {
         BZ_Swap(m_ptr, r.m_ptr);
     }

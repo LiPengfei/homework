@@ -10,70 +10,206 @@
 #define __BLAZER_SABRE_MYSQLMANAGER_H__
 
 #include "Public.h"
+#include "SmartPointer/SharedPtr.h"
+#include "DesignPattern/Singleton.h"
+
 #include <Winsock2.h>
 #include <mysql.h>
 #include <my_global.h>
 #include <stdexcept>
+#include <map>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-    class BDatabaseTuple;
-    class BDatabaseTable;
+class BDatabaseTuple;
+class BDatabaseTable;
 
-    class BMysqlManager : public BUnCopyable
+class BMysql : public BUnCopyable
+{
+private:
+    DWORD m_nId;
+    MYSQL m_mysql;
+    bool  m_bConnected;
+
+public:
+    BMysql();
+    virtual ~BMysql();
+
+public:
+    DWORD GetId() const
     {
-#ifdef _DEBUG
-    public:
-#else
-    private:
-#endif // DEBUG
-        MYSQL m_mysql;
-        bool  m_bConnected;
+        return m_nId;
+    }
 
-    public:
-        BMysqlManager() throw(std::runtime_error);
-        virtual ~BMysqlManager();
+    void SetId(DWORD nId)
+    {
+        m_nId = nId;
+    }
 
-    public:
-        int Connect(const char *cszHost, const char *cszUser,
-            const char *cszPwd, const char *cszDb, unsigned nPort);
-        int DisConnect();
-        int Query(const char *cszSql, OUT BDatabaseTable &dbTable);
-        int AddTuple(const char *cszSql);
-        int DeleteTuple(const char *cszSql);
-        int ModifyTuple(const char *cszSql);
-        int ModifyTable(const char *cszSql);
+    int Connect(const char *cpHost, const char *cpUser,
+        const char *cpPwd, const char *cpDb, unsigned nPort);
 
-        int SetAutoCommit(bool bMode);
-        int Commit();
-        int Rollback();
+    int Connect(const char *cpHost, const char *cpUser,
+        const char *cpPwd, const char *cpDb, const char *cpPort);
+    int DisConnect();
+    virtual int Query(const char *cpSql, OUT BDatabaseTable &dbTable);
+    virtual int AddTuple(const char *cpSql);
+    virtual int DeleteTuple(const char *cpSql);
+    virtual int ModifyTuple(const char *cpSql);
+    virtual int ModifyTable(const char *cpSql);
 
-        int ChangeUser(const char *cszUser, const char *cszPwd);
-        int SetCurrentDb(const char *cszDbName);
-        int CraeteNewDb(const char *cszDbName);
-        int DropDb(const char *cszDbName);
+    int SetAutoCommit(bool bMode);
+    int Commit();
+    int Rollback();
 
-        int Ping();
-        int GetLastError();
-        long long GetLastSqlEffectRows();
+    int ChangeUser(const char *cpUser, const char *cpPwd);
+    int SetCurrentDb(const char *cpDbName);
+    int CraeteNewDb(const char *cpDbName);
+    int DropDb(const char *cpDbName);
 
-        const char *GetCharSetName();
+    int Ping();
+    int GetLastError();
+    long long GetLastSqlEffectRows();
 
-    protected:
+    const char *GetCharSetName();
 
-        inline int BMysqlManager::DoSql(const char *cszSql)
+public:
+    static BOOL Init()
+    {
+        return TRUE;
+    }
+
+    static void UnInit()
+    {
+        mysql_thread_end();
+        mysql_library_end();
+    }
+
+protected:
+    inline int BMysql::DoSql(const char *cpSql)
+    {
+        if ((!cpSql) || !(cpSql[0]))
         {
-            if ((!cszSql) || !(cszSql[0]))
-            {
-                return -1;
-            }
-
-            return mysql_real_query(&m_mysql, cszSql, strlen(cszSql));
+            return -1;
         }
 
-        int ConfigMysql(mysql_option typeOption, void *valueOption);
-        int IsThreadSafe(); 
-    };
+        return mysql_real_query(&m_mysql, cpSql, strlen(cpSql));
+    }
+
+    int ConfigMysql(mysql_option typeOption, void *valueOption);
+    int IsThreadSafe(); 
+};
+
+class BMysqlTable : public BMysql
+{
+private:
+    typedef std::string STRING;
+
+private:
+    STRING m_strTableName;
+
+public:
+    BMysqlTable(){ }
+    BMysqlTable(const STRING &strTableName)
+        : m_strTableName(strTableName)
+    { }
+    virtual ~BMysqlTable() { }
+
+public:
+    virtual int Query(const char *cpSql, OUT BDatabaseTable &dbTable);
+    virtual int AddTuple(const char *cpSql);
+    virtual int DeleteTuple(const char *cpSql);
+
+    void SetName(const STRING &strName)
+    {
+        m_strTableName = strName;
+    }
+    STRING GetName() const
+    {
+        return m_strTableName;
+    }
+};
+
+typedef BSharedPtr<BMysql>      BSPMysql;
+typedef BSharedPtr<BMysqlTable> BSPMysqlTable;
+
+class BMysqlTableManager
+{
+public:
+    DECLARE_SINGLETON_PATTERN(BMysqlTableManager);
+
+    typedef std::map<DWORD, BSPMysqlTable> Map_SPMysqlTable;
+private:
+    Map_SPMysqlTable m_mapMysqlTable;
+
+public:
+    BMysqlTableManager()
+    {
+        m_mapMysqlTable.clear();
+    }
+
+    ~BMysqlTableManager()
+    {
+        m_mapMysqlTable.clear();
+    }
+
+public:
+    BOOL Add (DWORD nId, const BSPMysqlTable &spMysqlTable)
+    {
+        BZ_CHECK_RETURN_BOOL(spMysqlTable);
+        
+        // check if exsits
+        BOOL bRet = Get(nId, NULL);
+        BZ_CHECK_RETURN_BOOL(FALSE == bRet);
+
+        m_mapMysqlTable[nId] = spMysqlTable;
+        return TRUE;
+    }
+
+    BOOL Add (DWORD nId, BMysqlTable *pMysqlTable)
+    {
+        BZ_CHECK_RETURN_BOOL(pMysqlTable);
+
+        // check if exsist;
+        BOOL bRet = Get(nId, NULL);
+        BZ_CHECK_RETURN_BOOL(FALSE == bRet);
+
+        m_mapMysqlTable[nId] = BSPMysqlTable(pMysqlTable);
+        return TRUE;
+    }
+
+    BOOL Del (DWORD nId)
+    {
+        Map_SPMysqlTable::const_iterator iter = m_mapMysqlTable.find(nId);
+
+        if (m_mapMysqlTable.end() != iter)
+        {
+            m_mapMysqlTable.erase(iter);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    BOOL Get(DWORD nId, BSPMysqlTable *pspMysqlTable) const
+    {
+        Map_SPMysqlTable::const_iterator iter = m_mapMysqlTable.find(nId);
+
+        if (m_mapMysqlTable.end() != iter)
+        {
+            if (pspMysqlTable)
+            {
+                *pspMysqlTable = iter->second;
+            }
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+};
+
+typedef BSharedPtr<BMysqlTableManager> BSPMysqlTableManager;
 
 BZ_DECLARE_NAMESPACE_END
 

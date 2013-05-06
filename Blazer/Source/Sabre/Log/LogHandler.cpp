@@ -8,22 +8,18 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 /*-------------------------------------------------------------------------------------------*/
 /* CLASS     : BConsoleLogHandler                                                            */
 /*-------------------------------------------------------------------------------------------*/
-BConsoleLogHandler::BConsoleLogHandler()
-{
-}
+BConsoleLogHandler::BConsoleLogHandler() { }
 
-BConsoleLogHandler::~BConsoleLogHandler()
-{
-}
+BConsoleLogHandler::~BConsoleLogHandler() { }
 
 BOOL BConsoleLogHandler::Init()
 {
     BOOL bRetCode = FALSE;
 
-    bRetCode = m_workerThread.Init();
+    bRetCode = m_workThread.Init();
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
-    bRetCode = m_workerThread.Start();
+    bRetCode = m_workThread.Start();
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
     return TRUE;
@@ -33,10 +29,10 @@ BOOL BConsoleLogHandler::UnInit()
 {
     BOOL bRetCode = FALSE;
 
-    bRetCode = m_workerThread.SuspendThread();
+    bRetCode = m_workThread.SuspendThread();
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
-    bRetCode = m_workerThread.Stop();
+    bRetCode = m_workThread.Stop();
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
     return TRUE;
@@ -48,7 +44,7 @@ BOOL BConsoleLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
     BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
 
-    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER);
     BSPLogRecordQueue spLogRecordQueue ;
     BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
     BZ_CHECK_RETURN_BOOL(bRetCode);
@@ -83,10 +79,10 @@ BOOL BFileLogHandler::Init()
 {
     BOOL bRetCode = FALSE;
 
-    bRetCode = m_workerThread.Init();
+    bRetCode = m_workThread.Init();
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
-    bRetCode = m_workerThread.Start();
+    bRetCode = m_workThread.Start();
     BZ_CHECK_RETURN_BOOL(bRetCode);
     
     return TRUE;
@@ -103,7 +99,7 @@ BOOL BFileLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
     BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
 
-    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_FILE_LOG_HANDLER);
     BSPLogRecordQueue spLogRecordQueue;
     BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
     BZ_CHECK_RETURN_BOOL(bRetCode);
@@ -150,7 +146,7 @@ BOOL BNetLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
     BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
 
-    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_NET_LOG_HANDLER);
     BSPLogRecordQueue spLogRecordQueue;
     BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
     BZ_CHECK_RETURN_BOOL(bRetCode);
@@ -164,4 +160,56 @@ BOOL BNetLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
     return TRUE;
 }
 
+/************************************************************************/
+/* Class BDbLogHandler                                                  */
+/************************************************************************/
+
+BDbLogHandler::BDbLogHandler() { }
+
+BDbLogHandler::~BDbLogHandler() { }
+
+BOOL BDbLogHandler::Init()
+{
+    BOOL bRetCode = FALSE;
+
+    bRetCode = m_workThread.Init();
+    BZ_CHECK_RETURN_BOOL(bRetCode);
+
+    bRetCode = m_workThread.Start();
+    BZ_CHECK_RETURN_BOOL(bRetCode);
+
+    return TRUE;
+}
+
+BOOL BDbLogHandler::UnInit()
+{
+    BMysql::UnInit();   // need release mysql library.
+    return TRUE;
+}
+
+BOOL BDbLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
+{
+    BUniversalQueueManagement<BSPLogRecord> *pQueueManager = BZ_SINGLETON_GET_PTR(BUniversalQueueManagement<BSPLogRecord>);
+    BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
+    BZ_CHECK_RETURN_BOOL(NULL != cpcLogManager);
+
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_DB_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue;
+    BOOL  bRetCode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_BOOL(bRetCode);
+
+    // modified by lipengfei 13/05/06
+    BSPLogRecord spLogRecord = cpcLogManager->GetLogRecord();
+    if (spLogRecord)
+    {
+        BPackageHead head;
+        BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
+        if (0 != head.m_cDbFlag)
+        {
+            spLogRecordQueue->PushNode(spLogRecord);
+        }
+    }
+
+    return TRUE;
+}
 BZ_DECLARE_NAMESPACE_END

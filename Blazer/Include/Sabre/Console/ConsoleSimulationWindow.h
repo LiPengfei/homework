@@ -122,16 +122,16 @@ public:
     ~BConsoleSimulationWindow();
 
 public:
-    VOID Paint();                                                 // paint the "window" in the console
-    VOID Clear();                                                 // clear "window" content
+    void Paint();                                                 // paint the "window" in the console
+    void Clear();                                                 // clear "window" content
 
-    VOID WriteText(
+    void WriteText(
         IN CONST CHAR * CONST cszText,
         IN CONST WORD         wColor = K_CONSOLE_COLOR_STYLE_DEFAULT,
         IN CONST BOOL         bAutoEnter = FALSE
         );
 
-    VOID WriteLine(
+    void WriteLine(
         IN CONST CHAR * CONST cszText,
         IN CONST WORD         wColor = K_CONSOLE_COLOR_STYLE_DEFAULT,
         IN CONST BOOL         bAutoEnter = FALSE
@@ -145,7 +145,7 @@ public:
     BRectangleSize GetManagementAreaSize() CONST;
 
     COORD  GetCurCursorPos() CONST;
-    VOID   SetCurCursorPos(IN CONST USHORT x, IN CONST USHORT y);
+    void   SetCurCursorPos(IN CONST USHORT x, IN CONST USHORT y);
 
     BOOL   SetWindowID(IN CONST DWORD dwWindowID);
     DWORD  GetWindowID() CONST;
@@ -167,9 +167,9 @@ private:
         IN CONST WORD  wColor
         );
 
-    VOID MergeColorSectionList();
+    void MergeColorSectionList();
 
-    VOID Write(
+    void Write(
         IN CONST CHAR * CONST cszText,
         IN CONST USHORT       x,
         IN CONST USHORT       y,
@@ -270,7 +270,7 @@ inline BSPConsoleSimulationWindow g_GetConsoleSimulationWindow(IN CONST CHAR * C
     return sp;
 }
 
-inline VOID g_WriteConsoleSimulationWindowLine(
+inline void g_WriteConsoleSimulationWindowLine(
     IN CONST DWORD        dwWindowID                            ,
     IN CONST CHAR * CONST cszText                               ,
     IN CONST WORD         wColor = K_CONSOLE_COLOR_STYLE_DEFAULT)
@@ -284,7 +284,7 @@ inline VOID g_WriteConsoleSimulationWindowLine(
     sp->Paint();
 }
 
-inline VOID g_WriteConsoleSimulationWindowLine(
+inline void g_WriteConsoleSimulationWindowLine(
     IN CONST CHAR * CONST cszWindowID                           ,
     IN CONST CHAR * CONST cszText                               ,
     IN CONST WORD         wColor = K_CONSOLE_COLOR_STYLE_DEFAULT)
@@ -299,14 +299,14 @@ inline VOID g_WriteConsoleSimulationWindowLine(
     sp->Paint();
 }
 #else
-inline VOID g_WriteConsoleSimulationWindowLine(IN CONST CHAR * CONST cszText)
+inline void g_WriteConsoleSimulationWindowLine(IN CONST CHAR * CONST cszText)
 {
     BZ_CHECK_C_STRING_RETURN_VOID(cszText);
     printf("%s\n", cszText);
 }
 #endif
 
-inline VOID g_SetConsoleSimulationWindowTitle(
+inline void g_SetConsoleSimulationWindowTitle(
     CONST CHAR * CONST cszWindowID                                           ,
     CONST std::string &strWindowTitleText                                    ,
     CONST WORD         wWindowTitleColor = K_CONSOLE_COLOR_STYLE_RED_ON_WHITE)

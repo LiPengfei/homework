@@ -33,9 +33,9 @@ THREAD_ID BThread::GetThreadID() CONST
 }
 
 #ifdef WIN32
-THREAD_FUNC_RET_TYPE __stdcall BThread::ThreadFunction(VOID *pValue)
+THREAD_FUNC_RET_TYPE __stdcall BThread::ThreadFunction(void *pValue)
 #else
-THREAD_FUNC_RET_TYPE BThread::ThreadFunction(VOID *pValue)
+THREAD_FUNC_RET_TYPE BThread::ThreadFunction(void *pValue)
 #endif
 {
     BThread* pThisThread = (BThread *)pValue;
@@ -46,14 +46,14 @@ BOOL BThread::Start()
 {
 #ifdef WIN32
     if (m_hThread <= 0 || INVALID_HANDLE_VALUE == m_hThread) {
-        m_hThread = (HANDLE)::_beginthreadex(0, 0, ThreadFunction, (VOID *)this, 0, &m_threadID);
+        m_hThread = (HANDLE)::_beginthreadex(0, 0, ThreadFunction, (void *)this, 0, &m_threadID);
     }
 
     return m_hThread > 0;
 #else
     int iRetCode = 0;
     if (m_threadID <= 0) {
-        iRetCode = ::pthread_create(&m_threadID, NULL, ThreadFunction, (VOID *)this);
+        iRetCode = ::pthread_create(&m_threadID, NULL, ThreadFunction, (void *)this);
     }
 
     return nRetCode == 0;

@@ -11,7 +11,7 @@ BLogicFrameCtrl::~BLogicFrameCtrl()
     m_timer.Stop();
 }
 
-VOID BLogicFrameCtrl::Start()
+void BLogicFrameCtrl::Start()
 {
     m_timer.Start();
 }

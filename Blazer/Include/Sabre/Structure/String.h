@@ -6,41 +6,41 @@
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-    VOID   BZ_ConvertToHexString(
+    void   BZ_ConvertToHexString(
         IN    CONST CHAR * CONST cpSrc  ,
         IN    CONST size_t       nSrcLen,
         INOUT       CHAR *       pDst   ,
         IN    CONST size_t       nDstLen
     );
 
-    BOOL   g_IsBlankCharacter(
+    BOOL   BZ_IsBlankCharacter(
         IN    CONST CHAR c
     );
 
-    std::string g_TrimString(
+    std::string BZ_TrimString(
         INOUT CONST std::string &s,
         IN    CONST CHAR    c
     );
 
-    VOID   g_TrimString(
+    void   BZ_TrimString(
         INOUT CONST PCHAR pString,
         IN    CONST CHAR c
     );
 
-    VOID   g_TrimStringBothEnds(
+    void   BZ_TrimStringBothEnds(
         INOUT CONST PCHAR pString,
         IN    CONST CHAR c
     );
 
-    VOID   g_TrimStringBlankChar(
+    void   BZ_TrimStringBlankChar(
         INOUT CONST PCHAR pString
     );
 
-    VOID   g_TrimStringBlankCharBothEnds(
+    void   BZ_TrimStringBlankCharBothEnds(
         INOUT CONST PCHAR pString
     );
 
-    VOID   g_PadWithBlanks(
+    void   BZ_PadWithBlanks(
         INOUT CONST PCHAR  pBuffer,
         IN    CONST size_t nBufferLen
     );

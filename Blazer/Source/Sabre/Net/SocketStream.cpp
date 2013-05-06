@@ -1,19 +1,19 @@
 #include "Net/SocketStream.h"
+#include "Net/SocketWrapper.h"
 #include "Structure/Buffer.h"
 #include "SmartPointer/SharedPtr.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 BAsyncSocketStream::BAsyncSocketStream()
-{
-    m_hSocket               = INVALID_SOCKET;
-    m_strRemoteIp                 = "";
-    m_usRemotePort                = 0;
-    m_bDelayedToCloseFlag         = FALSE;
-    m_bIOCPRecvCompletedFlag      = FALSE;
-    m_nIOCPRecvCompletedErrorCode = 0;
-    m_nIOCPRecvCompletedSize      = 0;
-}
+    :m_hSocket(INVALID_SOCKET),
+    m_strRemoteIp(""),
+    m_usRemotePort(0),
+    m_bDelayedToCloseFlag(FALSE),
+    m_bIOCPRecvCompletedFlag(FALSE),
+    m_nIOCPRecvCompletedErrorCode(0),
+    m_nIOCPRecvCompletedSize(0)
+{ }
 
 BAsyncSocketStream::~BAsyncSocketStream()
 {
@@ -22,7 +22,7 @@ BAsyncSocketStream::~BAsyncSocketStream()
 
 BOOL BAsyncSocketStream::Init(SOCKET hRemoteSocket, std::string strRemoteIp, USHORT usRemotePort)
 {
-    m_hSocket      = hRemoteSocket;
+    m_hSocket            = hRemoteSocket;
     m_strRemoteIp        = strRemoteIp;
     m_usRemotePort       = usRemotePort;
     return TRUE;
@@ -197,6 +197,59 @@ std::string BAsyncSocketStream::GetRemoteIp() CONST
 USHORT BAsyncSocketStream::GetRemotePort() CONST
 {
     return m_usRemotePort;
+}
+
+/************************************************************************/
+/* Class BSocketStream                                                  */
+/************************************************************************/
+
+BSocketStream::BSocketStream()
+    : m_sock(INVALID_SOCKET),
+    m_strRemoteIp(""),
+    m_usRemotePort(0),
+    m_flag(FALSE)
+{ }
+
+BSocketStream::~BSocketStream()
+{
+    BZ_CloseSocket(m_sock);
+}
+
+void BSocketStream::Init(SOCKET sock, const char *cpIp, USHORT usPort)
+{
+    m_sock         = sock;
+    m_strRemoteIp  = cpIp;
+    m_usRemotePort = usPort;
+    m_flag         = TRUE;
+}
+
+void BSocketStream::Close()
+{
+    BZ_CloseSocket(m_sock);
+    m_flag = FALSE;
+}
+
+void BSocketStream::UnInit()
+{
+    m_sock         = INVALID_SOCKET;
+    m_strRemoteIp  = "";
+    m_usRemotePort = 0;
+    m_flag         = FALSE;
+}
+
+BOOL BSocketStream::Recv(OUT char *cpData, int Len)
+{
+    return TRUE;
+}
+
+BOOL BSocketStream::WSARecv()
+{
+    return TRUE;
+}
+
+BOOL BSocketStream::Send(const char *, int Len)
+{
+    return TRUE;
 }
 
 BZ_DECLARE_NAMESPACE_END

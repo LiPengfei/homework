@@ -64,6 +64,7 @@ struct BLogRecord
     {
         memmove(m_cpContent, cpContent, nLen);
     }
+
 };
 // modified end
 

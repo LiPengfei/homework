@@ -46,17 +46,17 @@ BOOL BLogService::GetConsoleLogOpenedFlag() CONST
     return m_bIsConsoleLogOpenedFlag;
 }
 
-VOID BLogService::SetNetLogOpenedFlag(IN CONST BOOL bIsNetLogOpenedFlag)
+void BLogService::SetNetLogOpenedFlag(IN CONST BOOL bIsNetLogOpenedFlag)
 {
     m_bIsNetLogOpenedFlag = bIsNetLogOpenedFlag;
 }
 
-VOID BLogService::SetFileLogOpenedFlag(IN CONST BOOL bIsFileLogOpenedFlag)
+void BLogService::SetFileLogOpenedFlag(IN CONST BOOL bIsFileLogOpenedFlag)
 {
     m_bIsFileLogOpenedFlag = bIsFileLogOpenedFlag;
 }
 
-VOID BLogService::SetConsoleLogOpenedFlag(IN CONST BOOL bIsConsoleLogOpenedFlag)
+void BLogService::SetConsoleLogOpenedFlag(IN CONST BOOL bIsConsoleLogOpenedFlag)
 {
     m_bIsConsoleLogOpenedFlag = bIsConsoleLogOpenedFlag;
 }
@@ -101,7 +101,7 @@ BOOL BLogService::OpenNetLog()
     BZ_CHECK_RETURN_BOOL(NULL != pLogHandler);
 
     BSPLogHandler spLogHandler(pLogHandler);
-    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(BZ_STRING_ID_OF_NET_LOG_HANDLER);
 
     BZ_CHECK_RETURN_BOOL(0 != dwLogHandlerID);
     spLogHandler->SetLogHandlerID(dwLogHandlerID);
@@ -127,7 +127,7 @@ BOOL BLogService::OpenFileLog()
     BZ_CHECK_RETURN_BOOL(NULL != pLogHandler);
 
     BSPLogHandler spLogHandler(pLogHandler);
-    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(BZ_STRING_ID_OF_FILE_LOG_HANDLER);
 
     BZ_CHECK_RETURN_BOOL(0 != dwLogHandlerID);
     spLogHandler->SetLogHandlerID(dwLogHandlerID);
@@ -153,7 +153,7 @@ BOOL BLogService::OpenConsoleLog()
     BZ_CHECK_RETURN_BOOL(NULL != pLogHandler);
 
     BSPLogHandler spLogHandler(pLogHandler);
-    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER);
 
     BZ_CHECK_RETURN_BOOL(0 != dwLogHandlerID);
     spLogHandler->SetLogHandlerID(dwLogHandlerID);
@@ -204,7 +204,7 @@ BOOL BLogService::CloseNetLog()
     if (!GetNetLogOpenedFlag())
         return TRUE;
 
-    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(BZ_STRING_ID_OF_NET_LOG_HANDLER);
     bRetCode = m_logManager.DetachHandler(dwLogHandlerID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
     SetNetLogOpenedFlag(FALSE);
@@ -219,7 +219,7 @@ BOOL BLogService::CloseFileLog()
     if (!GetFileLogOpenedFlag())
         return TRUE;
 
-    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(BZ_STRING_ID_OF_FILE_LOG_HANDLER);
     bRetCode = m_logManager.DetachHandler(dwLogHandlerID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
     SetFileLogOpenedFlag(FALSE);
@@ -234,7 +234,7 @@ BOOL BLogService::CloseConsoleLog()
     if (!GetConsoleLogOpenedFlag())
         return TRUE;
 
-    DWORD dwLogHandlerID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    DWORD dwLogHandlerID = BZ_HashString2ID(BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER);
     bRetCode = m_logManager.DetachHandler(dwLogHandlerID);
     BZ_CHECK_RETURN_BOOL(bRetCode);
     SetConsoleLogOpenedFlag(FALSE);
@@ -242,7 +242,7 @@ BOOL BLogService::CloseConsoleLog()
     return TRUE;
 }
 
-VOID BLogService::WriteLog(IN CONST BSPLogRecord &spLogRecord)
+void BLogService::WriteLog(IN CONST BSPLogRecord &spLogRecord)
 {
     BZ_WriteLog(m_logManager, spLogRecord);
 }

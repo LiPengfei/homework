@@ -86,31 +86,25 @@ BZ_DB_VALUE_TYPE l_Mysqltp2DBtp(enum_field_types tp)
     return BZ_DB_UNKNOWN;
 }
 
-BMysqlManager::BMysqlManager() throw(std::runtime_error)
-    : m_bConnected(false)
+BMysql::BMysql()
+    : m_nId(0), m_bConnected(false)
 {
-    if (!mysql_init(&m_mysql))
-    {
-        throw std::runtime_error("mysql lib init fails");
-    }
+    mysql_init(&m_mysql);
 }
 
-BMysqlManager::~BMysqlManager()
+BMysql::~BMysql()
 {
     if (m_bConnected)
     {
         DisConnect();
     }
-
-    mysql_thread_end();
-    mysql_library_end();
 }
 
-int BMysqlManager::Connect(const char *cpHost, 
-                           const char *cpUser, 
-                           const char *cpPwd, 
-                           const char *cpDb, 
-                           unsigned nPort)
+int BMysql::Connect(const char *cpHost, 
+                    const char *cpUser, 
+                    const char *cpPwd, 
+                    const char *cpDb, 
+                    unsigned nPort)
 {
     BZ_CHECK_C_STRING_RETURN_CODE(cpHost, -1);
     BZ_CHECK_C_STRING_RETURN_CODE(cpUser, -1);
@@ -132,7 +126,17 @@ int BMysqlManager::Connect(const char *cpHost,
     return 0;
 }
 
-int BMysqlManager::DisConnect()
+int BMysql::Connect(const char *cpHost, 
+                    const char *cpUser, 
+                    const char *cpPwd, 
+                    const char *cpDb, 
+                    const char *cpPort)
+{
+    unsigned nPort = (unsigned)atoi(cpPort);
+    return Connect(cpHost, cpUser, cpPwd, cpDb, nPort);
+}
+
+int BMysql::DisConnect()
 {
     if (!m_bConnected)
     {
@@ -144,7 +148,7 @@ int BMysqlManager::DisConnect()
     return 0;
 }
 
-int BMysqlManager::Query(const char *cpSql, OUT BDatabaseTable &dbTable )
+int BMysql::Query(const char *cpSql, OUT BDatabaseTable &dbTable )
 {
     dbTable.Clean();
 
@@ -210,43 +214,43 @@ int BMysqlManager::Query(const char *cpSql, OUT BDatabaseTable &dbTable )
     return 0;
 }
 
-int BMysqlManager::AddTuple(const char *cszSql)
+int BMysql::AddTuple(const char *cpSql)
 {
     if (!m_bConnected)
     {
         return -1;
     }
-    return DoSql(cszSql);
+    return DoSql(cpSql);
 }
 
-int BMysqlManager::DeleteTuple(const char *cszSql)
+int BMysql::DeleteTuple(const char *cpSql)
 {
     if (!m_bConnected)
     {
         return -1;
     }
-    return DoSql(cszSql);
+    return DoSql(cpSql);
 }
 
-int BMysqlManager::ModifyTuple(const char *cszSql)
+int BMysql::ModifyTuple(const char *cpSql)
 {
     if (!m_bConnected)
     {
         return -1;
     }
-    return DoSql(cszSql);
+    return DoSql(cpSql);
 }
 
-int BMysqlManager::ModifyTable(const char *cszSql)
+int BMysql::ModifyTable(const char *cpSql)
 {
     if (!m_bConnected)
     {
         return -1;
     }
-    return DoSql(cszSql);
+    return DoSql(cpSql);
 }
 
-int BMysqlManager::SetAutoCommit(bool bMode)
+int BMysql::SetAutoCommit(bool bMode)
 {
     if (!m_bConnected)
     {
@@ -255,7 +259,7 @@ int BMysqlManager::SetAutoCommit(bool bMode)
     return bMode ? mysql_autocommit(&m_mysql, 1) : mysql_autocommit(&m_mysql, bMode);
 }
 
-int BMysqlManager::Commit()
+int BMysql::Commit()
 {
     if (!m_bConnected)
     {
@@ -264,7 +268,7 @@ int BMysqlManager::Commit()
     return mysql_commit(&m_mysql);
 }
 
-int BMysqlManager::Rollback()
+int BMysql::Rollback()
 {
     if (!m_bConnected)
     {
@@ -273,65 +277,65 @@ int BMysqlManager::Rollback()
     return mysql_rollback(&m_mysql);
 }
 
-int BMysqlManager::ChangeUser(const char *cszUser, const char *cszPwd)
+int BMysql::ChangeUser(const char *cpUser, const char *cpPwd)
 {
     if (!m_bConnected)
     {
         return -1;
     }
-    return mysql_change_user(&m_mysql, cszUser, cszPwd, NULL);
+    return mysql_change_user(&m_mysql, cpUser, cpPwd, NULL);
 }
 
-int BMysqlManager::SetCurrentDb(const char *cszDbName)
+int BMysql::SetCurrentDb(const char *cpDbName)
 {
     if (!m_bConnected)
     {
         return -1;
     }
-    if ((!cszDbName) || (!cszDbName[0]))
+    if ((!cpDbName) || (!cpDbName[0]))
     {
         return -1;
     }
     char buffer[1024];
-    sprintf(buffer, "use %s", cszDbName);
+    sprintf(buffer, "use %s", cpDbName);
     return mysql_real_query(&m_mysql, buffer, strlen(buffer));
 }
 
-int BMysqlManager::CraeteNewDb(const char *cszDbName)
+int BMysql::CraeteNewDb(const char *cpDbName)
 {
     if (!m_bConnected)
     {
         return -1;
     }
 
-    if ((!cszDbName) || (!cszDbName[0]))
+    if ((!cpDbName) || (!cpDbName[0]))
     {
         return -1;
     }
 
     char buffer[1024];
-    sprintf(buffer, "create database %s", cszDbName);
-    return mysql_query(&m_mysql, cszDbName);
+    sprintf(buffer, "create database %s", cpDbName);
+    return mysql_query(&m_mysql, cpDbName);
 }
 
-int BMysqlManager::DropDb(const char *cszDbName)
+int BMysql::DropDb(const char *cpDbName)
 {
     if (!m_bConnected)
     {
         return -1;
     }
 
-    if ((!cszDbName) || (!cszDbName[0]))
+    if ((!cpDbName) || (!cpDbName[0]))
     {
         return -1;
     }
 
     char buffer[1024];
-    sprintf(buffer, "drop database %s", cszDbName);
+    sprintf(buffer, "drop database %s", cpDbName);
     return mysql_query(&m_mysql, buffer);
 }
 
-int BMysqlManager:: Ping()
+int BMysql:: Ping()
 {
     if (!m_bConnected)
     {
@@ -340,12 +344,12 @@ int BMysqlManager:: Ping()
     return mysql_ping(&m_mysql);
 }
 
-int BMysqlManager:: GetLastError()
+int BMysql:: GetLastError()
 {
     return mysql_errno(&m_mysql);
 }
 
-long long BMysqlManager:: GetLastSqlEffectRows()
+long long BMysql:: GetLastSqlEffectRows()
 {
     if (!m_bConnected)
     {
@@ -354,7 +358,7 @@ long long BMysqlManager:: GetLastSqlEffectRows()
     return mysql_affected_rows(&m_mysql);
 }
 
-const char *BMysqlManager::GetCharSetName()
+const char *BMysql::GetCharSetName()
 {
     if (!m_bConnected)
     {
@@ -363,7 +367,7 @@ const char *BMysqlManager::GetCharSetName()
     return mysql_character_set_name(&m_mysql);
 }
 
-int BMysqlManager::ConfigMysql(mysql_option typeOption, void *valueOption)
+int BMysql::ConfigMysql(mysql_option typeOption, void *valueOption)
 {
     if (!m_bConnected)
     {
@@ -372,9 +376,39 @@ int BMysqlManager::ConfigMysql(mysql_option typeOption, void *valueOption)
     return mysql_options(&m_mysql, typeOption, " ");
 }
 
-int BMysqlManager::IsThreadSafe()
+int BMysql::IsThreadSafe()
 {
     return mysql_thread_safe();
+}
+
+/************************************************************************/
+/* class BMysqlTable                                                    */
+/************************************************************************/
+int BMysqlTable::Query(const char *cpCond, OUT BDatabaseTable &dbTable)
+{
+    char cpTemp[1024];
+    sprintf(cpTemp, "select * from %s where %s",
+        m_strTableName.c_str(), cpCond);
+
+    return BMysql::Query(cpTemp, dbTable);
+}
+
+int BMysqlTable::AddTuple(const char *cpData)
+{
+    char cpTemp[1024];
+    sprintf(cpTemp, "insert into %s values(%s)", 
+        m_strTableName.c_str(), cpData);
+
+    return BMysql::AddTuple(cpTemp);
+}
+
+int BMysqlTable::DeleteTuple(const char *cpCond)
+{
+    char cpTemp[1024];
+    sprintf(cpTemp, "delete from %s where %s", 
+        m_strTableName.c_str(), cpCond);
+    
+    return BMysql::DeleteTuple(cpTemp);
 }
 
 BZ_DECLARE_NAMESPACE_END

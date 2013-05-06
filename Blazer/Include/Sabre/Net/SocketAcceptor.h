@@ -9,7 +9,7 @@
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 #ifdef WIN32
-    static VOID WINAPI IOCompletionCallBack(
+    static void WINAPI IOCompletionCallBack(
     DWORD dwErrorCode,
     DWORD dwNumberOfBytesTransfered,
     LPOVERLAPPED lpOverlapped
@@ -93,7 +93,7 @@ public:
         CONST USHORT &usPort
         );
 
-    VOID AttachSocketStreamQueue(BSPAsyncSocketStreamQueue &spQueue);
+    void AttachSocketStreamQueue(BSPAsyncSocketStreamQueue &spQueue);
 
     INT Wait(
         INT nMaxEventCount,

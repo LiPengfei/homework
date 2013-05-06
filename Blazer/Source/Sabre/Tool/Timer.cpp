@@ -19,7 +19,7 @@ BTimer::~BTimer()
 {
 }
 
-VOID BTimer::Start()
+void BTimer::Start()
 {
 #ifdef WIN32
     ::QueryPerformanceCounter(&m_liStartTime);
@@ -28,7 +28,7 @@ VOID BTimer::Start()
 #endif
 }
 
-VOID BTimer::Stop()
+void BTimer::Stop()
 {
 #ifdef WIN32
     ::QueryPerformanceCounter(&m_liStopTime);

@@ -118,7 +118,7 @@ BOOL BFixedSizeBuffer::InsertDataIntoPos (size_t nPos, IN const void *const cpcD
     return TRUE;
 }
 
-VOID BFixedSizeBuffer::Reset()
+void BFixedSizeBuffer::Reset()
 {
     BZ_CHECK_RETURN_VOID(NULL != m_pvData && m_nTotalSize > 0);
     ::memset(m_pvData, 0, m_nTotalSize);
@@ -200,7 +200,7 @@ size_t BDynamicBuffer::GetLeftSize() const
     return m_nTotalSize - m_nUsedSize;
 }
 
-VOID BDynamicBuffer::Reset()
+void BDynamicBuffer::Reset()
 {
     BZ_CHECK_RETURN_VOID(NULL != m_pvData && m_nTotalSize > 0);
     ::memset(m_pvData, 0, m_nTotalSize);

@@ -35,7 +35,7 @@ public:
     }
 
 public:
-    VOID Reset()
+    void Reset()
     {
         m_nEventType = ASYNC_SOCKET_EVENT_INVALID;
         m_spAsyncSocketStream = BSPAsyncSocketStream();

@@ -87,12 +87,6 @@
     <ClInclude Include="..\..\Include\Sabre\Net\SocketWrapper.h">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Include\Sabre\Console\ConsolePublic.h">
-      <Filter>Console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Include\Sabre\Console\ConsoleSimulationWindow.h">
-      <Filter>Console</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Include\Sabre\Log\LogHandler.h">
       <Filter>Log</Filter>
     </ClInclude>
@@ -146,6 +140,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Include\Sabre\Tool\Timer.h">
       <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Console\ConsolePublic.h">
+      <Filter>Console</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Console\ConsoleSimulationWindow.h">
+      <Filter>Console</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,9 +235,6 @@
     <ClCompile Include="Log\LogService.cpp">
       <Filter>Log</Filter>
     </ClCompile>
-    <ClCompile Include="Console\ConsolePublic.cpp">
-      <Filter>Console</Filter>
-    </ClCompile>
     <ClCompile Include="Structure\String.cpp">
       <Filter>Structure</Filter>
     </ClCompile>
@@ -259,9 +256,6 @@
     <ClCompile Include="Net\SocketWrapper.cpp">
       <Filter>Net</Filter>
     </ClCompile>
-    <ClCompile Include="Console\ConsoleSimulationWindow.cpp">
-      <Filter>Console</Filter>
-    </ClCompile>
     <ClCompile Include="Database\DatabaseTable.cpp">
       <Filter>Database</Filter>
     </ClCompile>
@@ -276,6 +270,12 @@
     </ClCompile>
     <ClCompile Include="Net\NetStruct.cpp">
       <Filter>Net</Filter>
+    </ClCompile>
+    <ClCompile Include="Console\ConsolePublic.cpp">
+      <Filter>Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Console\ConsoleSimulationWindow.cpp">
+      <Filter>Console</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

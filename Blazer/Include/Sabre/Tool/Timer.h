@@ -22,8 +22,8 @@ public:
     ~BTimer();
 
 public:
-    VOID  Start();
-    VOID  Stop();
+    void  Start();
+    void  Stop();
     DWORD GetElapseInSec() CONST;
     DWORD GetElapseInMilliSec() CONST;
     BOOL  HasTimePassedInSec(DWORD dwSec) CONST;

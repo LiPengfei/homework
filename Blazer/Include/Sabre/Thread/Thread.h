@@ -19,7 +19,7 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 typedef UINT THREAD_FUNC_RET_TYPE;
 #else
     typedef pthread_t THREAD_ID;
-typedef VOID *THREAD_FUNC_RET_TYPE;
+typedef void *THREAD_FUNC_RET_TYPE;
 #endif
 
 class BThread : private BUnCopyable
@@ -50,9 +50,9 @@ public:
 
 private:
 #ifdef WIN32
-    static THREAD_FUNC_RET_TYPE __stdcall ThreadFunction(VOID *);
+    static THREAD_FUNC_RET_TYPE __stdcall ThreadFunction(void *);
 #else
-    static THREAD_FUNC_RET_TYPE *ThreadFunction(VOID *);
+    static THREAD_FUNC_RET_TYPE *ThreadFunction(void *);
 #endif
     virtual UINT Run() = 0;
 };

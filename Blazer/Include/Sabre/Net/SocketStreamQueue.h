@@ -27,7 +27,7 @@ public:
         BSPAsyncSocketEventArray spEventArray
         );
 
-    VOID PushBack(BSPAsyncSocketStream &spAsyncSocketStream);
+    void PushBack(BSPAsyncSocketStream &spAsyncSocketStream);
     BOOL Remove(BSPAsyncSocketStream &spAsyncSocketStream);
 
 private:

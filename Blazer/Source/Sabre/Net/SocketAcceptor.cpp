@@ -7,7 +7,7 @@
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 #ifdef WIN32
-    VOID WINAPI IOCompletionCallBack(
+    void WINAPI IOCompletionCallBack(
     DWORD dwErrorCode,
     DWORD dwNumberOfBytesTransfered,
     LPOVERLAPPED lpOverlapped)
@@ -258,7 +258,7 @@ Exit0:
     return ::WSAGetLastError();
 }
 
-VOID BSocketAcceptor::AttachSocketStreamQueue(BSPAsyncSocketStreamQueue &spQueue)
+void BSocketAcceptor::AttachSocketStreamQueue(BSPAsyncSocketStreamQueue &spQueue)
 {
     m_spSocketStreamQueue = spQueue;
 }

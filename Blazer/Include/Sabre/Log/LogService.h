@@ -2,7 +2,6 @@
 #define __BLAZER_SABRE_LOGSERVICE_H__
 
 #include "File/File.h"
-#include "Console/ConsoleSimulationWindow.h"
 #include "Log/LogPublic.h"
 #include "Log/LogManager.h"
 #include "Tool/Application.h"
@@ -38,14 +37,14 @@ public:
     BOOL GetFileLogOpenedFlag()    CONST;
     BOOL GetConsoleLogOpenedFlag() CONST;
 
-    VOID SetNetLogOpenedFlag    (IN CONST BOOL bIsNetLogOpenedFlag     = FALSE);
-    VOID SetFileLogOpenedFlag   (IN CONST BOOL bIsFileLogOpenedFlag    = FALSE);
-    VOID SetConsoleLogOpenedFlag(IN CONST BOOL bIsConsoleLogOpenedFlag = FALSE);
+    void SetNetLogOpenedFlag    (IN CONST BOOL bIsNetLogOpenedFlag     = FALSE);
+    void SetFileLogOpenedFlag   (IN CONST BOOL bIsFileLogOpenedFlag    = FALSE);
+    void SetConsoleLogOpenedFlag(IN CONST BOOL bIsConsoleLogOpenedFlag = FALSE);
 
     BOOL OpenLog (IN CONST BYTE byLogType);
     BOOL CloseLog(IN CONST BYTE byLogType);
 
-    VOID WriteLog(IN CONST BSPLogRecord &spLogRecord);
+    void WriteLog(IN CONST BSPLogRecord &spLogRecord);
 
 private:
     BOOL OpenNetLog();
@@ -65,26 +64,26 @@ typedef CONST BLogService *       CPLogService;
 typedef       BLogService * CONST PCLogService;
 typedef CONST BLogService * CONST CPCLogService;
 
-inline VOID BZ_OpenLog(CONST BYTE byLogType)
+inline void BZ_OpenLog(CONST BYTE byLogType)
 {
     PLogService pLogService = BZ_SINGLETON_GET_PTR(BLogService);
     pLogService->OpenLog(byLogType);
 }
 
-inline VOID BZ_CloseLog(CONST BYTE byLogType)
+inline void BZ_CloseLog(CONST BYTE byLogType)
 {
     PLogService pLogService = BZ_SINGLETON_GET_PTR(BLogService);
     pLogService->CloseLog(byLogType);
 }
 
-inline VOID BZ_WriteLog(IN CONST BSPLogRecord &spLogRecord)
+inline void BZ_WriteLog(IN CONST BSPLogRecord &spLogRecord)
 {
     PLogService pLogService = BZ_SINGLETON_GET_PTR(BLogService);
     pLogService->WriteLog(spLogRecord);
 }
 
 
-inline VOID BZ_WriteFileLogByFileID(
+inline void BZ_WriteFileLogByFileID(
     IN CONST DWORD dwFileID             ,
     IN const char *const     cpcText              ,
     IN CONST BOOL  bAddTimeStamp = FALSE)
@@ -103,7 +102,7 @@ inline VOID BZ_WriteFileLogByFileID(
 //    BZ_WriteLog(spLogRecord);
 }
 
-inline VOID BZ_WriteFileLogByFileName(
+inline void BZ_WriteFileLogByFileName(
     IN const char *const    cpcFileName          ,
     IN const char *const    cpcText              ,
     IN CONST BOOL bAddTimeStamp = FALSE)

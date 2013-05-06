@@ -62,7 +62,7 @@ inline BOOL g_DetachHandler(
     return manager.DetachHandler(spLogHandler);
 }
 
-inline VOID BZ_WriteLog(
+inline void BZ_WriteLog(
     IN       BLogManager  &manager    ,
     IN CONST BSPLogRecord &spLogRecord)
 {

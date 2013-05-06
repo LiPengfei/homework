@@ -5,24 +5,6 @@
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-inline VOID g_MilliSleep(DWORD dwMilliseconds)
-{
-#ifdef WIN32
-    ::Sleep(dwMilliseconds);
-#else
-    ::usleep(dwMilliseconds * 1000);
-#endif
-}
-
-inline VOID g_Sleep(DWORD dwSeconds)
-{
-#ifdef WIN32
-    ::Sleep(dwSeconds * 1000);
-#else
-    ::sleep(dwSeconds);
-#endif
-}
-
 template <class MutexType>
 class BGuard : private BUnCopyable
 {

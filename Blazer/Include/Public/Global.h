@@ -203,7 +203,7 @@ inline void BZ_SafelyDeleteConstArrayPtr(T *const p)
 
 // add by lipengfei 2013/04/24
 template<class T>
-inline VOID BZ_SetCode(T *pErrorCode, T code)
+inline void BZ_SetCode(T *pErrorCode, T code)
 {
     if (NULL != pErrorCode)
         *pErrorCode = code;
@@ -258,7 +258,7 @@ inline void BZ_EnableMemLeakCheck()
 // add end
 
 // add by lipengfei 2013/04/23
-inline LONG g_AtomicIncrement(LONG &value)
+inline LONG BZ_AtomicIncrement(LONG &value)
 {
 #ifdef WIN32
 #ifdef _MT
@@ -271,7 +271,7 @@ inline LONG g_AtomicIncrement(LONG &value)
 #endif
 }
 
-inline LONG g_AtomicDecrement(LONG &value)
+inline LONG BZ_AtomicDecrement(LONG &value)
 {
 #ifdef WIN32
 #ifdef _MT
@@ -286,7 +286,7 @@ inline LONG g_AtomicDecrement(LONG &value)
 // add end
 
 // add by lipengfei 2013/04/25
-inline VOID BZ_MilliSleep(DWORD dwMilliseconds)
+inline void BZ_MilliSleep(DWORD dwMilliseconds)
 {
 #ifdef WIN32
     ::Sleep(dwMilliseconds);

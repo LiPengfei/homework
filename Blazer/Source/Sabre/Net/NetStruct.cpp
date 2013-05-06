@@ -24,14 +24,14 @@ BNetService::~BNetService()
 BOOL BNetService::Start(WORD wHighVersion, WORD wLowVersion)
 {
 #ifdef WIN32
-    if (1 == g_AtomicIncrement(m_lStarted))
+    if (1 == BZ_AtomicIncrement(m_lStarted))
     {
         WSADATA wsaData;
         WORD wVersionRequested = MAKEWORD(wHighVersion, wLowVersion);
         BZ_CHECK_RETURN_BOOL(0 == ::WSAStartup(wVersionRequested, &wsaData));
     }
     else
-        g_AtomicDecrement(m_lStarted);
+        BZ_AtomicDecrement(m_lStarted);
 #endif
     return TRUE;
 }
@@ -39,7 +39,7 @@ BOOL BNetService::Start(WORD wHighVersion, WORD wLowVersion)
 BOOL BNetService::Stop()
 {
 #ifdef WIN32
-    if (0 == g_AtomicDecrement(m_lStarted))
+    if (0 == BZ_AtomicDecrement(m_lStarted))
     {
         BZ_CHECK_RETURN_BOOL_QUIET(0 == ::WSACleanup());
     }

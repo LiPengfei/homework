@@ -24,7 +24,7 @@ struct BSockInfo
     HANDLE          m_handle;
 };
 
-struct BIoInfo
+struct BSockIoInfo
 {
     OVERLAPPED        ovlped;
     // WSABuf struct;

@@ -2,25 +2,23 @@
 #define __BLAZER_SABRE_SOCKETCONNECTOR_H__
 
 #include "Public.h"
-#include "Net/SocketStream.h"
 #include <WinSock2.h>
-#include <string>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-class BSocketConnecor : public BUnCopyable
+class BSocketStream;
+
+class BSocketConnector : public BUnCopyable
 {
 private:
-    SOCKET               m_sock ;
+    SOCKET m_sock;
 
 public:
-    BSocketConnecor();
-    ~BSocketConnecor();
+    BSocketConnector();
+    ~BSocketConnector();
 
 public:
-    INT  Init();
-    INT  Connect(const char* cpIp, unsigned short nPort);
-    VOID UnInit();
+    INT  Connect(const char* cpIp, unsigned short nPort, OUT BSocketStream *skStream);
 };
 
 BZ_DECLARE_NAMESPACE_END

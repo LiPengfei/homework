@@ -24,39 +24,39 @@ public:
     }
 
 private:
-    virtual VOID DestroyRes() = 0;   // derived class realizes how to release resources.
-    virtual VOID DestroySelf()       // destroy KRefCounter instance
+    virtual void DestroyRes() = 0;   // derived class realizes how to release resources.
+    virtual void DestroySelf()       // destroy KRefCounter instance
     {
         BZ_SafelyDeleteConstPtr(this);
     }
 
 public:
-    VOID DelStrongRef()
+    void DelStrongRef()
     {
-        if (0 == g_AtomicDecrement(m_lStrongRefCounter))
+        if (0 == BZ_AtomicDecrement(m_lStrongRefCounter))
         {
             DestroyRes();
             DelWeakRef();
         }
     }
 
-    VOID DelWeakRef()
+    void DelWeakRef()
     {
-        if (0 == g_AtomicDecrement(m_lWeakRefCounter))
+        if (0 == BZ_AtomicDecrement(m_lWeakRefCounter))
         {
             DestroySelf();
         }
     }
 
-    VOID AddStrongRef()
+    void AddStrongRef()
     {
-        LONG lRetValue = g_AtomicIncrement(m_lStrongRefCounter);
+        LONG lRetValue = BZ_AtomicIncrement(m_lStrongRefCounter);
         assert(lRetValue > 0);
     }
 
-    VOID AddWeakRef()
+    void AddWeakRef()
     {
-        LONG lRetValue = g_AtomicIncrement(m_lWeakRefCounter);
+        LONG lRetValue = BZ_AtomicIncrement(m_lWeakRefCounter);
         assert(lRetValue > 0);
     }
 
@@ -77,7 +77,7 @@ template <class T>
 class BRefCounter : public BRefCounterBase
 {
 private:
-    typedef VOID (*Dtr)(T *&p);
+    typedef void (*Dtr)(T *&p);
     typedef BRefCounter<T> this_type;
 
 private:
@@ -108,7 +108,7 @@ public:
     }
 
 private:
-    virtual VOID DestroyRes()
+    virtual void DestroyRes()
     {
         m_deteler(m_ptr);
     }
@@ -187,7 +187,7 @@ public:
         return *this;
     }
 
-    VOID Swap(BStrongCounter &r)
+    void Swap(BStrongCounter &r)
     {
         BZ_Swap(m_pCounter, r.m_pCounter);
     }
@@ -283,7 +283,7 @@ public:
         }
     }
 
-    VOID Swap(BWeakCounter &r)
+    void Swap(BWeakCounter &r)
     {   
         BZ_Swap(m_pCounter, r.m_pCounter);
     }

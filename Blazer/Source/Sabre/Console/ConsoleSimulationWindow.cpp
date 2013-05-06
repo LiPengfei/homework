@@ -63,7 +63,7 @@ BConsoleSimulationWindow::~BConsoleSimulationWindow()
 /*               all columns, set the text color by the color section list(m_colorSectionList), and write the */
 /*               text to the console.h                                                                        */
 /*------------------------------------------------------------------------------------------------------------*/
-VOID BConsoleSimulationWindow::Paint()
+void BConsoleSimulationWindow::Paint()
 {
     BGuard<BThreadMutex> guard(m_cs);                               // the critical section guard
     BOOL bRetCode = FALSE;                                              // the return code
@@ -116,14 +116,14 @@ VOID BConsoleSimulationWindow::Paint()
     BZ_CHECK_RETURN_VOID(bRetCode);
 }
 
-VOID BConsoleSimulationWindow::Clear()
+void BConsoleSimulationWindow::Clear()
 {
     BZ_ZeroMemory(m_pConsoleBuffer, m_dwConsoleBufferSize);
     m_colorSectionList.clear();
     m_colorSectionList.push_back(BColorSectionInfo(0, m_dwConsoleBufferSize - 1, K_CONSOLE_COLOR_STYLE_DEFAULT));
 }
 
-VOID BConsoleSimulationWindow::WriteText(
+void BConsoleSimulationWindow::WriteText(
     IN CONST CHAR * CONST cszText   ,
     IN CONST WORD         wColor    ,
     IN CONST BOOL         bAutoEnter)
@@ -145,7 +145,7 @@ VOID BConsoleSimulationWindow::WriteText(
     Write(cszText, x, y, wColor, bAutoEnter);
 }
 
-VOID BConsoleSimulationWindow::WriteLine(
+void BConsoleSimulationWindow::WriteLine(
     IN CONST CHAR * CONST cszText   ,
     IN CONST WORD         wColor    ,
     IN CONST BOOL         bAutoEnter)
@@ -163,7 +163,7 @@ VOID BConsoleSimulationWindow::WriteLine(
     BZ_ZeroMemory(szLine, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
     ::memcpy(szLine, cszText, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
 
-    g_PadWithBlanks(szLine, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
+    BZ_PadWithBlanks(szLine, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
     Write(szLine, x, y, wColor, bAutoEnter);
 }
 
@@ -208,7 +208,7 @@ COORD BConsoleSimulationWindow::GetCurCursorPos() CONST
     return coord;
 }
 
-VOID  BConsoleSimulationWindow::SetCurCursorPos(IN CONST USHORT x, IN CONST USHORT y)
+void  BConsoleSimulationWindow::SetCurCursorPos(IN CONST USHORT x, IN CONST USHORT y)
 {
     BZ_CHECK_RETURN_VOID(x < m_managementSize.m_usWidth && y < m_managementSize.m_usHeight);
     m_dwCurCursorPos = y * m_managementSize.m_usWidth + y;
@@ -242,7 +242,7 @@ BOOL  BConsoleSimulationWindow::SetWindowTitle(
     BZ_ZeroMemory(szConsoleLogRecord, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
 
     ::memcpy(szConsoleLogRecord, strWindowTitleText.c_str(), nWindowTitleTextLen);
-    g_PadWithBlanks(szConsoleLogRecord, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
+    BZ_PadWithBlanks(szConsoleLogRecord, DEFAULT_MAX_CONSLE_LINE_BUFFER_LEN);
 
     Write(szConsoleLogRecord, 0, 0, wWindowTitleColor, FALSE);
     SetCurCursorPos(0, 1);
@@ -320,7 +320,7 @@ BOOL BConsoleSimulationWindow::UpdateColorSectionList(
     return TRUE;
 }
 
-VOID BConsoleSimulationWindow::MergeColorSectionList()
+void BConsoleSimulationWindow::MergeColorSectionList()
 {
     BColorSectionInfoList::iterator iter = m_colorSectionList.begin();
 
@@ -341,7 +341,7 @@ VOID BConsoleSimulationWindow::MergeColorSectionList()
     }
 }
 
-VOID BConsoleSimulationWindow::Write(
+void BConsoleSimulationWindow::Write(
     IN CONST CHAR * CONST cszText   ,
     IN CONST USHORT       x         ,
     IN CONST USHORT       y         ,

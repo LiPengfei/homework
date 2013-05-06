@@ -10,7 +10,7 @@ template <class T>
 class BSharedArrayPtr
 {
 private:
-    typedef VOID (*Dtr)(T *&p);
+    typedef void (*Dtr)(T *&p);
     typedef BSharedArrayPtr<T> this_type;
 public:
     typedef T elem_type;
@@ -41,20 +41,20 @@ public:
         return *this;
     }
 
-    VOID Reset(T *ptr = NULL)
+    void Reset(T *ptr = NULL)
     {
         assert(NULL == ptr || m_ptr != ptr);
         this_type(ptr).Swap(*this);
     }
 
     template <class Dtr>
-    VOID Reset(T *ptr, Dtr dtr)
+    void Reset(T *ptr, Dtr dtr)
     {
         assert(NULL == ptr || m_ptr != ptr);
         this_type(ptr, dtr).Swap(*this);
     }
 
-    VOID Swap(BSharedArrayPtr &r)
+    void Swap(BSharedArrayPtr &r)
     {
         BZ_Swap(m_ptr, r.m_ptr);
         m_counter.Swap(r.m_counter);
@@ -110,7 +110,7 @@ inline bool operator!=(CONST BSharedArrayPtr<T> &lhs, CONST BSharedArrayPtr<T> &
 }
 
 template <class T>
-inline VOID g_SwapSP(CONST BSharedArrayPtr<T> &lhs, CONST BSharedArrayPtr<T> &rhs)
+inline void g_SwapSP(CONST BSharedArrayPtr<T> &lhs, CONST BSharedArrayPtr<T> &rhs)
 {
     return lhs.Swap(rhs);
 }

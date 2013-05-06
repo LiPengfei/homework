@@ -2,9 +2,9 @@
 #define __BLAZER_SABRE_SOCKETSTREM_H__
 
 #include "Public.h"
-#include "Net/SocketWrapper.h"
 #include "Net/SocketStreamBuffer.h"
 #include "SmartPointer/SharedPtr.h"
+#include <WinSock2.h>
 #include <string>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
@@ -110,23 +110,32 @@ typedef BSharedPtr<BAsyncSocketStream> BSPAsyncSocketStream;
 class BSocketStream
 {
 private:
-    SOCKET  m_sock;
-    std::string m_strRemoteIp;      // remote ip
-    USHORT m_usRemotePort;          // remote port
+    friend class BSocketConnector;
+    typedef std::string STRING;
 
+private:
+    SOCKET  m_sock;
+    STRING  m_strRemoteIp;      // remote ip
+    USHORT  m_usRemotePort;     // remote port
+    BOOL    m_flag;             // stream state
+
+    friend class BSocketConnector;
 public:
     BSocketStream();
     ~BSocketStream();
 
 public:
-    BOOL Init(SOCKET sock, const char *cpIp, USHORT usPort);
-    BOOL Close();
-    BOOL UnInit();
+    void Init(SOCKET sock, const char *cpIp, USHORT usPort);
+    void Close();
+    void UnInit();
 
 public:
-    BOOL Recv(OUT char *, int Len);
+    BOOL Recv(OUT char *cpData, int Len);
+    BOOL WSARecv();
     BOOL Send(const char *, int Len);
 };
+
+typedef BSharedPtr<BSocketStream>   BSPSocketStream;
 
 BZ_DECLARE_NAMESPACE_END
 

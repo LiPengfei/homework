@@ -12,13 +12,9 @@ typedef std::string STRING;
 /*-------------------------------------------------------------------------------------------*/
 /* CLASS     : BConsoleLogThread                                                             */
 /*-------------------------------------------------------------------------------------------*/
-BConsoleLogThread::BConsoleLogThread()
-{
-}
+BConsoleLogThread::BConsoleLogThread() { }
 
-BConsoleLogThread::~BConsoleLogThread()
-{
-}
+BConsoleLogThread::~BConsoleLogThread() { }
 
 BOOL BConsoleLogThread::Init()
 {
@@ -33,7 +29,7 @@ UINT BConsoleLogThread::Run()
     PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
     BZ_CHECK_RETURN_CODE(NULL != pQueueManager, 0);
 
-    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_CONSOLE_LOG_HANDLER);
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER);
     BSPLogRecordQueue spLogRecordQueue;
     BOOL  bRetCode   = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
     BZ_CHECK_RETURN_CODE(bRetCode, 0);
@@ -66,6 +62,7 @@ BOOL BFileLogThread::Init()
     m_fileManager = BSPFileManager(
         BZ_SINGLETON_GET_PTR(BFileManager)
         ); // add by lipengfei 13/05/02
+    BZ_CHECK_RETURN_BOOL(m_fileManager);
 
     return TRUE;
 }
@@ -78,22 +75,24 @@ UINT BFileLogThread::Run()
     PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
 
-    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_FILE_LOG_HANDLER);
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_FILE_LOG_HANDLER);
     BSPLogRecordQueue spLogRecordQueue;
     bRetCode = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
-    BZ_CHECK_RETURN_BOOL(bRetCode);
+    BZ_CHECK_RETURN_CODE(bRetCode, 0);
 
+    BSPLogRecord  spLogRecord;
+    BPackageHead  head;
+    BSPFile       spFile;
+    BOOL          bRet; 
+    BSimpleString res;
     while(bLoopFlag)
     {
         // modified by lipengfei 13/05/03
-        BSPLogRecord spLogRecord = spLogRecordQueue->PopNode();
-        BPackageHead head;
+        spLogRecord = spLogRecordQueue->PopNode();
         BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
+        bRet        = m_fileManager->Get(head.m_nFileID, spFile);
+        res         = BPackageHandler::GetData(spLogRecord->m_cpContent);
         
-        BSPFile      spFile;
-        BOOL         bRet   = m_fileManager->Get(head.m_nFileID, spFile);
-
-        BSimpleString res   = BPackageHandler::GetData(spLogRecord->m_cpContent);
         spFile->WriteTextLine(res.ToCstr(), res.GetLen() - 1);
         assert(bRet);
     }
@@ -115,7 +114,7 @@ UINT BNetLogThread::Run()
     PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
     BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
 
-    DWORD dwQueueID = BZ_HashString2ID(K_STRING_ID_OF_NET_LOG_HANDLER);
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_NET_LOG_HANDLER);
     BSPLogRecordQueue spLogRecordQueue; 
     BOOL  bRetcode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
     BZ_CHECK_RETURN_BOOL(bRetcode);
@@ -129,6 +128,59 @@ UINT BNetLogThread::Run()
     }
 
     return 0;
+}
+
+
+/************************************************************************/
+/* Class BDbLogThread    lipengfei 13/05/06                             */
+/************************************************************************/
+
+BDbLogThread::BDbLogThread() { }
+
+BDbLogThread::~BDbLogThread() { }
+
+BOOL BDbLogThread::Init()
+{
+    m_mysqlManager = BSPMysqlTableManager(BZ_SINGLETON_GET_PTR(BMysqlTableManager));
+    BZ_CHECK_RETURN_BOOL(m_mysqlManager);
+
+    return TRUE;
+}
+
+UINT BDbLogThread::Run()
+{
+    BOOL bLoopFlag = TRUE;
+    BOOL bRetCode  = FALSE;
+
+    PLogRecordQueueManagement pQueueManager = BZ_SINGLETON_GET_PTR(BLogRecordQueueManagement);
+    BZ_CHECK_RETURN_BOOL(NULL != pQueueManager);
+
+    DWORD dwQueueID = BZ_HashString2ID(BZ_STRING_ID_OF_DB_LOG_HANDLER);
+    BSPLogRecordQueue spLogRecordQueue;
+    bRetCode = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
+    BZ_CHECK_RETURN_CODE(bRetCode, 0);
+    
+    BSPLogRecord  spRecord;
+    BPackageHead  head;
+    BSPMysqlTable spMysqlTable;
+    BOOL          bRet; 
+    BSimpleString res;
+    int           nAddRet;
+    char          cpFormatDbLog[1024];
+    while (bLoopFlag)
+    {
+        spRecord = spLogRecordQueue->PopNode();
+        BPackageHandler::GetHead(spRecord->m_cpContent, head);
+        bRet     = m_mysqlManager->Get(head.m_nDbID, &spMysqlTable);
+        res      = BPackageHandler::GetData(spRecord->m_cpContent);
+
+        //TODO: format data in mysql data;
+        sprintf(cpFormatDbLog, "'%s', NULL", res.ToCstr());
+        nAddRet  = spMysqlTable->AddTuple(cpFormatDbLog);
+        BZ_CHECK_RETURN_CODE(0 == nAddRet, -1);
+    }
+
+    return -1;
 }
 
 BZ_DECLARE_NAMESPACE_END

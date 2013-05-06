@@ -19,7 +19,7 @@ public:
     ~BLogicFrameCtrl();
 
 public:
-    VOID  Start();
+    void  Start();
     BOOL  CanFrameCarryOn() CONST;
     DWORD GetFrameCounter() CONST;
     DWORD AddFrameCounter();

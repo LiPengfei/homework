@@ -31,15 +31,22 @@ const char *const BZ_FILE_LOG_KEY_INFO          = "file_infomation_key";
 const char *const BZ_FILE_LOG_KEY_ERROR         = "file_error_key";
 const char *const BZ_FILE_LOG_KEY_DEBUG         = "file_debug_key";
 
+// for db log add by lipengfei 13/05/05
+const char *const BZ_DB_LOG_KEY_WARN            = "db_warning_key";
+const char *const BZ_DB_LOG_KEY_INFO            = "db_infomation_key";
+const char *const BZ_DB_LOG_KEY_ERROR           = "db_error_key";
+const char *const BZ_DB_LOG_KEY_DEBUG           = "db_debug_key";
 // string id of log record queue // modified by lipengfei handler'id is the queue's id;
-const char *const K_QUEUE_KEY_LOG_RECORD_NET         = "KLOG_NET_LOG_RECORD_QUEUE";
-const char *const K_QUEUE_KEY_LOG_RECORD_FILE        = "KLOG_FILE_LOG_RECORD_QUEUE";
-const char *const K_QUEUE_KEY_LOG_RECORD_CONSOLE     = "KLOG_CONSOLE_LOG_RECORD_QUEUE";
+// const char *const K_QUEUE_KEY_LOG_RECORD_NET         = "KLOG_NET_LOG_RECORD_QUEUE";
+// const char *const K_QUEUE_KEY_LOG_RECORD_FILE        = "KLOG_FILE_LOG_RECORD_QUEUE";
+// const char *const K_QUEUE_KEY_LOG_RECORD_CONSOLE     = "KLOG_CONSOLE_LOG_RECORD_QUEUE";
 
 // string id of log handler
-const char *const K_STRING_ID_OF_NET_LOG_HANDLER     = "K_STRING_ID_OF_NET_LOG_HANDLER";
-const char *const K_STRING_ID_OF_FILE_LOG_HANDLER    = "K_STRING_ID_OF_FILE_LOG_HANDLER";
-const char *const K_STRING_ID_OF_CONSOLE_LOG_HANDLER = "K_STRING_ID_OF_CONSOLE_LOG_HANDLER";
+const char *const BZ_STRING_ID_OF_NET_LOG_HANDLER     = "BZ_STRING_ID_OF_NET_LOG_HANDLER";
+const char *const BZ_STRING_ID_OF_FILE_LOG_HANDLER    = "BZ_STRING_ID_OF_FILE_LOG_HANDLER";
+const char *const BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER = "BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER";
+const char *const BZ_STRING_ID_OF_DB_LOG_HANDLER      = "BZ_STRING_ID_OF_DB_LOG_HANDLER"; 
+// add by lipengfei 13/05/05
 
 struct BPackageHead
 {

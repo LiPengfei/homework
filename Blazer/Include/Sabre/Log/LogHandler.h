@@ -59,7 +59,7 @@ typedef BSharedPtr<BLogHandler> BSPLogHandler;
 class BConsoleLogHandler : public BLogHandler
 {
 private:
-    BConsoleLogThread m_workerThread;
+    BConsoleLogThread m_workThread;
  
 public:
     BConsoleLogHandler();
@@ -80,7 +80,7 @@ class BFileLogHandler : public BLogHandler
 public:
 
 private:
-    BFileLogThread m_workerThread;
+    BFileLogThread m_workThread;
 
 public:
     BFileLogHandler();
@@ -102,6 +102,24 @@ private:
 public:
     BNetLogHandler();
     virtual ~BNetLogHandler();
+
+public:
+    virtual BOOL Init();
+    virtual BOOL UnInit();
+    virtual BOOL Dispatch(IN CPCLogManager cpcLogManager = NULL);
+};
+
+/*-------------------------------------------------------------------------------------------*/
+/* CLASS     : BDbLogHandler                                                               */
+/*-------------------------------------------------------------------------------------------*/
+class BDbLogHandler : public BLogHandler
+{
+private:
+    BDbLogThread m_workThread;
+
+public:
+    BDbLogHandler();
+    virtual ~BDbLogHandler();
 
 public:
     virtual BOOL Init();

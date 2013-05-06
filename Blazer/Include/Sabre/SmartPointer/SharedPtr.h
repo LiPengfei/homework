@@ -115,20 +115,20 @@ public:
         return *this;
     }
 
-    VOID Reset()
+    void Reset()
     {
         this_type().Swap(*this);
     }
 
     template <class D>
-    VOID Reset(D *ptr)
+    void Reset(D *ptr)
     {
         assert(NULL == ptr || m_ptr != ptr);
         this_type(ptr).Swap(*this);
     }
 
     template <class D, class Dtr>
-    VOID Reset(D *ptr, Dtr dtr)
+    void Reset(D *ptr, Dtr dtr)
     {
         assert(NULL == ptr || m_ptr != ptr);
         this_type(ptr, dtr).Swap(*this);
@@ -176,7 +176,7 @@ public:
         return m_counter.GetWeakRefCounter();
     }
 
-    VOID Swap(BSharedPtr &r)
+    void Swap(BSharedPtr &r)
     {
         BZ_Swap(m_ptr, r.m_ptr);
         m_counter.Swap(r.m_counter);
@@ -208,7 +208,7 @@ inline bool operator!=(CONST BSharedPtr<T1> &lhs, CONST BSharedPtr<T2> &rhs)
 }
 
 template <class T>
-inline VOID g_SwapSP(CONST BSharedPtr<T> &lhs, CONST BSharedPtr<T> &rhs)
+inline void g_SwapSP(CONST BSharedPtr<T> &lhs, CONST BSharedPtr<T> &rhs)
 {
     return lhs.Swap(rhs);
 }
@@ -319,12 +319,12 @@ public:
         return m_counter.GetWeakRefCounter();
     }
 
-    VOID Reset()
+    void Reset()
     {
         BWeakPtr().swap(*this);
     }
 
-    VOID Swap(BWeakPtr &r)
+    void Swap(BWeakPtr &r)
     {
         BZ_Swap(m_ptr, r.m_ptr);
         m_counter.Swap(r.m_counter);
@@ -356,7 +356,7 @@ inline bool operator!=(CONST BWeakPtr<T1> &lhs, CONST BWeakPtr<T2> &rhs)
 }
 
 template <class T>
-inline VOID g_SwapSP(CONST BWeakPtr<T> &lhs, CONST BWeakPtr<T> &rhs)
+inline void g_SwapSP(CONST BWeakPtr<T> &lhs, CONST BWeakPtr<T> &rhs)
 {
     return lhs.Swap(rhs);
 }

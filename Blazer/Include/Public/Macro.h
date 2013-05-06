@@ -269,11 +269,11 @@
 
 // add by lipengfei 2013/04/26
 
-// #define BZ_CHECK_SOCKET_RETURN_BOOL(sock)            \
-//     do {                                             \
-//         if (INVALID_SOCKET == (sock) || SOCKET_ERROR == (sock)) \
-//             BZ_CHECK_RETURN_BOOL(FALSE);             \ 
-//     } BZ_WHILE_FALSE_NO_WARNING
+#define BZ_CHECK_SOCKET_RETURN_BOOL(sock)            \
+    do { \
+        if (INVALID_SOCKET == (sock) || SOCKET_ERROR == (sock)) \
+            BZ_CHECK_RETURN_BOOL(FALSE); \
+    } BZ_WHILE_FALSE_NO_WARNING
 
 #define BZ_CHECK_SOCKET_RETURN_ERRCODE(sock)        \
     do { \
@@ -284,6 +284,11 @@
         } \
     } BZ_WHILE_FALSE_NO_WARNING
 
+#define BZ_CHECK_SOCKET_RETURN_VOID(sock)  \
+    do { \
+        if (INVALID_SOCKET == (sock) || SOCKET_ERROR == (sock)) \
+            BZ_CHECK_RETURN_VOID(FALSE); \
+    } BZ_WHILE_FALSE_NO_WARNING
 
 #define BZ_CHECK_SOCKET_RETURN_CODE(sock, code)  \
     do { \
@@ -304,6 +309,12 @@
             DWORD code = ::WSAGetLastError();          \
             BZ_CHECK_RETURN_CODE_QUIET(FALSE, code);   \
         } \
+    } BZ_WHILE_FALSE_NO_WARNING
+
+#define BZ_CHECK_SOCKET_RETURN_VOID_QUIET(sock)  \
+    do { \
+        if (INVALID_SOCKET == (sock) || SOCKET_ERROR == (sock)) \
+            BZ_CHECK_RETURN_VOID_QUIET(FALSE); \
     } BZ_WHILE_FALSE_NO_WARNING
 
 #define BZ_CHECK_SOCKET_RETURN_CODE_QUIET(sock, code)   \

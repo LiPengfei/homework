@@ -25,7 +25,7 @@ Exit0:
     return FALSE;
 }
 
-VOID BAsyncSocketStreamQueue::PushBack(BSPAsyncSocketStream &spAsyncSocketStream)
+void BAsyncSocketStreamQueue::PushBack(BSPAsyncSocketStream &spAsyncSocketStream)
 {
     m_vecAsyncSocketStream.push_back(spAsyncSocketStream);
 }

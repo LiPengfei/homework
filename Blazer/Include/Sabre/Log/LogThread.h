@@ -4,6 +4,7 @@
 #include "Public.h"
 #include "Thread/Thread.h"
 #include "File/File.h"
+#include "Database/MysqlManager.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
@@ -58,6 +59,21 @@ private:
     virtual UINT Run();
 };
 
+class BDbLogThread : public BThread
+{
+private:
+    BSPMysqlTableManager m_mysqlManager;
+
+public:
+    BDbLogThread();
+    virtual ~BDbLogThread();
+
+public:
+    virtual BOOL Init();
+
+private:
+    virtual UINT Run();
+};
 BZ_DECLARE_NAMESPACE_END
 
 #endif
