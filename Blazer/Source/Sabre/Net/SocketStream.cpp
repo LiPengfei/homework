@@ -145,6 +145,7 @@ BOOL BAsyncSocketStream::Recv(IN BSPDynamicBuffer &spBuffer, OUT INT *pErrorCode
 }
 
 BOOL BAsyncSocketStream::TryToActivateNextRecv()
+
 {
     BOOL bLoopFlag = TRUE;
     while(bLoopFlag)

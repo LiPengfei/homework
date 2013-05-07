@@ -121,6 +121,7 @@ private:
     USHORT  m_usRemotePort;     // remote port
 
     friend class BSocketConnector;
+    friend class BSockIoHandleThread;
 public:
     BSocketStream();
     ~BSocketStream();

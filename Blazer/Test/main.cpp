@@ -179,28 +179,18 @@ using namespace BZ(sabre);
 
 #include "GameServer.h"
 #include "Database/MysqlManager.h"
+#include "Net/NetStruct.h"
+
 using namespace BZ(sabre);
 int main(int argc, char *argv[])
 {
-//    // test BMysqlTable;
-// 
-//   BMysqlTable my_table;
-//   my_table.Init();
-//    my_table.Connect("localhost", "root", "root", "test", 3306);
-//   my_table.SetName("warning");
-//  int i = my_table.AddTuple("'lipengfei'");
-// 
-//    // success
-    
-    // test SoketConnector and socketstream;
-    WSADATA wdata;
-    ::WSAStartup(MAKEWORD(2, 2),&wdata);
+    BNetService *pNet =  BZ_SINGLETON_GET_PTR(BNetService);
+    pNet->Start();
 
-    BSocketConnector c;
-    BSocketStream    s;
-    c.Connect("127.0.0.1", 5150, &s);
-    s.Send("lipengfei", 9);
-  
-    Sleep(5000);
+    BSocketAgency a;
+    a.Init();
+    a.Start();
+
+    while(true);
 }
 

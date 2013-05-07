@@ -50,7 +50,7 @@ public:
 public:
     BOOL Init();
     BOOL Start();
-    BOOL Unit();
+    BOOL UnInit();
 };
 
 BZ_DECLARE_NAMESPACE_END

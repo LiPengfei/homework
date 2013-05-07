@@ -48,12 +48,13 @@ private:
 public:
     void Reset()
     {
+        BZ_ZeroMemory(this, sizeof(BSockIoInfo));
+        m_len          = BZ_WIN_IOCP_ASYBUFFER;
         m_sbuffer.len  = m_len;
         m_sbuffer.buf  = m_cpBuffer;
         m_dwFalg       = 0;
         m_type         = BZ_WINSOCK_RECV;
         m_dwBytesOfGet = 0;
-        BZ_ZeroMemory(&m_ovlped, sizeof(OVERLAPPED));
     }
 };
 

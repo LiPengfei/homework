@@ -1,6 +1,7 @@
 #include "Net/SocketAcceptor.h"
 #include "Net/SocketEvent.h"
 #include "Net/SocketStream.h"
+#include "Net/NetStruct.h"
 #include <errno.h>
 #include <string>
 
@@ -243,7 +244,7 @@ INT BSocketAcceptor::Init(CONST std::string &strIpAddress, CONST USHORT &usPort)
     sockaddr_in saLocalAddr;
     BZ_ZeroMemory(&saLocalAddr, sizeof(sockaddr_in));
     saLocalAddr.sin_family      = AF_INET;
-    saLocalAddr.sin_port        = usPort;
+    saLocalAddr.sin_port        = htons(usPort);
     saLocalAddr.sin_addr.s_addr = 
         ('\0' == strIpAddress[0] ? INADDR_ANY : 
                                    ::inet_addr(m_strIpAddress.c_str()));
@@ -270,7 +271,6 @@ INT BSocketAcceptor::Wait(IN HANDLE hIocp, OUT BSocketStream &skStream)
 
     sockaddr_in          saRemoteAddr;
     SOCKET               hRemoteSocket = INVALID_SOCKET;
-    BSPAsyncSocketStream spScokStream;
     BOOL   bRetCode                    = FALSE;
     INT    nAddrLen                    = sizeof(struct sockaddr_in);
     BZ_ZeroMemory(&saRemoteAddr, nAddrLen);
@@ -278,13 +278,14 @@ INT BSocketAcceptor::Wait(IN HANDLE hIocp, OUT BSocketStream &skStream)
     hRemoteSocket = ::accept(m_hListenSocket, (sockaddr *)&saRemoteAddr, &nAddrLen);
     BZ_PROCESS_ERROR(INVALID_SOCKET != hRemoteSocket);
 
+    skStream.Init(hRemoteSocket, ::inet_ntoa(saRemoteAddr.sin_addr),
+        saRemoteAddr.sin_port);
+
     hIocp = ::CreateIoCompletionPort((HANDLE)hRemoteSocket, 
         hIocp,
-        (ULONG_PTR)this, 
+        (ULONG_PTR)&skStream, 
         0);
-
-    skStream.Init(hRemoteSocket, ::inet_ntoa(saRemoteAddr.sin_addr),
-        ntohs(saRemoteAddr.sin_port));
+    return 0;
 
 Exit0:
     if (INVALID_SOCKET == hRemoteSocket)

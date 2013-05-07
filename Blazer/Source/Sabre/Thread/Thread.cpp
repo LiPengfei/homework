@@ -12,7 +12,7 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 BThread::~BThread()
 {
-    BThread::Stop();
+    ::CloseHandle(m_hThread); //modified by lipengfei 2013/05/07
 }
 
 BOOL BThread::Init()

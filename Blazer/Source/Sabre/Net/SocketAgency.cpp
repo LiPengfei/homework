@@ -1,5 +1,6 @@
 #include "Net/NetStruct.h"
 #include "Net/SocketAgency.h"
+#include "Net/SockIoHandleThread.h"
 #include "Console/ConsoleSimulationWindow.h"
 #include "DesignPattern/Singleton.h"
 #include <iostream>
@@ -179,15 +180,43 @@ BSocketAgency::~BSocketAgency() { }
 
 BOOL BSocketAgency::Init()
 {
+    m_hIocp = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
+    m_spSockAcceptor = BSPSocketAcceptor(new BSocketAcceptor);
+    m_spSockAcceptor->Init("127.0.0.1", 5150);
     return TRUE;
 }
 
 BOOL BSocketAgency::Start()
 {
+    SYSTEM_INFO sysInfo;
+    ::GetSystemInfo(&sysInfo);
+
+    int nThreadNum = 2 * sysInfo.dwNumberOfProcessors;
+    nThreadNum = 1;
+    for (int i = 0; i != nThreadNum; ++i)
+    {
+        // need changed here;
+        BSockIoHandleThread IoHandler(m_hIocp);
+        BSockIoHandleThread *  pIoHandler = new BSockIoHandleThread(m_hIocp) ;
+        IoHandler.Init();
+        IoHandler.Start();
+    }
+
+    int bRet = 0;
+    while (true)
+    {
+        BSocketStream *pSockStream = new BSocketStream;
+        bRet = m_spSockAcceptor->Wait(m_hIocp, *pSockStream);
+        BZ_CHECK_RETURN_BOOL(0 == bRet);
+
+        BSockIoInfo *pskInfo = new BSockIoInfo;
+        pskInfo->Reset();
+        pSockStream->AsynRecv(pskInfo); // first recv
+    }
     return TRUE;
 }
 
-BOOL BSocketAgency::Unit()
+BOOL BSocketAgency::UnInit()
 {
     return TRUE;
 }
