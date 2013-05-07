@@ -83,44 +83,44 @@ private:
     #define AddHeadMovedSize     (sizeof(BZ(sabre)::BPackageHead) + InitialHEADMovedSize)
     
 public:
-    static inline int GetTotalLen(char *data)
+    static inline int GetTotalLen(const char *cpData)
     {
-        return *(int *)data;
+        return *(int *)cpData;
     }
 
-    static inline char GetLevel(char *data)
+    static inline char GetLevel(const char *cpData)
     {
-        return *(data + sizeof(int));
+        return *(cpData + sizeof(int));
     }
 
-    static inline int GetDataPosWithoutLen(char *data)
+    static inline int GetDataPosWithoutLen(const char *cpData)
     {
-        return *(int *)(data + sizeof(int) + sizeof(char));
+        return *(int *)(cpData + sizeof(int) + sizeof(char));
     }
 
-    static inline int GetDataWithLenPos(char *data)
+    static inline int GetDataWithLenPos(const char *cpData)
     {
-        return *(int *)(data + sizeof(int) + sizeof(char)) - sizeof(int);
+        return *(int *)(cpData + sizeof(int) + sizeof(char)) - sizeof(int);
     }
 
-    static inline void SetDataLen(char *data, int nDataLen)
+    static inline void SetDataLen(char *cpData, int nDataLen)
     {
-        *(int *)(data + sizeof(int) + sizeof(char) + sizeof(int)) = nDataLen;
+        *(int *)(cpData + sizeof(int) + sizeof(char) + sizeof(int)) = nDataLen;
     }
 
-    static inline void SetTotalLen(char *data, int nLen)
+    static inline void SetTotalLen(char *cpData, int nLen)
     {
-        *(int *)data = nLen;
+        *(int *)cpData = nLen;
     }
 
-    static inline void SetLevel(char *data, char nLevel)
+    static inline void SetLevel(char *cpData, char nLevel)
     {
-        *(data + sizeof(int)) = nLevel;
+        *(cpData + sizeof(int)) = nLevel;
     }
 
-    static inline void SetPos(char *data, int cPos)
+    static inline void SetPos(char *cpData, int cPos)
     {
-        *(int*)(data + sizeof(int) + sizeof(char)) = cPos;
+        *(int*)(cpData + sizeof(int) + sizeof(char)) = cPos;
     }
 
     /****************************************************************************/
@@ -138,19 +138,19 @@ public:
     |                         the real data                                 |
     -------------------------------------------------------------------------
     /****************************************************************************/
-    static bool AddHead(char * data, 
+    static bool AddHead(char * cpData, 
         int &nTotalLen, 
         const BPackageHead &head,
         int nMax)
     {
         BZ_CHECK_RETURN_BOOL(nMax >= BZ_MIN_PACKAGE_DATA);
-        char cPreLevel = GetLevel(data);
-        int  nPrePos   = GetDataPosWithoutLen(data);
-        nTotalLen      = GetTotalLen(data);
+        char cPreLevel = GetLevel(cpData);
+        int  nPrePos   = GetDataPosWithoutLen(cpData);
+        nTotalLen      = GetTotalLen(cpData);
         int nMoved     = nMax - AddHeadMovedSize;
         nMoved         = (nTotalLen < nMoved ? nTotalLen : nMoved);
-        ::memmove(data + AddHeadMovedSize, data, nMoved);
-        ::memcpy(data + InitialHEADMovedSize, &head, sizeof(head));
+        ::memmove(cpData + AddHeadMovedSize, cpData, nMoved);
+        ::memcpy(cpData + InitialHEADMovedSize, &head, sizeof(head));
 
         bool bRet = true;
         nTotalLen += AddHeadMovedSize;
@@ -160,20 +160,20 @@ public:
             nTotalLen = nMax;
         }
 
-        SetTotalLen(data, nTotalLen);
-        SetLevel(data, ++cPreLevel);
-        SetPos(data, nPrePos + AddHeadMovedSize);
+        SetTotalLen(cpData, nTotalLen);
+        SetLevel(cpData, ++cPreLevel);
+        SetPos(cpData, nPrePos + AddHeadMovedSize);
 
         return bRet;
     }
 
-    static int GetHead(char *data, BPackageHead &head)
+    static int GetHead(const char *cpData, BPackageHead &head)
     {
-        char cLevel = GetLevel(data);
+        char cLevel = GetLevel(cpData);
 
         if (0 != cLevel)
         {
-            head = *(BPackageHead *)(data + InitialHEADMovedSize);
+            head = *(BPackageHead *)(cpData + InitialHEADMovedSize);
             bool bRetCode = CheckPackageHead(cLevel, head);
             BZ_CHECK_RETURN_CODE(bRetCode, -1);
             return cLevel;
@@ -182,14 +182,14 @@ public:
         return 0;
     }
 
-    static bool InitialData(char *data, int &nCurLen, int nMax)
+    static bool InitialData(char *cpData, int &nCurLen, int nMax)
     {
         BZ_CHECK_RETURN_BOOL(nMax >= BZ_MIN_PACKAGE_DATA);
         BZ_CHECK_RETURN_BOOL(nCurLen > 0);
         int nDataLen = nCurLen;
         int nMoved   = nMax - InitialDataMovedSize;
         nMoved       = (nCurLen < nMoved ? nCurLen : nMoved);
-        ::memmove(data + InitialDataMovedSize, data, nMoved);
+        ::memmove(cpData + InitialDataMovedSize, cpData, nMoved);
 
         nCurLen += InitialDataMovedSize;
         bool bRetCode = nCurLen <= nMax;
@@ -199,25 +199,25 @@ public:
             nCurLen = nMax;
         }
 
-        SetTotalLen(data, nCurLen);
-        SetLevel(data, 0);
-        SetPos(data, InitialDataMovedSize);
-        SetDataLen(data, nDataLen);
+        SetTotalLen(cpData, nCurLen);
+        SetLevel(cpData, 0);
+        SetPos(cpData, InitialDataMovedSize);
+        SetDataLen(cpData, nDataLen);
         return bRetCode;
     }
 
-    static int MoveHead(char *data, int nMax, BPackageHead &head)
+    static int MoveHead(char *cpData, int nMax, BPackageHead &head)
     {
-        char cLevel = GetLevel(data);
+        char cLevel = GetLevel(cpData);
 
         if (0 != cLevel)
         {
-            head = *(BPackageHead *)(data + InitialHEADMovedSize);
-            int nMoved    = GetTotalLen(data);
+            head = *(BPackageHead *)(cpData + InitialHEADMovedSize);
+            int nMoved    = GetTotalLen(cpData);
             int nMaxMoved = nMax - AddHeadMovedSize;
             nMoved     = 
                 (nMoved < nMaxMoved ? nMoved : nMaxMoved);
-            ::memmove(data, data + AddHeadMovedSize, nMoved);
+            ::memmove(cpData, cpData + AddHeadMovedSize, nMoved);
             bool bRetCode = CheckPackageHead(cLevel, head);
             BZ_CHECK_RETURN_CODE(bRetCode, -1);
             return cLevel - 1;
@@ -226,26 +226,26 @@ public:
         return 0;
     }
 
-    static BSimpleString GetData(char *data)
+    static BSimpleString GetData(char *cpData)
     {
-        int TotalLen = GetTotalLen(data);
-        int dataPos  = GetDataWithLenPos(data);
+        int TotalLen = GetTotalLen(cpData);
+        int dataPos  = GetDataWithLenPos(cpData);
         if (TotalLen <= dataPos)
         {
             assert(false);
             return BSimpleString();
         }
 
-        int nDatalen  = *(int *)(data + dataPos);
-        char *pData  = data + dataPos + sizeof(int);
+        int nDatalen  = *(int *)(cpData + dataPos);
+        char *pData  = cpData + dataPos + sizeof(int);
 
         return BSimpleString(pData, nDatalen);
     }
 
 private:
-    static inline bool CheckPackageHead(int level, const BPackageHead &head)
+    static inline bool CheckPackageHead(int nLevel, const BPackageHead &head)
     {
-        if (level > 1 && 0 == head.m_cNetFlag)
+        if (nLevel > 1 && 0 == head.m_cNetFlag)
         {
             return false;
         }

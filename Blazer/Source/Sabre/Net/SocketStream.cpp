@@ -1,5 +1,6 @@
 #include "Net/SocketStream.h"
 #include "Net/SocketWrapper.h"
+#include "Net/NetStruct.h"
 #include "Structure/Buffer.h"
 #include "SmartPointer/SharedPtr.h"
 
@@ -206,8 +207,7 @@ USHORT BAsyncSocketStream::GetRemotePort() CONST
 BSocketStream::BSocketStream()
     : m_sock(INVALID_SOCKET),
     m_strRemoteIp(""),
-    m_usRemotePort(0),
-    m_flag(FALSE)
+    m_usRemotePort(0)
 { }
 
 BSocketStream::~BSocketStream()
@@ -220,13 +220,11 @@ void BSocketStream::Init(SOCKET sock, const char *cpIp, USHORT usPort)
     m_sock         = sock;
     m_strRemoteIp  = cpIp;
     m_usRemotePort = usPort;
-    m_flag         = TRUE;
 }
 
 void BSocketStream::Close()
 {
     BZ_CloseSocket(m_sock);
-    m_flag = FALSE;
 }
 
 void BSocketStream::UnInit()
@@ -234,7 +232,6 @@ void BSocketStream::UnInit()
     m_sock         = INVALID_SOCKET;
     m_strRemoteIp  = "";
     m_usRemotePort = 0;
-    m_flag         = FALSE;
 }
 
 BOOL BSocketStream::Recv(OUT char *cpData, int Len)
@@ -242,13 +239,27 @@ BOOL BSocketStream::Recv(OUT char *cpData, int Len)
     return TRUE;
 }
 
-BOOL BSocketStream::WSARecv()
+int  BSocketStream::AsynRecv(IN BSockIoInfo *pSockInfo)
 {
-    return TRUE;
+    return ::WSARecv(
+        m_sock,
+        &pSockInfo->m_sbuffer,
+        1,
+        NULL,
+        &pSockInfo->m_dwFalg,
+        &pSockInfo->m_ovlped,
+        NULL);
 }
 
-BOOL BSocketStream::Send(const char *, int Len)
+BOOL BSocketStream::Send(const char *cpData, int nLen)
 {
+    int nPos = 0;
+    while (nPos < nLen)
+    {
+        nPos += ::send(m_sock, cpData + nPos, nLen - nPos, 0);
+    }
+
+    BZ_CHECK_RETURN_BOOL(nPos == nLen);
     return TRUE;
 }
 

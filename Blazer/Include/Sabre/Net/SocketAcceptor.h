@@ -74,15 +74,13 @@ private:
 typedef BNonBlockSocketAcceptor * PNonBlockSocketAcceptor;
 typedef BSharedPtr<BNonBlockSocketAcceptor> BSPNonBlockSocketAcceptor;
 
-// add by lipengfei 2013/04/2
+// add by lipengfei 2013/04/02
 class BSocketAcceptor
 {
 private:
     SOCKET                    m_hListenSocket;
     std::string               m_strIpAddress;
     USHORT                    m_usPort;
-    BSPAsyncSocketStreamQueue m_spSocketStreamQueue;
-
 public:
     BSocketAcceptor();
     ~BSocketAcceptor();
@@ -93,18 +91,15 @@ public:
         CONST USHORT &usPort
         );
 
-    void AttachSocketStreamQueue(BSPAsyncSocketStreamQueue &spQueue);
+    INT Wait(IN HANDLE hIocp, OUT BSocketStream &skStream);
 
-    INT Wait(
-        INT nMaxEventCount,
-        INT &nEventCount,
-        BSPAsyncSocketEventArray spEventArray
-        );
+    INT AsynWait();
 
     BOOL UnInit();
 
 };
 
+typedef BSharedPtr<BSocketAcceptor> BSPSocketAcceptor;
 // add end
 BZ_DECLARE_NAMESPACE_END
 

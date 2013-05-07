@@ -170,4 +170,26 @@ BOOL BNonBlockSocketAgency::OnCloseConnection(BSPAsyncSocketStream &spAsyncSocke
     return TRUE;
 }
 
+
+/************************************************************************/
+/* class BSocketAgency   add by lipengfei 13/05/07                      */
+/************************************************************************/
+BSocketAgency::BSocketAgency() { }
+BSocketAgency::~BSocketAgency() { }
+
+BOOL BSocketAgency::Init()
+{
+    return TRUE;
+}
+
+BOOL BSocketAgency::Start()
+{
+    return TRUE;
+}
+
+BOOL BSocketAgency::Unit()
+{
+    return TRUE;
+}
+
 BZ_DECLARE_NAMESPACE_END

@@ -41,6 +41,7 @@
     <ClInclude Include="..\..\Include\Sabre\Net\SocketWrapper.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\NetStruct.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamBuffer.h" />
+    <ClInclude Include="..\..\Include\Sabre\Net\SockIoHandleThread.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\WinSockIocp.h" />
     <ClInclude Include="..\..\Include\Sabre\SmartPointer\RefCounter.h" />
     <ClInclude Include="..\..\Include\Sabre\SmartPointer\ScopedArrayPtr.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="Net\SocketStreamQueue.cpp" />
     <ClCompile Include="Net\SocketWrapper.cpp" />
     <ClCompile Include="Net\SocketStreamBuffer.cpp" />
+    <ClCompile Include="Net\SockIoHandleThread.cpp" />
     <ClCompile Include="Structure\Buffer.cpp" />
     <ClCompile Include="Structure\String.cpp" />
     <ClCompile Include="Structure\SimpleString.cpp" />

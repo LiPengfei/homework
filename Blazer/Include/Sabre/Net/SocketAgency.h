@@ -36,6 +36,23 @@ private:
 typedef BNonBlockSocketAgency * PNonBlockSocketAgency;
 typedef BSharedPtr<BNonBlockSocketAgency> KSPNonBlockSocketAgency;
 
+
+class BSocketAgency : public BUnCopyable
+{
+private:
+    BSPSocketAcceptor m_spSockAcceptor;
+    HANDLE            m_hIocp;
+
+public:
+    BSocketAgency();
+    ~BSocketAgency();
+
+public:
+    BOOL Init();
+    BOOL Start();
+    BOOL Unit();
+};
+
 BZ_DECLARE_NAMESPACE_END
 
 #endif

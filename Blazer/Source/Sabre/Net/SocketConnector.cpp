@@ -28,12 +28,17 @@ INT BSocketConnector::Connect(
     BZ_ZeroMemory(&saAddr, sizeof(saAddr));
     saAddr.sin_family      = AF_INET;
     saAddr.sin_addr.s_addr = inet_addr(cpIP);
-    saAddr.sin_port        = nPort;
+    saAddr.sin_port        = htons(nPort);
 
-    int nRetCode = ::connect(m_sock, (sockaddr *)&saAddr, sizeof(sockaddr));
+    int nRetCode           = ::connect(m_sock, (sockaddr *)&saAddr, sizeof(sockaddr));
+
+    int debug              = WSAGetLastError();
     BZ_CHECK_SOCKET_RETURN_ERRCODE(nRetCode);
 
-    skStream->Init(m_sock, cpIP, nPort);
+    if (skStream)
+    {
+        skStream->Init(m_sock, cpIP, nPort);
+    }
     return 0;
 }
 

@@ -107,6 +107,8 @@ private:
 typedef BAsyncSocketStream * PAsyncSocketStream;
 typedef BSharedPtr<BAsyncSocketStream> BSPAsyncSocketStream;
 
+class BSockIoInfo;
+
 class BSocketStream
 {
 private:
@@ -117,7 +119,6 @@ private:
     SOCKET  m_sock;
     STRING  m_strRemoteIp;      // remote ip
     USHORT  m_usRemotePort;     // remote port
-    BOOL    m_flag;             // stream state
 
     friend class BSocketConnector;
 public:
@@ -131,7 +132,7 @@ public:
 
 public:
     BOOL Recv(OUT char *cpData, int Len);
-    BOOL WSARecv();
+    int  AsynRecv(IN BSockIoInfo *pSockInfo);
     BOOL Send(const char *, int Len);
 };
 

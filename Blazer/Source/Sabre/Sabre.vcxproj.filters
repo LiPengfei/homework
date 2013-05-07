@@ -147,6 +147,9 @@
     <ClInclude Include="..\..\Include\Sabre\Console\ConsoleSimulationWindow.h">
       <Filter>Console</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Include\Sabre\Net\SockIoHandleThread.h">
+      <Filter>Net</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="File">
@@ -276,6 +279,9 @@
     </ClCompile>
     <ClCompile Include="Console\ConsoleSimulationWindow.cpp">
       <Filter>Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Net\SockIoHandleThread.cpp">
+      <Filter>Net</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

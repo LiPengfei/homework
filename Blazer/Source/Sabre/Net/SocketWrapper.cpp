@@ -82,7 +82,7 @@ BOOL BZ_CloseSocket(SOCKET &s)
         li.l_linger = 0;
         ::setsockopt(s, SOL_SOCKET, SO_LINGER, (char *)&li, sizeof(li));
 
-        BZ_CHECK_RETURN_BOOL(0 == ::closesocket(s));
+        BZ_CHECK_RETURN_BOOL_QUIET(0 == ::closesocket(s));
         s = INVALID_SOCKET;
     }
 

@@ -216,6 +216,8 @@ Exit0:
     return FALSE;
 }
 
+
+
 // add by lipengfei 2013/04/26
 /************************************************************************/
 /* Class BSocketAcceptor                                                */
@@ -258,19 +260,16 @@ Exit0:
     return ::WSAGetLastError();
 }
 
-void BSocketAcceptor::AttachSocketStreamQueue(BSPAsyncSocketStreamQueue &spQueue)
+INT BSocketAcceptor::Wait(IN HANDLE hIocp, OUT BSocketStream &skStream)
 {
-    m_spSocketStreamQueue = spQueue;
-}
+    BZ_CHECK_RETURN_CODE(INVALID_HANDLE_VALUE != hIocp 
+        && NULL != hIocp, -1);
 
-INT BSocketAcceptor::Wait( INT nMaxEventCount, INT &nEventCount, BSPAsyncSocketEventArray spEventArray )
-{
-    BZ_CHECK_RETURN_BOOL(nMaxEventCount > 0 && spEventArray);
-    BZ_CHECK_RETURN_BOOL_QUIET(nEventCount < nMaxEventCount);
+    skStream.Close();
+    skStream.UnInit();
 
     sockaddr_in          saRemoteAddr;
     SOCKET               hRemoteSocket = INVALID_SOCKET;
-    PAsyncSocketStream   pSockStream   = NULL;
     BSPAsyncSocketStream spScokStream;
     BOOL   bRetCode                    = FALSE;
     INT    nAddrLen                    = sizeof(struct sockaddr_in);
@@ -279,43 +278,26 @@ INT BSocketAcceptor::Wait( INT nMaxEventCount, INT &nEventCount, BSPAsyncSocketE
     hRemoteSocket = ::accept(m_hListenSocket, (sockaddr *)&saRemoteAddr, &nAddrLen);
     BZ_PROCESS_ERROR(INVALID_SOCKET != hRemoteSocket);
 
-    pSockStream   = ::new BAsyncSocketStream;
-    BZ_PROCESS_ERROR(NULL != pSockStream);
+    hIocp = ::CreateIoCompletionPort((HANDLE)hRemoteSocket, 
+        hIocp,
+        (ULONG_PTR)this, 
+        0);
 
-    bRetCode      = pSockStream->Init(
-        hRemoteSocket, 
-        ::inet_ntoa(saRemoteAddr.sin_addr),
-        saRemoteAddr.sin_port);
-    BZ_PROCESS_ERROR(bRetCode);
-    
-    spScokStream = BSPAsyncSocketStream(pSockStream);
-    if (m_spSocketStreamQueue)
-    {
-        m_spSocketStreamQueue->PushBack(spScokStream);
-        spEventArray[nEventCount].m_nEventType          = ASYNC_SOCKET_EVENT_ACCEPT;
-        spEventArray[nEventCount].m_spAsyncSocketStream = spScokStream;
+    skStream.Init(hRemoteSocket, ::inet_ntoa(saRemoteAddr.sin_addr),
+        ntohs(saRemoteAddr.sin_port));
 
-        ++nEventCount;
-    }
-    return 0;
 Exit0:
     if (INVALID_SOCKET == hRemoteSocket)
     {
         return ::WSAGetLastError();
     }
 
-    if (NULL != pSockStream)
-    {
-        return -1;
-    }
-
-    if (FALSE == bRetCode)
-    {
-        BZ_SafelyDeletePtr(pSockStream);
-        return -1;
-    }
-
     return -1;
+}
+
+INT BSocketAcceptor ::AsynWait()
+{
+    return 0;
 }
 
 BOOL BSocketAcceptor::UnInit()

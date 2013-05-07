@@ -5,35 +5,56 @@
 #include "DesignPattern/Singleton.h"
 #include "Structure/SimpleString.h"
 
+#include <WinSock2.h>
+
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-#define BZ_WINSOCKIOSIZE  4096
+#define BZ_WIN_IOCP_ASYBUFFER  1024 * 4
 
 enum BZ_WINSOCKIO_TYPE
 {
-    BZ_SEND,
-    BZ_RECV,
-    BZ_ACCPET
+    BZ_WINSOCK_SEND,
+    BZ_WINSOCK_RECV,
+    BZ_WINSOCK_ACCPET
 };
 
-class BWinSockIocp;
 
+class BWinSockIocp;
 struct BSockInfo
 {
     BWinSockIocp   *m_parent;
     HANDLE          m_handle;
 };
 
-struct BSockIoInfo
+class BSockIoInfo
 {
-    OVERLAPPED        ovlped;
-    // WSABuf struct;
-    char              pchar[BZ_WINSOCKIOSIZE];
-    int               len;
+private:
+    friend class BSocketStream;
+    friend class BSockIoHandleThread;
+
+private:
+    OVERLAPPED        m_ovlped;
+
+    // WSABuf struct; 
+    WSABUF            m_sbuffer;
+    int               m_len;
+    char              m_cpBuffer[BZ_WIN_IOCP_ASYBUFFER];
+
     // type
-    BZ_WINSOCKIO_TYPE type;
-    DWORD             dwBytesOfGet;
-    DWORD             dwFalg;
+    BZ_WINSOCKIO_TYPE m_type;
+    DWORD             m_dwBytesOfGet;
+    DWORD             m_dwFalg;
+
+public:
+    void Reset()
+    {
+        m_sbuffer.len  = m_len;
+        m_sbuffer.buf  = m_cpBuffer;
+        m_dwFalg       = 0;
+        m_type         = BZ_WINSOCK_RECV;
+        m_dwBytesOfGet = 0;
+        BZ_ZeroMemory(&m_ovlped, sizeof(OVERLAPPED));
+    }
 };
 
 class BNetService : private BUnCopyable
