@@ -5,11 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sabre", "Source\Sabre\Sabre
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Source\Engine\Engine.vcxproj", "{6B94D79F-682B-4489-B371-3C9F480387A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{35AD99EF-E99D-4EFB-A784-353798F32675}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestClient", "Test\Test.vcxproj", "{35AD99EF-E99D-4EFB-A784-353798F32675}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B4E7FF4A-4530-40EE-B0B8-901F4077BA82} = {B4E7FF4A-4530-40EE-B0B8-901F4077BA82}
 		{6B94D79F-682B-4489-B371-3C9F480387A3} = {6B94D79F-682B-4489-B371-3C9F480387A3}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestServer", "TestServer\TestServer.vcxproj", "{681B4A6C-0FDB-4FF2-BF70-BC45928EA405}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{35AD99EF-E99D-4EFB-A784-353798F32675}.Debug|Win32.Build.0 = Debug|Win32
 		{35AD99EF-E99D-4EFB-A784-353798F32675}.Release|Win32.ActiveCfg = Release|Win32
 		{35AD99EF-E99D-4EFB-A784-353798F32675}.Release|Win32.Build.0 = Release|Win32
+		{681B4A6C-0FDB-4FF2-BF70-BC45928EA405}.Debug|Win32.ActiveCfg = Debug|Win32
+		{681B4A6C-0FDB-4FF2-BF70-BC45928EA405}.Debug|Win32.Build.0 = Debug|Win32
+		{681B4A6C-0FDB-4FF2-BF70-BC45928EA405}.Release|Win32.ActiveCfg = Release|Win32
+		{681B4A6C-0FDB-4FF2-BF70-BC45928EA405}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

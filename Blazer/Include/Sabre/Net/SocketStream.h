@@ -4,6 +4,7 @@
 #include "Public.h"
 #include "Net/SocketStreamBuffer.h"
 #include "SmartPointer/SharedPtr.h"
+#include "Structure/UniversalManager.h"
 #include <WinSock2.h>
 #include <string>
 
@@ -107,6 +108,11 @@ private:
 typedef BAsyncSocketStream * PAsyncSocketStream;
 typedef BSharedPtr<BAsyncSocketStream> BSPAsyncSocketStream;
 
+
+/************************************************************************/
+/* class SocketStream                                                   */
+/************************************************************************/
+
 class BSockIoInfo;
 
 class BSocketStream
@@ -137,7 +143,9 @@ public:
     BOOL Send(const char *, int Len);
 };
 
-typedef BSharedPtr<BSocketStream>   BSPSocketStream;
+typedef BSharedPtr<BSocketStream>          BSPSocketStream;
+typedef BUniversalManager<BSPSocketStream> BSocketStreamManager;
+typedef BSharedPtr<BSocketStreamManager>   BSPSocketStreamManager;
 
 BZ_DECLARE_NAMESPACE_END
 

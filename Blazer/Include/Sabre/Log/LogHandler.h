@@ -98,6 +98,7 @@ public:
 class BNetLogHandler : public BLogHandler
 {
 private:
+    BNetLogThread m_workThread;
 
 public:
     BNetLogHandler();

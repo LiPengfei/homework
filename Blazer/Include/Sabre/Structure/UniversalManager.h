@@ -8,7 +8,7 @@ using namespace std;
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
     
-    template <class T>
+template <class T>
 class BUniversalManager : private BUnCopyable
 {
 private:

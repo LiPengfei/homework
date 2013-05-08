@@ -14,10 +14,7 @@ BSocketConnector::BSocketConnector() : m_sock (INVALID_SOCKET)
 }
 
 BSocketConnector::~BSocketConnector()
-{
-    BZ_CloseSocket(m_sock);
-}
-
+{ }
 
 INT BSocketConnector::Connect(
     const char *cpIP,
@@ -33,13 +30,18 @@ INT BSocketConnector::Connect(
     int nRetCode           = ::connect(m_sock, (sockaddr *)&saAddr, sizeof(sockaddr));
 
     int debug              = WSAGetLastError();
-    BZ_CHECK_SOCKET_RETURN_ERRCODE(nRetCode);
+    BZ_CHECK_SOCKET_RETURN_ERRCODE_QUIET(nRetCode);
 
     if (skStream)
     {
         skStream->Init(m_sock, cpIP, nPort);
     }
     return 0;
+}
+
+void BSocketConnector::Close()
+{
+    ::closesocket(m_sock);
 }
 
 BZ_DECLARE_NAMESPACE_END

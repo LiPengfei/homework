@@ -19,6 +19,7 @@ public:
 
 public:
     INT  Connect(const char* cpIp, unsigned short nPort, OUT BSocketStream *skStream);
+    void Close();
 };
 
 BZ_DECLARE_NAMESPACE_END

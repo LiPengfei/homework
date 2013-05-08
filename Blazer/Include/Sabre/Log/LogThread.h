@@ -5,6 +5,7 @@
 #include "Thread/Thread.h"
 #include "File/File.h"
 #include "Database/MysqlManager.h"
+#include "Net/SocketStream.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
@@ -46,19 +47,28 @@ private:
     virtual UINT Run();
 };
 
-/*-------------------------------------------------------------------------------------------*/
-/* CLASS     : BNetLogThread                                                                 */
-/*-------------------------------------------------------------------------------------------*/
+/***********************************************************************/
+/* CLASS     : BNetLogThread                                           */
+/***********************************************************************/
 class BNetLogThread : public BThread
 {
+private:
+    BSPSocketStreamManager m_sockstrManager;
+
 public:
     BNetLogThread();
     virtual ~BNetLogThread();
+
+public:
+    virtual BOOL Init();
 
 private:
     virtual UINT Run();
 };
 
+/************************************************************************/
+/* class DbLogThread                                                    */
+/************************************************************************/
 class BDbLogThread : public BThread
 {
 private:

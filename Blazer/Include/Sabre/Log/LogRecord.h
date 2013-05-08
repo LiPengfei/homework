@@ -53,11 +53,11 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 // class LogRecord modified by lipengfei 13/05/02
 struct BLogRecord
 {
-    char m_cpContent[BZ_DEFAULT_PACKAGE_DATA];
+    char m_cpContent[BZ_MAX_PACKAGE_DATA];
 
     BLogRecord()
     {
-        BZ_ZeroMemory(m_cpContent, BZ_DEFAULT_PACKAGE_DATA);
+        BZ_ZeroMemory(m_cpContent, BZ_MAX_PACKAGE_DATA);
     }
 
     BLogRecord(const char *cpContent, int nLen)

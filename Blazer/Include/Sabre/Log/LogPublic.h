@@ -25,6 +25,10 @@ CONST DWORD K_LOG_RECORD_LEVEL_WARN        = 0x00000004;
 CONST DWORD K_LOG_RECORD_LEVEL_INFO        = 0x00000008;
 CONST DWORD K_LOG_RECORD_LEVEL_STATISTICS  = 0x00000010;
 
+// for net log add by lipengfei 13/05/08
+const char *const BZ_NET_LOG_KEY_ONE            = "remote_log_server_1";
+const char *const BZ_NET_LOG_KEY_TWO            = "remote_log_server_2";
+
 // for file log add by liepngfei 13/05/03
 const char *const BZ_FILE_LOG_KEY_WARN          = "file_warning_key";
 const char *const BZ_FILE_LOG_KEY_INFO          = "file_infomation_key";
@@ -70,7 +74,7 @@ struct BPackageHead
 };
 
 #define BZ_MIN_PACKAGE_DATA     256
-#define BZ_MAX_PACKAGE_DATA     BZ_MIN_PACKAGE_DATA * 8
+#define BZ_MAX_PACKAGE_DATA     BZ_MIN_PACKAGE_DATA * 4 * 4
 #define BZ_DEFAULT_PACKAGE_DATA BZ_MIN_PACKAGE_DATA * 4
 
 class BPackageHandler
@@ -80,7 +84,7 @@ private:
     #define InitialDataMovedSize (sizeof(int) + sizeof(char) + sizeof(int) + sizeof(int))
     #define DataLenSize          (sizeof(int))
     #define InitialHEADMovedSize (InitialDataMovedSize - DataLenSize)
-    #define AddHeadMovedSize     (sizeof(BZ(sabre)::BPackageHead) + InitialHEADMovedSize)
+    #define AddHeadMovedSize     (sizeof(BPackageHead) + InitialHEADMovedSize)
     
 public:
     static inline int GetTotalLen(const char *cpData)
@@ -141,23 +145,23 @@ public:
     static bool AddHead(char * cpData, 
         int &nTotalLen, 
         const BPackageHead &head,
-        int nMax)
+        int nBufLen)
     {
-        BZ_CHECK_RETURN_BOOL(nMax >= BZ_MIN_PACKAGE_DATA);
+        BZ_CHECK_RETURN_BOOL(nBufLen >= BZ_MIN_PACKAGE_DATA);
         char cPreLevel = GetLevel(cpData);
         int  nPrePos   = GetDataPosWithoutLen(cpData);
         nTotalLen      = GetTotalLen(cpData);
-        int nMoved     = nMax - AddHeadMovedSize;
+        int nMoved     = nBufLen - AddHeadMovedSize;
         nMoved         = (nTotalLen < nMoved ? nTotalLen : nMoved);
         ::memmove(cpData + AddHeadMovedSize, cpData, nMoved);
         ::memcpy(cpData + InitialHEADMovedSize, &head, sizeof(head));
 
         bool bRet = true;
         nTotalLen += AddHeadMovedSize;
-        if (nTotalLen > nMax)
+        if (nTotalLen > nBufLen)
         {
             bRet = false;
-            nTotalLen = nMax;
+            nTotalLen = nBufLen;
         }
 
         SetTotalLen(cpData, nTotalLen);
@@ -182,21 +186,21 @@ public:
         return 0;
     }
 
-    static bool InitialData(char *cpData, int &nCurLen, int nMax)
+    static bool InitialData(char *cpData, int &nCurLen, int nBufLen)
     {
-        BZ_CHECK_RETURN_BOOL(nMax >= BZ_MIN_PACKAGE_DATA);
+        BZ_CHECK_RETURN_BOOL(nBufLen >= BZ_MIN_PACKAGE_DATA);
         BZ_CHECK_RETURN_BOOL(nCurLen > 0);
         int nDataLen = nCurLen;
-        int nMoved   = nMax - InitialDataMovedSize;
+        int nMoved   = nBufLen - InitialDataMovedSize;
         nMoved       = (nCurLen < nMoved ? nCurLen : nMoved);
         ::memmove(cpData + InitialDataMovedSize, cpData, nMoved);
 
         nCurLen += InitialDataMovedSize;
-        bool bRetCode = nCurLen <= nMax;
+        bool bRetCode = nCurLen <= nBufLen;
 
         if (!bRetCode) // nTotalLen > nMax
         {
-            nCurLen = nMax;
+            nCurLen = nBufLen;
         }
 
         SetTotalLen(cpData, nCurLen);
@@ -206,7 +210,7 @@ public:
         return bRetCode;
     }
 
-    static int MoveHead(char *cpData, int nMax, BPackageHead &head)
+    static int MoveHead(char *cpData, int nBufLen, BPackageHead &head)
     {
         char cLevel = GetLevel(cpData);
 
@@ -214,13 +218,13 @@ public:
         {
             head = *(BPackageHead *)(cpData + InitialHEADMovedSize);
             int nMoved    = GetTotalLen(cpData);
-            int nMaxMoved = nMax - AddHeadMovedSize;
+            int nMaxMoved = nBufLen - AddHeadMovedSize;
             nMoved     = 
                 (nMoved < nMaxMoved ? nMoved : nMaxMoved);
             ::memmove(cpData, cpData + AddHeadMovedSize, nMoved);
             bool bRetCode = CheckPackageHead(cLevel, head);
             BZ_CHECK_RETURN_CODE(bRetCode, -1);
-            return cLevel - 1;
+            return cLevel;
         }
 
         return 0;
@@ -236,10 +240,12 @@ public:
             return BSimpleString();
         }
 
-        int nDatalen  = *(int *)(cpData + dataPos);
-        char *pData  = cpData + dataPos + sizeof(int);
-
-        return BSimpleString(pData, nDatalen);
+        int nDatalen    = *(int *)(cpData + dataPos);
+        char *pData     = cpData + dataPos + sizeof(int);
+        
+        // make data terminal with '\0'
+        pData[nDatalen] = '\0';
+        return BSimpleString(pData, nDatalen + 1);
     }
 
 private:

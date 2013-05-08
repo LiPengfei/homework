@@ -132,6 +132,14 @@ BNetLogHandler::~BNetLogHandler()
 
 BOOL BNetLogHandler::Init()
 {
+    BOOL bRetCode = FALSE;
+
+    bRetCode = m_workThread.Init();
+    BZ_CHECK_RETURN_BOOL(bRetCode);
+
+    bRetCode = m_workThread.Start();
+    BZ_CHECK_RETURN_BOOL(bRetCode);
+
     return TRUE;
 }
 
@@ -152,18 +160,25 @@ BOOL BNetLogHandler::Dispatch(IN CPCLogManager cpcLogManager)
     BZ_CHECK_RETURN_BOOL(bRetCode);
 
     BSPLogRecord spLogRecord = cpcLogManager->GetLogRecord();
-//     if (spLogRecord && (spLogRecord->GetLogRecordType() & K_LOG_RECORD_TYPE_NET))
-//     {
-//         spLogRecordQueue->PushNode(spLogRecord);
-//     }
+    
+    // modified by lipengfei 13/05/08
+    if (spLogRecord)
+    {
+        BPackageHead head;
+        BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
+        if (0 != head.m_cNetFlag)
+        {
+            spLogRecordQueue->PushNode(spLogRecord);
+        }
+    }
 
     return TRUE;
 }
 
+
 /************************************************************************/
 /* Class BDbLogHandler                                                  */
 /************************************************************************/
-
 BDbLogHandler::BDbLogHandler() { }
 
 BDbLogHandler::~BDbLogHandler() { }

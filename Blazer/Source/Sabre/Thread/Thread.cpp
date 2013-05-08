@@ -12,7 +12,7 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 BThread::~BThread()
 {
-    ::CloseHandle(m_hThread); //modified by lipengfei 2013/05/07
+    Stop();
 }
 
 BOOL BThread::Init()
@@ -38,8 +38,8 @@ THREAD_FUNC_RET_TYPE __stdcall BThread::ThreadFunction(void *pValue)
 THREAD_FUNC_RET_TYPE BThread::ThreadFunction(void *pValue)
 #endif
 {
-    BThread* pThisThread = (BThread *)pValue;
-    return (THREAD_FUNC_RET_TYPE)(pThisThread ? pThisThread->Run() : 0);
+     BThread* pThisThread = (BThread *)pValue;
+     return (THREAD_FUNC_RET_TYPE)(pThisThread ? pThisThread->Run() : 0);
 }
 
 BOOL BThread::Start()

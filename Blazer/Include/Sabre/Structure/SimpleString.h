@@ -33,6 +33,7 @@ public:
 public:
     char * ToCstr() const
     {
+        m_cpStr[m_nLength - 1] = '\0';
         return m_cpStr;
     }
 

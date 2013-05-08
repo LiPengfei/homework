@@ -1,9 +1,10 @@
+#include "Log/LogThread.h"
+#include "Log/LogRecord.h"
 #include "Log/LogHandler.h"
 #include "File/File.h"
 #include "Structure/UniversalQueue.h"
 #include "DesignPattern/Singleton.h"
 #include "Structure/SimpleString.h"
-#include "Log/LogRecord.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
    
@@ -85,6 +86,7 @@ UINT BFileLogThread::Run()
     BSPFile       spFile;
     BOOL          bRet; 
     BSimpleString res;
+    int           nWriteLen;
     while(bLoopFlag)
     {
         // modified by lipengfei 13/05/03
@@ -92,15 +94,29 @@ UINT BFileLogThread::Run()
         BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
         bRet        = m_fileManager->Get(head.m_nFileID, spFile);
         res         = BPackageHandler::GetData(spLogRecord->m_cpContent);
-        
-        spFile->WriteTextLine(res.ToCstr(), res.GetLen() - 1);
+        nWriteLen   = res.GetLen() - 1;
+
+        spFile->WriteTextLine(res.ToCstr(), nWriteLen);
         assert(bRet);
     }
     return 0;
 }
 
+/************************************************************/
+/* class BNetLogThread add by lipengfei 13/05/08            */
+/************************************************************/
+
 BNetLogThread::BNetLogThread()
+{ }
+
+BOOL BNetLogThread::Init()
 {
+    m_sockstrManager = BSPSocketStreamManager(
+        BZ_SINGLETON_GET_PTR(BSocketStreamManager));
+
+    BZ_CHECK_RETURN_BOOL(m_sockstrManager);
+
+    return TRUE;
 }
 
 BNetLogThread::~BNetLogThread()
@@ -119,12 +135,27 @@ UINT BNetLogThread::Run()
     BOOL  bRetcode  = pQueueManager->GetUniversalQueue(dwQueueID, spLogRecordQueue);
     BZ_CHECK_RETURN_BOOL(bRetcode);
 
+    BSPLogRecord    spLogRecord;
+    BPackageHead    head;
+    BSPSocketStream spStream;
+    int             nRet;
+    int             nTotalLen;
+    char            cpData[BZ_MAX_PACKAGE_DATA];
+
     while(bLoopFlag)
     {
-         BSPLogRecord spLogRecord = spLogRecordQueue->PopNode();
-// 
-//         if (!spLogRecord && !(spLogRecord->GetLogRecordType() & K_LOG_RECORD_TYPE_NET))
-//             continue;
+          spLogRecord = spLogRecordQueue->PopNode();
+
+          // modified by lipengfei 13/05/08 logThread need to remove head to send
+          memcpy(cpData, spLogRecord->m_cpContent, BZ_MAX_PACKAGE_DATA);
+          nRet = BPackageHandler::MoveHead(cpData, BZ_MAX_PACKAGE_DATA, head);
+          BZ_CHECK_RETURN_CODE(0 != nRet, 1);
+
+          nRet = m_sockstrManager->Get(head.m_nNetID, spStream);
+          BZ_CHECK_RETURN_CODE(nRet, 1);
+          
+          nTotalLen = BPackageHandler::GetTotalLen(cpData);
+          spStream->Send(cpData, nTotalLen);
     }
 
     return 0;
@@ -177,10 +208,10 @@ UINT BDbLogThread::Run()
         //TODO: format data in mysql data;
         sprintf(cpFormatDbLog, "'%s', NULL", res.ToCstr());
         nAddRet  = spMysqlTable->AddTuple(cpFormatDbLog);
-        BZ_CHECK_RETURN_CODE(0 == nAddRet, -1);
+        BZ_CHECK_RETURN_CODE(0 == nAddRet, 1);
     }
 
-    return -1;
+    return 1;
 }
 
 BZ_DECLARE_NAMESPACE_END

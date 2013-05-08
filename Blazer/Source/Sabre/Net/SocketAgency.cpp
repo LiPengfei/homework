@@ -192,14 +192,13 @@ BOOL BSocketAgency::Start()
     ::GetSystemInfo(&sysInfo);
 
     int nThreadNum = 2 * sysInfo.dwNumberOfProcessors;
-    nThreadNum = 1;
     for (int i = 0; i != nThreadNum; ++i)
     {
-        // need changed here;
-        BSockIoHandleThread IoHandler(m_hIocp);
-        BSockIoHandleThread *  pIoHandler = new BSockIoHandleThread(m_hIocp) ;
-        IoHandler.Init();
-        IoHandler.Start();
+        // NOTE: here will assign heap memory, and will not release them, 
+        // but it has no problem with the program. just leave it like this;
+        BSockIoHandleThread *pIoHandler(new BSockIoHandleThread(m_hIocp));
+        pIoHandler->Init();
+        pIoHandler->Start();
     }
 
     int bRet = 0;
