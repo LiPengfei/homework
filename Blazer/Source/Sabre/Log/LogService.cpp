@@ -4,8 +4,8 @@
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 BLogService::BLogService() : m_bIsNetLogOpenedFlag(FALSE), 
-m_bIsFileLogOpenedFlag(FALSE),
-m_bIsConsoleLogOpenedFlag(FALSE)
+    m_bIsFileLogOpenedFlag(FALSE),
+    m_bIsConsoleLogOpenedFlag(FALSE)
 {
 }
 
@@ -245,6 +245,90 @@ BOOL BLogService::CloseConsoleLog()
 void BLogService::WriteLog(IN CONST BSPLogRecord &spLogRecord)
 {
     BZ_WriteLog(m_logManager, spLogRecord);
+}
+
+/************************************************************************/
+/* class BLogger                                                        */
+/************************************************************************/
+
+BLogger::BLogger() : m_spIniFile(new BIniFile) { }
+BLogger::~BLogger() { }
+
+BOOL BLogger::Init() 
+{
+    BZ_CHECK_RETURN_BOOL(m_spLogManager);
+    BZ_CHECK_RETURN_BOOL(m_spIniFile);
+    
+    BOOL bRet = m_spIniFile->LoadFile(BZ_LOG_SERVICE_SERVER_CONFIG);
+    BZ_CHECK_RETURN_BOOL(bRet);
+    return TRUE;
+}
+
+BOOL BLogger::UnInit() 
+{
+    BZ_CHECK_RETURN_BOOL(m_spLogManager);
+    BZ_CHECK_RETURN_BOOL(m_spIniFile);
+
+    return TRUE;
+}
+
+BOOL BLogger::Run() 
+{
+    BOOL bFileLog    = FALSE;
+    BOOL bDbLog      = FALSE;
+    BOOL bNetLog     = FALSE;
+    BOOL bConsoleLog = FALSE;
+    return TRUE;
+}
+
+BOOL BLogger::SetLogManager(const BSPLogManager &spLogManager)
+{
+    BZ_CHECK_RETURN_BOOL(spLogManager);
+
+    m_spLogManager = spLogManager;
+    return TRUE;
+}
+
+BOOL BLogger::SetLogManager(BLogManager *pLogManager)
+{
+    BZ_CHECK_RETURN_BOOL(pLogManager);
+
+    m_spLogManager = BSPLogManager(pLogManager);
+    return TRUE;
+}
+
+INT BLogger::StartFileLogger()
+{
+    return 0;
+}
+INT BLogger::StartDbLogger()
+{
+    return 0;
+}
+
+INT BLogger::StartNetLogger()
+{
+    int nRet = GetFlag("net");
+    BZ_CHECK_RETURN_CODE(-1 != nRet, -1);
+
+    if (0 == nRet)
+    {
+        return 0;
+    }
+}
+
+INT BLogger::StartConsoleLogger()
+{
+    return 0;
+}
+
+INT BLogger::GetFlag(const char *cpName)
+{
+    int  nFlag = 0;
+    BOOL bRet = m_spIniFile->GetIntValue(cpName, "enable", nFlag);
+
+    BZ_CHECK_RETURN_CODE(bRet, -1);
+    return nFlag;
 }
 
 BZ_DECLARE_NAMESPACE_END

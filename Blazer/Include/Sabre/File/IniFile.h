@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Structure/SimpleString.h"
+#include "SmartPointer/SharedPtr.h"
 #include "Public.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
@@ -139,6 +140,7 @@ protected:
     static bool IsComment(const char *const cpcLine);
 };
 
+typedef BSharedPtr<BIniFile> BSPIniFile;
 BZ_DECLARE_NAMESPACE_END
 
 #endif

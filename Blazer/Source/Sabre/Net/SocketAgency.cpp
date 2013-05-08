@@ -3,6 +3,7 @@
 #include "Net/SockIoHandleThread.h"
 #include "Console/ConsoleSimulationWindow.h"
 #include "DesignPattern/Singleton.h"
+#include "File/IniFile.h"
 #include <iostream>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
@@ -182,7 +183,21 @@ BOOL BSocketAgency::Init()
 {
     m_hIocp = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
     m_spSockAcceptor = BSPSocketAcceptor(new BSocketAcceptor);
-    m_spSockAcceptor->Init("127.0.0.1", 5150);
+    
+    BIniFile iniFile;
+    // start net server
+    BOOL bRet = iniFile.LoadFile("config.ini");
+    BZ_CHECK_RETURN_BOOL(bRet);
+
+    char cpIp[64] = {0};
+    bRet = iniFile.GetValue("agency", "ip", cpIp);
+
+    int  nPort = 0;
+    bRet = iniFile.GetIntValue("agency", "port", nPort);
+    BZ_CHECK_RETURN_BOOL(bRet);
+
+    m_spSockAcceptor->Init(cpIp, (unsigned short)nPort);
+
     return TRUE;
 }
 

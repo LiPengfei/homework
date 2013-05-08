@@ -22,8 +22,8 @@ using namespace BZ(sabre);
 
 int main(int argc, char *argv[])
 {
-   BIniFile i;
-   i.LoadFile("congf.ini");
+    BIniFile i;
+    i.LoadFile(BZ_LOG_SERVICE_CLIENT_CONFIG);
 
     BLogManager *m            = new BLogManager;
     BLogHandler *n            = NULL;
@@ -203,10 +203,14 @@ Exit0:
 
     BPackageHandler::AddHead(buf, nCurLen, head, 1024);
     BLogRecord  *r  = new BLogRecord(buf, nCurLen);
+    
     BSPLogRecord spR(r);
-    m->SetLogRecord(spR);
-    m->NotifyHandler();
-    Sleep(30000);
+    while(true)
+    {
+        m->SetLogRecord(spR);
+        m->NotifyHandler();
+        Sleep(500);
+    }
 
     return 0;
 }

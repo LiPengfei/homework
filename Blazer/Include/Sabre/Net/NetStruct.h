@@ -11,6 +11,8 @@ BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
 #define BZ_WIN_IOCP_ASYBUFFER  1024 * 4
 
+const char* const BZ_SOCKET_AGENCY_CONFIG        = "config_server.ini";
+
 enum BZ_WINSOCKIO_TYPE
 {
     BZ_WINSOCK_SEND,

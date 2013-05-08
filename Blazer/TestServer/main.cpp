@@ -23,7 +23,7 @@ using namespace BZ(sabre);
 int main(int argc, char *argv[])
 {
    BIniFile i;
-   i.LoadFile("congf.ini");
+   i.LoadFile("config.ini");
 
     BLogManager *m            = new BLogManager;
     BLogHandler *n            = NULL;

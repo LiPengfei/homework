@@ -52,6 +52,11 @@ const char *const BZ_STRING_ID_OF_CONSOLE_LOG_HANDLER = "BZ_STRING_ID_OF_CONSOLE
 const char *const BZ_STRING_ID_OF_DB_LOG_HANDLER      = "BZ_STRING_ID_OF_DB_LOG_HANDLER"; 
 // add by lipengfei 13/05/05
 
+// add by lipengfei 13/05/08
+const char* const BZ_LOG_SERVICE_SERVER_CONFIG   = "config_log.ini";
+const char* const BZ_LOG_SERVICE_CLIENT_CONFIG   = "config_log.ini";
+// add end
+
 struct BPackageHead
 {
     char  m_cNetFlag;

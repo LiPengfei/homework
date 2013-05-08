@@ -6,6 +6,7 @@
 #include "Log/LogManager.h"
 #include "Tool/Application.h"
 #include "DesignPattern/Singleton.h"
+#include "File/IniFile.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
@@ -121,6 +122,42 @@ inline void BZ_WriteFileLogByFileName(
 //     spFileInfo->GetFilePath(szFilePath, DEFAULT_FILE_PATH_LEN);
 //     g_WriteFileLogByFileID(szFilePath, cpcText, bAddTimeStamp);
 }
+
+
+
+class BLogger : public BService
+{
+public:
+    DECLARE_SINGLETON_PATTERN(BLogger);
+    
+private:
+    BSPLogManager m_spLogManager;
+    BSPIniFile    m_spIniFile;
+
+public:
+    BLogger();
+    virtual ~BLogger();
+
+public:
+    virtual BOOL Init();
+    virtual BOOL UnInit();
+    virtual BOOL Run();
+
+public:
+    BOOL SetLogManager(const BSPLogManager &spLogManger);
+    BOOL SetLogManager(BLogManager *pLogManager);
+    BOOL SetIniFile(const BSPIniFile &spIniFile);
+    BOOL SetIniFIle(BIniFile *pIniFile);
+
+public:
+    INT StartFileLogger();         // -1 error happened, 0 did not start but no error, 1 start;
+    INT StartDbLogger();
+    INT StartNetLogger();
+    INT StartConsoleLogger();
+
+private:
+    INT GetFlag(const char *cpName); // -1 error , value success;
+};
 
 BZ_DECLARE_NAMESPACE_END
 
