@@ -6,25 +6,6 @@
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
-// log if open type
-CONST BYTE  K_LOG_IF_OPEN_TYPE_NET         = 0x01;
-CONST BYTE  K_LOG_IF_OPEN_TYPE_FILE        = 0x02;
-CONST BYTE  K_LOG_IF_OPEN_TYPE_CONSOLE     = 0x03;
-
-// log record type : net log, file log, console log
-CONST BYTE  K_LOG_RECORD_TYPE_NET          = 0x01;
-CONST BYTE  K_LOG_RECORD_TYPE_FILE         = 0x02;
-CONST BYTE  K_LOG_RECORD_TYPE_CONSOLE      = 0x04;
-CONST BYTE  K_LOG_RECORD_TYPE_DEFAULT      = K_LOG_RECORD_TYPE_CONSOLE;
-
-// log level type : all, error, debug, warn, info, statistics
-CONST DWORD K_LOG_RECORD_LEVEL_ALL         = 0x00000000;
-CONST DWORD K_LOG_RECORD_LEVEL_ERROR       = 0x00000001;
-CONST DWORD K_LOG_RECORD_LEVEL_DEBUG       = 0x00000002;
-CONST DWORD K_LOG_RECORD_LEVEL_WARN        = 0x00000004;
-CONST DWORD K_LOG_RECORD_LEVEL_INFO        = 0x00000008;
-CONST DWORD K_LOG_RECORD_LEVEL_STATISTICS  = 0x00000010;
-
 // for net log add by lipengfei 13/05/08
 const char *const BZ_NET_LOG_KEY_ONE            = "remote_log_server_1";
 const char *const BZ_NET_LOG_KEY_TWO            = "remote_log_server_2";
@@ -40,10 +21,6 @@ const char *const BZ_DB_LOG_KEY_WARN            = "db_warning_key";
 const char *const BZ_DB_LOG_KEY_INFO            = "db_infomation_key";
 const char *const BZ_DB_LOG_KEY_ERROR           = "db_error_key";
 const char *const BZ_DB_LOG_KEY_DEBUG           = "db_debug_key";
-// string id of log record queue // modified by lipengfei handler'id is the queue's id;
-// const char *const K_QUEUE_KEY_LOG_RECORD_NET         = "KLOG_NET_LOG_RECORD_QUEUE";
-// const char *const K_QUEUE_KEY_LOG_RECORD_FILE        = "KLOG_FILE_LOG_RECORD_QUEUE";
-// const char *const K_QUEUE_KEY_LOG_RECORD_CONSOLE     = "KLOG_CONSOLE_LOG_RECORD_QUEUE";
 
 // string id of log handler
 const char *const BZ_STRING_ID_OF_NET_LOG_HANDLER     = "BZ_STRING_ID_OF_NET_LOG_HANDLER";

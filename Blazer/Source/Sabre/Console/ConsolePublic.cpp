@@ -60,14 +60,4 @@ BOOL BConsoleSetting::SetConsoleTextColor(CONST WORD wColor)
     return (0 != ::SetConsoleTextAttribute(m_hStdOutput, wColor));
 }
 
-BOOL BConsoleSetting::SetConsoleTextColor(CONST BYTE bBGColor, CONST BYTE bFGColor)
-{
-    return SetConsoleTextColor(BZ_MakeConsoleColor(bBGColor, bFGColor));
-}
-
-BOOL BConsoleSetting::SetConsoleTextColor(CONST WORD wBGColor, CONST WORD wFGColor)
-{
-    return SetConsoleTextColor(BZ_MakeConsoleColor(wBGColor, wFGColor));
-}
-
 BZ_DECLARE_NAMESPACE_END

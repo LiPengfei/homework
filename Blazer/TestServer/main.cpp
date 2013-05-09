@@ -1,7 +1,7 @@
 #include "Log/LogService.h"
 #include "Net/SocketAgency.h"
-
 #include "DesignPattern/Singleton.h"
+
 using namespace BZ(sabre);
 
 int main()

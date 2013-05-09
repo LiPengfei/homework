@@ -76,17 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ClientAgency.cpp" />
-    <ClCompile Include="GameServer.cpp" />
-    <ClCompile Include="GameServerPublic.cpp" />
-    <ClCompile Include="GsLogService.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ClientAgency.h" />
-    <ClInclude Include="GameServer.h" />
-    <ClInclude Include="GameServerPublic.h" />
-    <ClInclude Include="GsLogService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

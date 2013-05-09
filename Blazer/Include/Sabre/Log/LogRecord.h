@@ -3,52 +3,11 @@
 
 #include "Public.h"
 #include "SmartPointer/SharedPtr.h"
-#include "Log/LogAuxiliary.h"
 #include "Structure/UniversalQueue.h"
 #include "Log/LogPublic.h"
 #include <string>
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
-
-/*-------------------------------------------------------------------------------------------*/
-/* CLASS     : BLogRecord                                                                    */
-/*-------------------------------------------------------------------------------------------*/
-// class BLogRecord
-// {
-// private:
-//     std::string      m_strLogContent;
-//     BLogRecordDetail m_logRecordDetail;       
-// 
-// public:
-//     BLogRecord();
-//     ~BLogRecord();
-// 
-// public:
-//     BOOL SetLogRecordDetail(
-//         IN CONST BLogRecordDetail &detail
-//         );
-// 
-//     BOOL SetLogRecordAuxiliary(
-//         IN CONST BLogRecordAuxiliary &auxiliary
-//         );
-// 
-//     BOOL SetLogRecordType(
-//         IN CONST BYTE byLogRecordType = K_LOG_RECORD_TYPE_DEFAULT
-//         );
-// 
-//     BOOL SetLogRecordContent(
-//         IN const char *const cpcLogContent = NULL
-//         );
-// 
-//     BOOL SetLogRecordContent(
-//         IN CONST std::string &strLogContent
-//         );
-// 
-//     BLogRecordDetail    GetLogRecordDetail()    CONST;
-//     BLogRecordAuxiliary GetLogRecordAuxiliary() CONST;
-//     BYTE                GetLogRecordType()      CONST;
-//     std::string         GetLogRecordContent()   CONST;
-// };
 
 // class LogRecord modified by lipengfei 13/05/02
 struct BLogRecord

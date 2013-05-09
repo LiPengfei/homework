@@ -18,14 +18,11 @@
     <ClInclude Include="..\..\Include\Public\Type.h" />
     <ClInclude Include="..\..\Include\Sabre.h" />
     <ClInclude Include="..\..\Include\Sabre\Console\ConsolePublic.h" />
-    <ClInclude Include="..\..\Include\Sabre\Console\ConsoleSimulationWindow.h" />
     <ClInclude Include="..\..\Include\Sabre\Database\DatabaseTable.h" />
     <ClInclude Include="..\..\Include\Sabre\Database\MysqlManager.h" />
     <ClInclude Include="..\..\Include\Sabre\DesignPattern\Singleton.h" />
     <ClInclude Include="..\..\Include\Sabre\File\File.h" />
     <ClInclude Include="..\..\Include\Sabre\File\IniFile.h" />
-    <ClInclude Include="..\..\Include\Sabre\Log\LogAuxiliary.h" />
-    <ClInclude Include="..\..\Include\Sabre\Log\LogFormater.h" />
     <ClInclude Include="..\..\Include\Sabre\Log\LogHandler.h" />
     <ClInclude Include="..\..\Include\Sabre\Log\LogManager.h" />
     <ClInclude Include="..\..\Include\Sabre\Log\LogPublic.h" />
@@ -35,12 +32,9 @@
     <ClInclude Include="..\..\Include\Sabre\Net\SocketAcceptor.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\SocketAgency.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\SocketConnector.h" />
-    <ClInclude Include="..\..\Include\Sabre\Net\SocketEvent.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\SocketStream.h" />
-    <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamQueue.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\SocketWrapper.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\NetStruct.h" />
-    <ClInclude Include="..\..\Include\Sabre\Net\SocketStreamBuffer.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\SockIoHandleThread.h" />
     <ClInclude Include="..\..\Include\Sabre\Net\WinSockIocp.h" />
     <ClInclude Include="..\..\Include\Sabre\SmartPointer\RefCounter.h" />
@@ -59,18 +53,14 @@
     <ClInclude Include="..\..\Include\Sabre\Synchronize\ThreadWriteReadLocker.h" />
     <ClInclude Include="..\..\Include\Sabre\Thread\Thread.h" />
     <ClInclude Include="..\..\Include\Sabre\Tool\Application.h" />
-    <ClInclude Include="..\..\Include\Sabre\Tool\Frame.h" />
     <ClInclude Include="..\..\Include\Sabre\Tool\Time.h" />
-    <ClInclude Include="..\..\Include\Sabre\Tool\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Console\ConsolePublic.cpp" />
-    <ClCompile Include="Console\ConsoleSimulationWindow.cpp" />
     <ClCompile Include="Database\DatabaseTable.cpp" />
     <ClCompile Include="Database\MysqlManager.cpp" />
     <ClCompile Include="File\File.cpp" />
     <ClCompile Include="File\IniFile.cpp" />
-    <ClCompile Include="Log\LogFormater.cpp" />
     <ClCompile Include="Log\LogHandler.cpp" />
     <ClCompile Include="Log\LogManager.cpp" />
     <ClCompile Include="Log\LogRecord.cpp" />
@@ -81,9 +71,7 @@
     <ClCompile Include="Net\SocketAgency.cpp" />
     <ClCompile Include="Net\SocketConnector.cpp" />
     <ClCompile Include="Net\SocketStream.cpp" />
-    <ClCompile Include="Net\SocketStreamQueue.cpp" />
     <ClCompile Include="Net\SocketWrapper.cpp" />
-    <ClCompile Include="Net\SocketStreamBuffer.cpp" />
     <ClCompile Include="Net\SockIoHandleThread.cpp" />
     <ClCompile Include="Structure\Buffer.cpp" />
     <ClCompile Include="Structure\String.cpp" />
@@ -92,9 +80,7 @@
     <ClCompile Include="Synchronize\ThreadSemaphore.cpp" />
     <ClCompile Include="Synchronize\ThreadWriteReadLocker.cpp" />
     <ClCompile Include="Thread\Thread.cpp" />
-    <ClCompile Include="Tool\Frame.cpp" />
     <ClCompile Include="Tool\Time.cpp" />
-    <ClCompile Include="Tool\Timer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B4E7FF4A-4530-40EE-B0B8-901F4077BA82}</ProjectGuid>
