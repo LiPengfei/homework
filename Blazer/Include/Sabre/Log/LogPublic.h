@@ -260,6 +260,11 @@ private:
         {
             return false;
         }
+
+        if (nLevel <= 1 && 1 == head.m_cNetFlag)
+        {
+            return false;
+        }
         return true;
     }
 };

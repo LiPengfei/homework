@@ -257,6 +257,8 @@ BOOL BIniFile::GetSegment(const char *cpSegName, OUT BSegmentNode &segVal) const
     }
     
     segVal = m_segArray[nPos];
+
+    return TRUE;
 }
 
 int  BIniFile::FindSegment(const char *const cpcSegName) const

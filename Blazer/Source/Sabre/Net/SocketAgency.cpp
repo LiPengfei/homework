@@ -186,7 +186,7 @@ BOOL BSocketAgency::Init()
     
     BIniFile iniFile;
     // start net server
-    BOOL bRet = iniFile.LoadFile("config.ini");
+    BOOL bRet = iniFile.LoadFile(BZ_SOCKET_AGENCY_CONFIG);
     BZ_CHECK_RETURN_BOOL(bRet);
 
     char cpIp[64] = {0};

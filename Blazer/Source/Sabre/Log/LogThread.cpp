@@ -60,10 +60,11 @@ BFileLogThread::~BFileLogThread()
 BOOL BFileLogThread::Init()
 {
 //  modified by lipengfei 13/05/02
-    m_fileManager = BSPFileManager(
-        BZ_SINGLETON_GET_PTR(BFileManager)
-        ); // add by lipengfei 13/05/02
-    BZ_CHECK_RETURN_BOOL(m_fileManager);
+//  modified by lipengfei 13/05/09 sigleton can't be wrapped by sharedptr
+    m_pFileManager = BZ_SINGLETON_GET_PTR(BFileManager); 
+    
+// add by lipengfei 13/05/02
+    BZ_CHECK_RETURN_BOOL(m_pFileManager);
 
     return TRUE;
 }
@@ -92,11 +93,12 @@ UINT BFileLogThread::Run()
         // modified by lipengfei 13/05/03
         spLogRecord = spLogRecordQueue->PopNode();
         BPackageHandler::GetHead(spLogRecord->m_cpContent, head);
-        bRet        = m_fileManager->Get(head.m_nFileID, spFile);
+        bRet        = m_pFileManager->Get(head.m_nFileID, spFile);
         res         = BPackageHandler::GetData(spLogRecord->m_cpContent);
         nWriteLen   = res.GetLen() - 1;
 
         spFile->WriteTextLine(res.ToCstr(), nWriteLen);
+        spFile->Flush();
         assert(bRet);
     }
     return 0;
@@ -111,10 +113,12 @@ BNetLogThread::BNetLogThread()
 
 BOOL BNetLogThread::Init()
 {
-    m_sockstrManager = BSPSocketStreamManager(
-        BZ_SINGLETON_GET_PTR(BSocketStreamManager));
+    // modified bug by lipengfei 13/05/09, singleton can't be wrapped by sharedptr;
+    m_pSockstrManager =
+        BZ_SINGLETON_GET_PTR(BSocketStreamManager);
 
-    BZ_CHECK_RETURN_BOOL(m_sockstrManager);
+    // modified end
+    BZ_CHECK_RETURN_BOOL(m_pSockstrManager);
 
     return TRUE;
 }
@@ -151,7 +155,7 @@ UINT BNetLogThread::Run()
           nRet = BPackageHandler::MoveHead(cpData, BZ_MAX_PACKAGE_DATA, head);
           BZ_CHECK_RETURN_CODE(0 != nRet, 1);
 
-          nRet = m_sockstrManager->Get(head.m_nNetID, spStream);
+          nRet = m_pSockstrManager->Get(head.m_nNetID, spStream);
           BZ_CHECK_RETURN_CODE(nRet, 1);
           
           nTotalLen = BPackageHandler::GetTotalLen(cpData);
@@ -172,8 +176,8 @@ BDbLogThread::~BDbLogThread() { }
 
 BOOL BDbLogThread::Init()
 {
-    m_mysqlManager = BSPMysqlTableManager(BZ_SINGLETON_GET_PTR(BMysqlTableManager));
-    BZ_CHECK_RETURN_BOOL(m_mysqlManager);
+    m_pMysqlManager = BZ_SINGLETON_GET_PTR(BMysqlTableManager);
+    BZ_CHECK_RETURN_BOOL(m_pMysqlManager);
 
     return TRUE;
 }
@@ -202,7 +206,7 @@ UINT BDbLogThread::Run()
     {
         spRecord = spLogRecordQueue->PopNode();
         BPackageHandler::GetHead(spRecord->m_cpContent, head);
-        bRet     = m_mysqlManager->Get(head.m_nDbID, &spMysqlTable);
+        bRet     = m_pMysqlManager->Get(head.m_nDbID, &spMysqlTable);
         res      = BPackageHandler::GetData(spRecord->m_cpContent);
 
         //TODO: format data in mysql data;

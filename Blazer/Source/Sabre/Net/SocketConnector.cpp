@@ -29,13 +29,13 @@ INT BSocketConnector::Connect(
 
     int nRetCode           = ::connect(m_sock, (sockaddr *)&saAddr, sizeof(sockaddr));
 
-    int debug              = WSAGetLastError();
-    BZ_CHECK_SOCKET_RETURN_ERRCODE_QUIET(nRetCode);
+    BZ_CHECK_RETURN_CODE(0 == nRetCode, -1);
 
     if (skStream)
     {
         skStream->Init(m_sock, cpIP, nPort);
     }
+
     return 0;
 }
 

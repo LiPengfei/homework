@@ -123,15 +123,16 @@ inline void BZ_WriteFileLogByFileName(
 //     g_WriteFileLogByFileID(szFilePath, cpcText, bAddTimeStamp);
 }
 
-
-
+/************************************************************************/
+/* class BLogger                                                        */
+/************************************************************************/
 class BLogger : public BService
 {
 public:
     DECLARE_SINGLETON_PATTERN(BLogger);
     
 private:
-    BSPLogManager m_spLogManager;
+    BLogManager  *m_pLogManager;
     BSPIniFile    m_spIniFile;
 
 public:
@@ -139,23 +140,21 @@ public:
     virtual ~BLogger();
 
 public:
+    BOOL SetLogManager(const BSPLogManager &spLogManger);
+    BOOL SetLogManager(BLogManager *pLogManager);
+
+public:
     virtual BOOL Init();
     virtual BOOL UnInit();
     virtual BOOL Run();
-
-public:
-    BOOL SetLogManager(const BSPLogManager &spLogManger);
-    BOOL SetLogManager(BLogManager *pLogManager);
-    BOOL SetIniFile(const BSPIniFile &spIniFile);
-    BOOL SetIniFIle(BIniFile *pIniFile);
-
-public:
-    INT StartFileLogger();         // -1 error happened, 0 did not start but no error, 1 start;
-    INT StartDbLogger();
-    INT StartNetLogger();
-    INT StartConsoleLogger();
+    
+    void WriteLog(BLogRecord *pRecord);
 
 private:
+    INT PrepareFileLogger();         // -1 error happened, 0 did not start but no error, 1 start;
+    INT PrepareDbLogger();
+    INT PrepareNetLogger();
+    INT PrepareConsoleLogger();
     INT GetFlag(const char *cpName); // -1 error , value success;
 };
 

@@ -34,7 +34,7 @@ class BFileLogThread : public BThread
 {
 private:
     // modified by lipengfei 13/05/03
-    BSPFileManager m_fileManager;   // add by lipengfei 13/05/02
+    BFileManager *m_pFileManager;   // add by lipengfei 13/05/02
 
 public:
     BFileLogThread();
@@ -53,7 +53,7 @@ private:
 class BNetLogThread : public BThread
 {
 private:
-    BSPSocketStreamManager m_sockstrManager;
+    BSocketStreamManager *m_pSockstrManager;
 
 public:
     BNetLogThread();
@@ -72,7 +72,7 @@ private:
 class BDbLogThread : public BThread
 {
 private:
-    BSPMysqlTableManager m_mysqlManager;
+    BMysqlTableManager *m_pMysqlManager;
 
 public:
     BDbLogThread();

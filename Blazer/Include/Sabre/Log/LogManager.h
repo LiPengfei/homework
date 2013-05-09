@@ -16,6 +16,7 @@ class BLogManager : private BUnCopyable
 {
 private:
     typedef std::vector<BSPLogHandler> BLogHandlerVector;
+    friend class BLogger; // add by lipengfei 13/05/09
 
 private:
     BLogHandlerVector  m_logHandlerVector;                  // all log handler vector
