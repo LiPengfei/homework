@@ -109,7 +109,9 @@ UINT BFileLogThread::Run()
 /************************************************************/
 
 BNetLogThread::BNetLogThread()
-{ }
+{
+
+}
 
 BOOL BNetLogThread::Init()
 {

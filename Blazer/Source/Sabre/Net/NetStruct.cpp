@@ -1,5 +1,5 @@
 #include "Net/NetStruct.h"
-#include "WinSock2.h"
+#include <WinSock2.h>
 
 #ifdef WIN32
 #pragma comment(lib, "ws2_32.lib")
@@ -28,7 +28,7 @@ BOOL BNetService::Start(WORD wHighVersion, WORD wLowVersion)
     {
         WSADATA wsaData;
         WORD wVersionRequested = MAKEWORD(wHighVersion, wLowVersion);
-        BZ_CHECK_RETURN_BOOL(0 == ::WSAStartup(wVersionRequested, &wsaData));
+        //BZ_CHECK_RETURN_BOOL(0 == ::WSAStartup(wVersionRequested, &wsaData));
     }
     else
         BZ_AtomicDecrement(m_lStarted);

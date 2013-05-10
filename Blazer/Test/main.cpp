@@ -25,10 +25,11 @@ int main(int argc, char *argv[])
     {
         BLogRecord  *r  = new BLogRecord(buf, nCurLen);
         logger.WriteLog(r);
-        Sleep(5000);
+        Sleep(500);
         ++i;
     }
 
+    logger.UnInit();
     return 0;
 }
 

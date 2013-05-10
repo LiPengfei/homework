@@ -16,6 +16,9 @@ BSocketAgency::~BSocketAgency() { }
 
 BOOL BSocketAgency::Init()
 {
+    BNetService *pNetServ = BZ_SINGLETON_GET_PTR(BNetService);
+    pNetServ->Start();
+
     m_hIocp = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
     m_spSockAcceptor = BSPSocketAcceptor(new BSocketAcceptor);
     
@@ -67,6 +70,9 @@ BOOL BSocketAgency::Start()
 
 BOOL BSocketAgency::UnInit()
 {
+    BNetService *pNetServ = BZ_SINGLETON_GET_PTR(BNetService);
+    pNetServ->Start();
+
     return TRUE;
 }
 

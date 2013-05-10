@@ -43,7 +43,6 @@ struct BPackageHead
     DWORD m_nNetID;
     DWORD m_nFileID;
     DWORD m_nDbID;
-
     BPackageHead()
     {
         ::BZ_ZeroMemory(this, sizeof(BPackageHead));

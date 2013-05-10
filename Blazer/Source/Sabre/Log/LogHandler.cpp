@@ -2,6 +2,7 @@
 #include "Log/LogManager.h"
 #include "Structure/UniversalQueue.h"
 #include "DesignPattern/Singleton.h"
+#include "Net/NetStruct.h"
 
 BZ_DECLARE_NAMESPACE_BEGIN(sabre)
 
@@ -132,6 +133,9 @@ BNetLogHandler::~BNetLogHandler()
 
 BOOL BNetLogHandler::Init()
 {
+    BNetService *pNetServ = BZ_SINGLETON_GET_PTR(BNetService);
+    pNetServ->Start();
+
     BOOL bRetCode = FALSE;
 
     bRetCode = m_workThread.Init();
@@ -145,6 +149,9 @@ BOOL BNetLogHandler::Init()
 
 BOOL BNetLogHandler::UnInit()
 {
+    BNetService *pNetServ = BZ_SINGLETON_GET_PTR(BNetService);
+    pNetServ->Stop();
+
     return TRUE;
 }
 
